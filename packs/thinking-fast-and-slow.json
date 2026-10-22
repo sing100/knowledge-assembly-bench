@@ -1,0 +1,381 @@
+{
+  "id": "thinking-fast-and-slow",
+  "title": "思考，快与慢",
+  "subtitle": "丹尼尔·卡尼曼",
+  "intro": "组装卡尼曼的论证：直觉很强大，但会系统性地出错。",
+  "kind": "book",
+  "shape": "argument",
+  "parts": [
+    {
+      "id": "root",
+      "label": "《思考，快与慢》",
+      "parent": null,
+      "note": "直觉会系统性出错"
+    },
+    {
+      "id": "two",
+      "label": "两个系统",
+      "parent": "root",
+      "note": "快直觉与慢推理"
+    },
+    {
+      "id": "s1",
+      "label": "系统1",
+      "parent": "two",
+      "note": "自动、快速、省力"
+    },
+    {
+      "id": "s2",
+      "label": "系统2",
+      "parent": "two",
+      "note": "费力、缓慢、懒惰"
+    },
+    {
+      "id": "ease",
+      "label": "认知放松",
+      "parent": "two",
+      "note": "熟悉就觉得真"
+    },
+    {
+      "id": "wysiati",
+      "label": "眼见即为全部",
+      "parent": "two",
+      "note": "只用手头信息"
+    },
+    {
+      "id": "heur",
+      "label": "启发式与偏差",
+      "parent": "root",
+      "note": "直觉走捷径"
+    },
+    {
+      "id": "anchor",
+      "label": "锚定效应",
+      "parent": "heur",
+      "note": "被初始数字拉住"
+    },
+    {
+      "id": "avail",
+      "label": "可得性启发",
+      "parent": "heur",
+      "note": "易想起当常见"
+    },
+    {
+      "id": "repr",
+      "label": "代表性启发",
+      "parent": "heur",
+      "note": "像不等于可能"
+    },
+    {
+      "id": "linda",
+      "label": "琳达问题",
+      "parent": "repr",
+      "note": "合取谬误"
+    },
+    {
+      "id": "smalln",
+      "label": "小数定律",
+      "parent": "heur",
+      "note": "轻信小样本"
+    },
+    {
+      "id": "regress",
+      "label": "回归均值",
+      "parent": "heur",
+      "note": "极端之后趋常"
+    },
+    {
+      "id": "over",
+      "label": "过度自信",
+      "parent": "root",
+      "note": "高估自己所知"
+    },
+    {
+      "id": "hindsight",
+      "label": "后见之明",
+      "parent": "over",
+      "note": "事后都可预测"
+    },
+    {
+      "id": "validity",
+      "label": "有效性错觉",
+      "parent": "over",
+      "note": "信心不等于准"
+    },
+    {
+      "id": "planning",
+      "label": "规划谬误",
+      "parent": "over",
+      "note": "低估时间成本"
+    },
+    {
+      "id": "choice",
+      "label": "选择",
+      "parent": "root",
+      "note": "人不是理性人"
+    },
+    {
+      "id": "prospect",
+      "label": "前景理论",
+      "parent": "choice",
+      "note": "相对参照点评估"
+    },
+    {
+      "id": "lossav",
+      "label": "损失厌恶",
+      "parent": "prospect",
+      "note": "失去比得到痛"
+    },
+    {
+      "id": "endow",
+      "label": "禀赋效应",
+      "parent": "prospect",
+      "note": "拥有就更值钱"
+    },
+    {
+      "id": "framing",
+      "label": "框架效应",
+      "parent": "choice",
+      "note": "说法改变选择"
+    },
+    {
+      "id": "selves",
+      "label": "两个自我",
+      "parent": "root",
+      "note": "体验与记忆"
+    },
+    {
+      "id": "exper",
+      "label": "体验自我",
+      "parent": "selves",
+      "note": "活在当下"
+    },
+    {
+      "id": "remem",
+      "label": "记忆自我",
+      "parent": "selves",
+      "note": "讲故事做决定"
+    },
+    {
+      "id": "peakend",
+      "label": "峰终定律",
+      "parent": "selves",
+      "note": "只记峰值和结尾"
+    },
+    {
+      "id": "colon",
+      "label": "结肠镜实验",
+      "parent": "peakend",
+      "note": "长但结尾好更好受"
+    },
+    {
+      "id": "people",
+      "label": "人物",
+      "parent": "root",
+      "note": "提出者"
+    },
+    {
+      "id": "kahneman",
+      "label": "丹尼尔·卡尼曼",
+      "parent": "people",
+      "note": "2002年诺奖"
+    },
+    {
+      "id": "tversky",
+      "label": "阿莫斯·特沃斯基",
+      "parent": "people",
+      "note": "长期合作者"
+    }
+  ],
+  "links": [
+    {
+      "a": "root",
+      "b": "two",
+      "label": "思维模型"
+    },
+    {
+      "a": "two",
+      "b": "s1",
+      "label": "快思考"
+    },
+    {
+      "a": "two",
+      "b": "s2",
+      "label": "慢思考"
+    },
+    {
+      "a": "two",
+      "b": "ease",
+      "label": "系统1的状态"
+    },
+    {
+      "a": "two",
+      "b": "wysiati",
+      "label": "系统1的规则"
+    },
+    {
+      "a": "root",
+      "b": "heur",
+      "label": "直觉捷径"
+    },
+    {
+      "a": "heur",
+      "b": "anchor",
+      "label": "数字捷径"
+    },
+    {
+      "a": "heur",
+      "b": "avail",
+      "label": "记忆捷径"
+    },
+    {
+      "a": "heur",
+      "b": "repr",
+      "label": "相似捷径"
+    },
+    {
+      "a": "repr",
+      "b": "linda",
+      "label": "经典实验"
+    },
+    {
+      "a": "heur",
+      "b": "smalln",
+      "label": "样本误判"
+    },
+    {
+      "a": "heur",
+      "b": "regress",
+      "label": "因果误判"
+    },
+    {
+      "a": "root",
+      "b": "over",
+      "label": "认知局限"
+    },
+    {
+      "a": "over",
+      "b": "hindsight",
+      "label": "回看过去"
+    },
+    {
+      "a": "over",
+      "b": "validity",
+      "label": "评判现在"
+    },
+    {
+      "a": "over",
+      "b": "planning",
+      "label": "预测未来"
+    },
+    {
+      "a": "root",
+      "b": "choice",
+      "label": "决策应用"
+    },
+    {
+      "a": "choice",
+      "b": "prospect",
+      "label": "核心理论"
+    },
+    {
+      "a": "prospect",
+      "b": "lossav",
+      "label": "核心发现"
+    },
+    {
+      "a": "prospect",
+      "b": "endow",
+      "label": "延伸现象"
+    },
+    {
+      "a": "choice",
+      "b": "framing",
+      "label": "表述影响"
+    },
+    {
+      "a": "root",
+      "b": "selves",
+      "label": "幸福测量"
+    },
+    {
+      "a": "selves",
+      "b": "exper",
+      "label": "感受者"
+    },
+    {
+      "a": "selves",
+      "b": "remem",
+      "label": "决策者"
+    },
+    {
+      "a": "selves",
+      "b": "peakend",
+      "label": "记忆规则"
+    },
+    {
+      "a": "peakend",
+      "b": "colon",
+      "label": "经典实验"
+    },
+    {
+      "a": "root",
+      "b": "people",
+      "label": "作者与合作者"
+    },
+    {
+      "a": "people",
+      "b": "kahneman",
+      "label": "作者"
+    },
+    {
+      "a": "people",
+      "b": "tversky",
+      "label": "合作者"
+    }
+  ],
+  "refs": [
+    {
+      "a": "kahneman",
+      "b": "prospect",
+      "type": "source",
+      "label": "共同提出"
+    },
+    {
+      "a": "tversky",
+      "b": "prospect",
+      "type": "source",
+      "label": "共同提出"
+    },
+    {
+      "a": "avail",
+      "b": "ease",
+      "type": "depends",
+      "label": "建立在"
+    },
+    {
+      "a": "wysiati",
+      "b": "validity",
+      "type": "causes",
+      "label": "导致"
+    },
+    {
+      "a": "lossav",
+      "b": "endow",
+      "type": "causes",
+      "label": "解释了"
+    },
+    {
+      "a": "framing",
+      "b": "lossav",
+      "type": "depends",
+      "label": "利用了"
+    },
+    {
+      "a": "exper",
+      "b": "remem",
+      "type": "contrasts",
+      "label": "常常冲突"
+    }
+  ]
+}
