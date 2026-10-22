@@ -1,0 +1,464 @@
+{
+  "id": "stoicism",
+  "title": "斯多葛主义",
+  "subtitle": "古希腊罗马哲学",
+  "intro": "组装斯多葛哲学。",
+  "parts": [
+    {
+      "id": "core",
+      "label": "斯多葛主义",
+      "parent": null,
+      "note": "古希腊罗马哲学"
+    },
+    {
+      "id": "people",
+      "label": "人物",
+      "parent": "core",
+      "note": "学派里的人"
+    },
+    {
+      "id": "zeno",
+      "label": "季蒂昂的芝诺",
+      "parent": "people",
+      "note": "柱廊讲学"
+    },
+    {
+      "id": "chrysippus",
+      "label": "克吕西波",
+      "parent": "people",
+      "note": "第三任领袖"
+    },
+    {
+      "id": "seneca",
+      "label": "塞涅卡",
+      "parent": "people",
+      "note": "尼禄的老师"
+    },
+    {
+      "id": "epictetus",
+      "label": "爱比克泰德",
+      "parent": "people",
+      "note": "阿里安记其言"
+    },
+    {
+      "id": "marcus",
+      "label": "马可·奥勒留",
+      "parent": "people",
+      "note": "哲学家皇帝"
+    },
+    {
+      "id": "books",
+      "label": "著作",
+      "parent": "core",
+      "note": "传世文本"
+    },
+    {
+      "id": "enchiridion",
+      "label": "《手册》",
+      "parent": "books",
+      "note": "爱比克泰德要旨"
+    },
+    {
+      "id": "meditations",
+      "label": "《沉思录》",
+      "parent": "books",
+      "note": "写给自己"
+    },
+    {
+      "id": "letters",
+      "label": "《道德书简》",
+      "parent": "books",
+      "note": "塞涅卡的信"
+    },
+    {
+      "id": "physics",
+      "label": "物理学",
+      "parent": "core",
+      "note": "研究宇宙本性"
+    },
+    {
+      "id": "logos",
+      "label": "逻各斯",
+      "parent": "physics",
+      "note": "万物的理性秩序"
+    },
+    {
+      "id": "cosmo",
+      "label": "世界主义",
+      "parent": "logos",
+      "note": "人类同属一城"
+    },
+    {
+      "id": "ethics",
+      "label": "伦理学",
+      "parent": "core",
+      "note": "研究如何生活"
+    },
+    {
+      "id": "nature",
+      "label": "依顺自然而活",
+      "parent": "ethics",
+      "note": "按理性本性"
+    },
+    {
+      "id": "virtue",
+      "label": "美德",
+      "parent": "ethics",
+      "note": "品格的卓越"
+    },
+    {
+      "id": "wisdom",
+      "label": "智慧",
+      "parent": "virtue",
+      "note": "知何为善恶"
+    },
+    {
+      "id": "courage",
+      "label": "勇气",
+      "parent": "virtue",
+      "note": "知何可惧"
+    },
+    {
+      "id": "justice",
+      "label": "正义",
+      "parent": "virtue",
+      "note": "给人应得"
+    },
+    {
+      "id": "temperance",
+      "label": "节制",
+      "parent": "virtue",
+      "note": "知取舍有度"
+    },
+    {
+      "id": "eudaimonia",
+      "label": "幸福",
+      "parent": "virtue",
+      "note": "圆满的人生"
+    },
+    {
+      "id": "indiff",
+      "label": "中性之物",
+      "parent": "ethics",
+      "note": "不决定幸福"
+    },
+    {
+      "id": "preferred",
+      "label": "偏好之物",
+      "parent": "indiff",
+      "note": "健康·财富"
+    },
+    {
+      "id": "dispreferred",
+      "label": "非偏好之物",
+      "parent": "indiff",
+      "note": "疾病·贫穷"
+    },
+    {
+      "id": "dichotomy",
+      "label": "控制二分法",
+      "parent": "ethics",
+      "note": "可控 vs 不可控"
+    },
+    {
+      "id": "passion",
+      "label": "激情",
+      "parent": "ethics",
+      "note": "错判生的冲动"
+    },
+    {
+      "id": "apatheia",
+      "label": "不动心",
+      "parent": "passion",
+      "note": "平静·非冷漠"
+    },
+    {
+      "id": "logic",
+      "label": "逻辑学",
+      "parent": "core",
+      "note": "研究认识与推理"
+    },
+    {
+      "id": "impression",
+      "label": "印象",
+      "parent": "logic",
+      "note": "心中的表象"
+    },
+    {
+      "id": "assent",
+      "label": "认可",
+      "parent": "impression",
+      "note": "同意或拒绝"
+    },
+    {
+      "id": "practice",
+      "label": "斯多葛修习",
+      "parent": "core",
+      "note": "哲学变习惯"
+    },
+    {
+      "id": "premed",
+      "label": "预想逆境",
+      "parent": "practice",
+      "note": "逆境来时不慌"
+    },
+    {
+      "id": "memento",
+      "label": "死亡冥想",
+      "parent": "practice",
+      "note": "珍惜当下"
+    },
+    {
+      "id": "amor",
+      "label": "爱命运",
+      "parent": "practice",
+      "note": "接纳一切发生"
+    }
+  ],
+  "links": [
+    {
+      "a": "core",
+      "b": "people",
+      "label": "代表人物"
+    },
+    {
+      "a": "people",
+      "b": "zeno",
+      "label": "创始人"
+    },
+    {
+      "a": "people",
+      "b": "chrysippus",
+      "label": "体系化者"
+    },
+    {
+      "a": "people",
+      "b": "seneca",
+      "label": "罗马政治家"
+    },
+    {
+      "a": "people",
+      "b": "epictetus",
+      "label": "奴隶出身"
+    },
+    {
+      "a": "people",
+      "b": "marcus",
+      "label": "罗马皇帝"
+    },
+    {
+      "a": "core",
+      "b": "books",
+      "label": "经典著作"
+    },
+    {
+      "a": "books",
+      "b": "enchiridion",
+      "label": "阿里安辑录"
+    },
+    {
+      "a": "books",
+      "b": "meditations",
+      "label": "皇帝自省"
+    },
+    {
+      "a": "books",
+      "b": "letters",
+      "label": "致卢西里乌斯"
+    },
+    {
+      "a": "core",
+      "b": "physics",
+      "label": "三大分支"
+    },
+    {
+      "a": "physics",
+      "b": "logos",
+      "label": "核心是"
+    },
+    {
+      "a": "logos",
+      "b": "cosmo",
+      "label": "由此推出"
+    },
+    {
+      "a": "core",
+      "b": "ethics",
+      "label": "三大分支"
+    },
+    {
+      "a": "ethics",
+      "b": "nature",
+      "label": "终极目标"
+    },
+    {
+      "a": "ethics",
+      "b": "virtue",
+      "label": "唯一的善"
+    },
+    {
+      "a": "virtue",
+      "b": "wisdom",
+      "label": "四主德"
+    },
+    {
+      "a": "virtue",
+      "b": "courage",
+      "label": "四主德"
+    },
+    {
+      "a": "virtue",
+      "b": "justice",
+      "label": "四主德"
+    },
+    {
+      "a": "virtue",
+      "b": "temperance",
+      "label": "四主德"
+    },
+    {
+      "a": "virtue",
+      "b": "eudaimonia",
+      "label": "足以带来"
+    },
+    {
+      "a": "ethics",
+      "b": "indiff",
+      "label": "无善无恶"
+    },
+    {
+      "a": "indiff",
+      "b": "preferred",
+      "label": "可以选取"
+    },
+    {
+      "a": "indiff",
+      "b": "dispreferred",
+      "label": "宜于避开"
+    },
+    {
+      "a": "ethics",
+      "b": "dichotomy",
+      "label": "实践基石"
+    },
+    {
+      "a": "ethics",
+      "b": "passion",
+      "label": "要克服"
+    },
+    {
+      "a": "passion",
+      "b": "apatheia",
+      "label": "摆脱后得"
+    },
+    {
+      "a": "core",
+      "b": "logic",
+      "label": "三大分支"
+    },
+    {
+      "a": "logic",
+      "b": "impression",
+      "label": "认识起点"
+    },
+    {
+      "a": "impression",
+      "b": "assent",
+      "label": "需经"
+    },
+    {
+      "a": "core",
+      "b": "practice",
+      "label": "日常训练"
+    },
+    {
+      "a": "practice",
+      "b": "premed",
+      "label": "提前预演"
+    },
+    {
+      "a": "practice",
+      "b": "memento",
+      "label": "记住必死"
+    },
+    {
+      "a": "practice",
+      "b": "amor",
+      "label": "接纳发生"
+    }
+  ],
+  "refs": [
+    {
+      "a": "enchiridion",
+      "b": "epictetus",
+      "type": "author",
+      "label": "讲授者"
+    },
+    {
+      "a": "meditations",
+      "b": "marcus",
+      "type": "author",
+      "label": "作者"
+    },
+    {
+      "a": "letters",
+      "b": "seneca",
+      "type": "author",
+      "label": "作者"
+    },
+    {
+      "a": "enchiridion",
+      "b": "dichotomy",
+      "type": "source",
+      "label": "开篇提出"
+    },
+    {
+      "a": "enchiridion",
+      "b": "impression",
+      "type": "source",
+      "label": "书中阐述"
+    },
+    {
+      "a": "enchiridion",
+      "b": "assent",
+      "type": "source",
+      "label": "书中阐述"
+    },
+    {
+      "a": "meditations",
+      "b": "logos",
+      "type": "source",
+      "label": "书中阐述"
+    },
+    {
+      "a": "meditations",
+      "b": "cosmo",
+      "type": "source",
+      "label": "书中阐述"
+    },
+    {
+      "a": "meditations",
+      "b": "amor",
+      "type": "source",
+      "label": "书中阐述"
+    },
+    {
+      "a": "letters",
+      "b": "premed",
+      "type": "source",
+      "label": "书中阐述"
+    },
+    {
+      "a": "letters",
+      "b": "memento",
+      "type": "source",
+      "label": "书中阐述"
+    },
+    {
+      "a": "meditations",
+      "b": "memento",
+      "type": "source",
+      "label": "书中阐述"
+    }
+  ]
+}
