@@ -10,211 +10,246 @@
       "id": "core",
       "label": "斯多葛主义",
       "parent": null,
-      "note": "古希腊罗马哲学"
+      "note": "古希腊罗马哲学",
+      "explain": "公元前3世纪起于雅典、后来盛行于罗马的哲学学派。它认为幸福只取决于自己的品格和判断，而不是外在遭遇。整个体系分三块：研究世界、研究如何生活、研究如何正确思考。"
     },
     {
       "id": "people",
       "label": "人物",
       "parent": "core",
-      "note": "学派里的人"
+      "note": "学派里的人",
+      "explain": "把这套哲学提出、整理、实践出来的那些人，从雅典的开创者到罗马的皇帝都有。"
     },
     {
       "id": "zeno",
       "label": "季蒂昂的芝诺",
       "parent": "people",
-      "note": "柱廊讲学"
+      "note": "柱廊讲学",
+      "explain": "约公元前300年，在雅典一座画廊（希腊语 Stoa）下讲学，学派名字「斯多葛」就来自这条柱廊。"
     },
     {
       "id": "chrysippus",
       "label": "克吕西波",
       "parent": "people",
-      "note": "第三任领袖"
+      "note": "第三任领袖",
+      "explain": "学派的第三任领袖，写了几百卷书，把逻辑和理论系统化。古人说：没有他，就没有斯多葛。"
     },
     {
       "id": "seneca",
       "label": "塞涅卡",
       "parent": "people",
-      "note": "尼禄的老师"
+      "note": "尼禄的老师",
+      "explain": "罗马政治家、剧作家，当过暴君尼禄的老师，最后被尼禄逼令自尽。留下大量写给朋友的哲学书信。"
     },
     {
       "id": "epictetus",
       "label": "爱比克泰德",
       "parent": "people",
-      "note": "阿里安记其言"
+      "note": "阿里安记其言",
+      "explain": "生为奴隶，获释后在希腊教哲学。本人没写书，他的话由学生阿里安记下来。"
     },
     {
       "id": "marcus",
       "label": "马可·奥勒留",
       "parent": "people",
-      "note": "哲学家皇帝"
+      "note": "哲学家皇帝",
+      "explain": "161 到 180 年在位的罗马皇帝，在征战间隙写下给自己看的哲学笔记。"
     },
     {
       "id": "books",
       "label": "著作",
       "parent": "core",
-      "note": "传世文本"
+      "note": "传世文本",
+      "explain": "这个学派流传到今天、普通人最常读的几本书。早期学者的著作大多失传了。"
     },
     {
       "id": "enchiridion",
       "label": "《手册》",
       "parent": "books",
-      "note": "爱比克泰德要旨"
+      "note": "爱比克泰德要旨",
+      "explain": "阿里安把爱比克泰德的教导浓缩成的一本小册子，开篇第一句就是：有些事在我们掌控之中，有些不在。"
     },
     {
       "id": "meditations",
       "label": "《沉思录》",
       "parent": "books",
-      "note": "写给自己"
+      "note": "写给自己",
+      "explain": "马可·奥勒留写给自己的私人笔记，从没打算出版。全是自我提醒：如何面对烦人的人、死亡、名声。"
     },
     {
       "id": "letters",
       "label": "《道德书简》",
       "parent": "books",
-      "note": "塞涅卡的信"
+      "note": "塞涅卡的信",
+      "explain": "塞涅卡晚年写给朋友卢基里乌斯的 124 封信，每封谈一个生活问题，比如时间、友谊、恐惧。"
     },
     {
       "id": "physics",
       "label": "物理学",
       "parent": "core",
-      "note": "研究宇宙本性"
+      "note": "研究宇宙本性",
+      "explain": "古人说的「物理学」比今天宽：研究宇宙是什么、由什么构成、如何运转，也包括神和命运。"
     },
     {
       "id": "logos",
       "label": "逻各斯",
       "parent": "physics",
-      "note": "万物的理性秩序"
+      "note": "万物的理性秩序",
+      "explain": "贯穿整个宇宙的理性和秩序。斯多葛派认为世界不是乱的，一切按理性的规律发生，人的理性也是它的一部分。"
     },
     {
       "id": "cosmo",
       "label": "世界主义",
       "parent": "logos",
-      "note": "人类同属一城"
+      "note": "人类同属一城",
+      "explain": "既然每个人都有同一种理性，那所有人就是同一个「宇宙城邦」的公民，不管国籍和身份。"
     },
     {
       "id": "ethics",
       "label": "伦理学",
       "parent": "core",
-      "note": "研究如何生活"
+      "note": "研究如何生活",
+      "explain": "研究人应该怎么活才算好，这是斯多葛派最关心的部分。"
     },
     {
       "id": "nature",
       "label": "依顺自然而活",
       "parent": "ethics",
-      "note": "按理性本性"
+      "note": "按理性本性",
+      "explain": "斯多葛派给人生目标的经典表述：按照人的本性活着，而人的本性就是理性。"
     },
     {
       "id": "virtue",
       "label": "美德",
       "parent": "ethics",
-      "note": "品格的卓越"
+      "note": "品格的卓越",
+      "explain": "斯多葛派认为唯一真正的「善」。品格好不好，是你唯一能完全掌控、也唯一决定你好不好的东西。"
     },
     {
       "id": "wisdom",
       "label": "智慧",
       "parent": "virtue",
-      "note": "知何为善恶"
+      "note": "知何为善恶",
+      "explain": "判断什么真的好、什么真的坏、什么无所谓的能力。比如知道丢了钱不是「坏」，失去理智才是。"
     },
     {
       "id": "courage",
       "label": "勇气",
       "parent": "virtue",
-      "note": "知何可惧"
+      "note": "知何可惧",
+      "explain": "不是不怕，而是看清什么值得怕、什么不值得，然后照样做该做的事。"
     },
     {
       "id": "justice",
       "label": "正义",
       "parent": "virtue",
-      "note": "给人应得"
+      "note": "给人应得",
+      "explain": "公正地对待别人，给每个人应得的。斯多葛派看重对社会和他人的责任。"
     },
     {
       "id": "temperance",
       "label": "节制",
       "parent": "virtue",
-      "note": "知取舍有度"
+      "note": "知取舍有度",
+      "explain": "对欲望和享乐有分寸，知道取什么、舍什么、取多少。"
     },
     {
       "id": "eudaimonia",
       "label": "幸福",
       "parent": "virtue",
-      "note": "圆满的人生"
+      "note": "圆满的人生",
+      "explain": "希腊语「好的人生」，不是一时的开心，而是活得圆满。斯多葛派说，有德就足以拥有它。"
     },
     {
       "id": "indiff",
       "label": "中性之物",
       "parent": "ethics",
-      "note": "不决定幸福"
+      "note": "不决定幸福",
+      "explain": "对是否幸福没有决定作用的东西，比如钱、健康、名声。它们不是好也不是坏，关键看你怎么用。"
     },
     {
       "id": "preferred",
       "label": "偏好之物",
       "parent": "indiff",
-      "note": "健康·财富"
+      "note": "健康·财富",
+      "explain": "无所谓好坏，但自然地值得争取的东西，比如健康和财富。可以要，但得不到也不影响你是好人。"
     },
     {
       "id": "dispreferred",
       "label": "非偏好之物",
       "parent": "indiff",
-      "note": "疾病·贫穷"
+      "note": "疾病·贫穷",
+      "explain": "无所谓好坏，但自然地想避开的东西，比如生病和贫穷。碰上了，也照样能活得有德。"
     },
     {
       "id": "dichotomy",
       "label": "控制二分法",
       "parent": "ethics",
-      "note": "可控 vs 不可控"
+      "note": "可控 vs 不可控",
+      "explain": "把事情分成两类：自己能控制的（判断、选择、态度）和不能控制的（别人、天气、结果）。只在前者上用力。"
     },
     {
       "id": "passion",
       "label": "激情",
       "parent": "ethics",
-      "note": "错判生的冲动"
+      "note": "错判生的冲动",
+      "explain": "由错误判断引发的强烈情绪，比如把别人一句话判断成「我被伤害了」，于是暴怒。"
     },
     {
       "id": "apatheia",
       "label": "不动心",
       "parent": "passion",
-      "note": "平静·非冷漠"
+      "note": "平静·非冷漠",
+      "explain": "不被错误情绪牵着走的平静状态。不是冷漠无情，而是心里清楚、不慌不乱。"
     },
     {
       "id": "logic",
       "label": "逻辑学",
       "parent": "core",
-      "note": "研究认识与推理"
+      "note": "研究认识与推理",
+      "explain": "研究怎么正确地认识和推理，包括语言、论证和人怎么形成判断。"
     },
     {
       "id": "impression",
       "label": "印象",
       "parent": "logic",
-      "note": "心中的表象"
+      "note": "心中的表象",
+      "explain": "事情在心里留下的第一个画面或念头，比如「他在嘲笑我」。它自动出现，不由你决定。"
     },
     {
       "id": "assent",
       "label": "认可",
       "parent": "impression",
-      "note": "同意或拒绝"
+      "note": "同意或拒绝",
+      "explain": "对一个印象说「是」或「不是」。斯多葛派认为这一步由你掌控，情绪就是在这里产生或被拦住的。"
     },
     {
       "id": "practice",
       "label": "斯多葛修习",
       "parent": "core",
-      "note": "哲学变习惯"
+      "note": "哲学变习惯",
+      "explain": "斯多葛派认为哲学不是用来背的，是每天要练的。下面这些是他们的日常练习。"
     },
     {
       "id": "premed",
       "label": "预想逆境",
       "parent": "practice",
-      "note": "逆境来时不慌"
+      "note": "逆境来时不慌",
+      "explain": "提前想象可能发生的坏事：失业、生病、失去亲人。真来的时候，就不会被吓垮。"
     },
     {
       "id": "memento",
       "label": "死亡冥想",
       "parent": "practice",
-      "note": "珍惜当下"
+      "note": "珍惜当下",
+      "explain": "经常提醒自己：人终有一死。目的不是悲观，而是不浪费今天。"
     },
     {
       "id": "amor",
       "label": "爱命运",
       "parent": "practice",
-      "note": "接纳一切发生"
+      "note": "接纳一切发生",
+      "explain": "不只接受发生的一切，而是把它当成该发生的去拥抱。这个说法出自尼采，但精神来自斯多葛。"
     }
   ],
   "links": [
