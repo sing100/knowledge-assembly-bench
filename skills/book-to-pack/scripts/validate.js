@@ -17,6 +17,8 @@ parts.forEach((q, i) => {
   if (ids.has(q.id)) errs.push("重复的 id: " + q.id);
   ids.set(q.id, q);
   if (!q.note) warns.push(`${q.id} 没有 note（含义）`);
+  if (!q.explain) warns.push(`${q.id} 没有 explain（给零基础学习者的解释）`);
+  else if ([...q.explain].length > 120) warns.push(`${q.id} 的 explain 偏长（${[...q.explain].length} 字），建议 120 字以内`);
   else if ([...q.note].length > 12) warns.push(`${q.id} 的 note 偏长: ${q.note}`);
 });
 const roots = parts.filter(q => q.parent == null);
