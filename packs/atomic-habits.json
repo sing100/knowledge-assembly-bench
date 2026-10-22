@@ -10,171 +10,198 @@
       "id": "root",
       "label": "《原子习惯》",
       "parent": null,
-      "note": "微小改变，巨大成就"
+      "note": "微小改变，巨大成就",
+      "explain": "詹姆斯·克利尔 2018 年的书。核心观点：大改变来自很多微小习惯的累积，而习惯是可以被设计的。"
     },
     {
       "id": "basics",
       "label": "基础",
       "parent": "root",
-      "note": "小习惯为何重要"
+      "note": "小习惯为何重要",
+      "explain": "全书开头先讲为什么值得从很小的习惯做起。"
     },
     {
       "id": "onepct",
       "label": "每天进步1%",
       "parent": "basics",
-      "note": "复利效应"
+      "note": "复利效应",
+      "explain": "每天好 1%，一年后约是原来的 37 倍；每天差 1%，会接近零。习惯像复利，短期看不出，长期差别巨大。"
     },
     {
       "id": "systems",
       "label": "系统胜于目标",
       "parent": "basics",
-      "note": "关注过程"
+      "note": "关注过程",
+      "explain": "目标是想要的结果，系统是每天做的流程。赢家和输家目标都一样，差别在系统。专注于改进过程，而不是盯着结果。"
     },
     {
       "id": "identity",
       "label": "基于身份的习惯",
       "parent": "basics",
-      "note": "成为那种人"
+      "note": "成为那种人",
+      "explain": "不只说「我要跑完马拉松」，而是先认定「我是一个跑步的人」。每做一次，都是在给这个身份投一票。"
     },
     {
       "id": "plateau",
       "label": "潜能潜伏期",
       "parent": "basics",
-      "note": "突破前看不到"
+      "note": "突破前看不到",
+      "explain": "习惯带来的成果常常要积累很久才突然显现，就像冰块在 0 度前看不出变化。很多人在这段时间放弃。"
     },
     {
       "id": "loop",
       "label": "习惯回路",
       "parent": "root",
-      "note": "习惯的四个阶段"
+      "note": "习惯的四个阶段",
+      "explain": "书中把每个习惯拆成固定的几个阶段，它们一圈圈循环，让行为变得自动。"
     },
     {
       "id": "cue",
       "label": "提示",
       "parent": "loop",
       "note": "触发行为",
-      "order": 1
+      "order": 1,
+      "explain": "让大脑想到要做某件事的信号，比如手机震动、闻到咖啡香、到了晚上九点。"
     },
     {
       "id": "craving",
       "label": "渴求",
       "parent": "loop",
       "note": "行为的动机",
-      "order": 2
+      "order": 2,
+      "explain": "看到信号后，心里对某种状态变化的「想要」。你想要的不是刷手机本身，而是刷手机带来的放松。"
     },
     {
       "id": "response",
       "label": "反应",
       "parent": "loop",
       "note": "实际做的事",
-      "order": 3
+      "order": 3,
+      "explain": "你真正做出的那个动作或想法，比如拿起手机、去跑步。"
     },
     {
       "id": "reward",
       "label": "奖励",
       "parent": "loop",
       "note": "满足渴求",
-      "order": 4
+      "order": 4,
+      "explain": "行为带来的满足感。它告诉大脑「下次还要这样做」，让循环继续。"
     },
     {
       "id": "laws",
       "label": "四大定律",
       "parent": "root",
-      "note": "对应回路四步"
+      "note": "对应回路四步",
+      "explain": "克利尔给出的建立好习惯的四条方法，反过来用就是戒掉坏习惯的方法。"
     },
     {
       "id": "law1",
       "label": "让它显而易见",
       "parent": "laws",
       "note": "提示要看得见",
-      "order": 1
+      "order": 1,
+      "explain": "想养成的习惯，要让它的信号容易被看到；想戒掉的，就把信号藏起来。"
     },
     {
       "id": "stack",
       "label": "习惯叠加",
       "parent": "law1",
-      "note": "接在旧习惯后"
+      "note": "接在旧习惯后",
+      "explain": "把新习惯接在已有的习惯后面：「倒完咖啡后，我就冥想一分钟。」"
     },
     {
       "id": "intent",
       "label": "执行意图",
       "parent": "law1",
-      "note": "定好时间地点"
+      "note": "定好时间地点",
+      "explain": "写清楚「我会在【时间】【地点】做【行为】」。比起「我要多运动」，明确的计划成功率高得多。"
     },
     {
       "id": "env",
       "label": "环境设计",
       "parent": "law1",
-      "note": "让提示可见"
+      "note": "让提示可见",
+      "explain": "改变周围环境，让好习惯一眼可见。想多喝水，就把水瓶放在桌上。"
     },
     {
       "id": "law2",
       "label": "让它有吸引力",
       "parent": "laws",
       "note": "让人想去做",
-      "order": 2
+      "order": 2,
+      "explain": "越让人期待，越容易去做。想办法让习惯和你喜欢的东西联系起来。"
     },
     {
       "id": "bundle",
       "label": "诱惑捆绑",
       "parent": "law2",
-      "note": "想做配该做"
+      "note": "想做配该做",
+      "explain": "把想做的事和该做的事绑在一起：「只有在跑步机上，我才能看最喜欢的剧。」"
     },
     {
       "id": "law3",
       "label": "让它简便易行",
       "parent": "laws",
       "note": "降低做的阻力",
-      "order": 3
+      "order": 3,
+      "explain": "阻力越小，越容易做。减少开始需要的步骤，比靠意志力更有效。"
     },
     {
       "id": "twomin",
       "label": "两分钟法则",
       "parent": "law3",
-      "note": "从极小开始"
+      "note": "从极小开始",
+      "explain": "新习惯开始时，把它缩到两分钟内就能做完：「每晚读书」变成「读一页」。先养成「出现」，再加量。"
     },
     {
       "id": "law4",
       "label": "让它令人愉悦",
       "parent": "laws",
       "note": "做完立刻满足",
-      "order": 4
+      "order": 4,
+      "explain": "人会重复让自己立刻感觉好的事。好习惯的好处往往来得慢，所以要给它加点即时满足。"
     },
     {
       "id": "tracker",
       "label": "习惯追踪",
       "parent": "law4",
-      "note": "看见进展"
+      "note": "看见进展",
+      "explain": "每做一次就在日历上打个勾。看着一串连续的勾，本身就是一种奖励。"
     },
     {
       "id": "nevertwice",
       "label": "绝不错过两次",
       "parent": "law4",
-      "note": "断一次就接上"
+      "note": "断一次就接上",
+      "explain": "错过一次是意外，连续错过两次就开始变成新习惯。断了没关系，下一次一定接上。"
     },
     {
       "id": "advanced",
       "label": "进阶",
       "parent": "root",
-      "note": "从好到卓越"
+      "note": "从好到卓越",
+      "explain": "习惯稳定后，如何继续进步、避免陷入无聊或停滞。"
     },
     {
       "id": "goldilocks",
       "label": "金发姑娘原则",
       "parent": "advanced",
-      "note": "难度刚刚好"
+      "note": "难度刚刚好",
+      "explain": "任务难度刚好在你能力边缘时，人最有动力：太容易会无聊，太难会放弃。"
     },
     {
       "id": "reflect",
       "label": "回顾与反思",
       "parent": "advanced",
-      "note": "定期复盘"
+      "note": "定期复盘",
+      "explain": "习惯变成自动后，人容易停止思考。定期回顾自己做得怎样、还想成为什么样的人。"
     },
     {
       "id": "clear",
       "label": "詹姆斯·克利尔",
       "parent": "root",
-      "note": "习惯研究作家"
+      "note": "习惯研究作家",
+      "explain": "美国作家，长期写关于习惯和决策的文章。他高中打棒球时被球棒砸中脸部重伤，后来靠一个个小习惯慢慢恢复。"
     }
   ],
   "links": [
