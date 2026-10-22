@@ -18,6 +18,8 @@
         --x-bad: #DC2626; --x-bad-l: #FEF2F2;
         --x-sh: 0 1px 2px rgba(0,0,0,.05); --x-sh-h: 0 4px 12px rgba(0,0,0,.08); --x-sh-drag: 0 12px 28px rgba(0,0,0,.12);
         --x-sh-float: 0 4px 16px rgba(0,0,0,.06); --x-sh-dlg: 0 24px 48px rgba(0,0,0,.16);
+        --x-sh: 0 1px 2px rgba(0,0,0,.05); --x-sh-h: 0 4px 12px rgba(0,0,0,.08); --x-sh-drag: 0 12px 28px rgba(0,0,0,.12);
+        --x-sh-float: 0 4px 16px rgba(0,0,0,.06); --x-sh-dlg: 0 24px 48px rgba(0,0,0,.16);
         /* branch colours */
         --x-br0: #4F46E5; --x-br1: #0EA5E9; --x-br2: #10B981; --x-br3: #F59E0B; --x-br4: #EC4899; --x-br5: #8B5CF6;
         /* motion */
@@ -265,6 +267,7 @@
       .x-reflab { position: absolute; left: 0; top: 0; transform: var(--pos, none); height: 20px; box-sizing: border-box; display: flex; align-items: center; padding: 0 7px; border: 1px solid color-mix(in srgb, #0D9488 45%, transparent); border-radius: 999px; background: color-mix(in srgb, #0D9488 7%, var(--x-card)); font: 500 12px/1 var(--x-font); color: #0F766E; white-space: nowrap; pointer-events: none; transition: opacity var(--m-base) var(--e-swift); animation: x-refin var(--m-sheet) var(--e-out); }
       .x-ref.is-off, .x-reflab.is-off { opacity: .3; }
       .x-board.x-norefs #refs, .x-board.x-norefs #refLabs { display: none; }
+      .x-ref.is-hid, .x-reflab.is-hid { display: none; }
       @keyframes x-refin { from { opacity: 0; } }
       .x-board.is-linked.x-refopen .x-port { display: block; }
       .x-rel .x-refem { font-weight: 600; color: #0F766E; }
@@ -357,7 +360,7 @@
             <button class="x-tb" type="button" data-for="shuffleBtn">重新打散</button>
             <button class="x-tb" type="button" data-for="tidyBtn">一键整理</button>
             <button class="x-tb" type="button" data-for="muteBtn">静音</button>
-            <button class="x-tb x-refbtn" id="refBtn" type="button" aria-pressed="true">显示关联线<span class="x-check" aria-hidden="true">✓</span></button>
+            <button class="x-tb x-refbtn" id="refBtn" type="button" aria-pressed="false">显示全部关联线<span class="x-check" aria-hidden="true">✓</span></button>
           </div>
         </div>
         <div class="x-prog">
@@ -1153,7 +1156,38 @@
       miss: [0, 0, 0, 0, 0], miss2: M(), hinted: M(), t0: [], t1: [], sel: M(), focus: null, branch: null, bestCombo: 0, pw: M(), refs: M() };
   }
   /* ---------- 关联线: cross-links outside the tree, always book → person / concept ---------- */
-  var showRefs = true, refEls = M(), refsG = $("refs"), refLabs = $("refLabs");
+  var showRefs = false, refEls = M(), refsG = $("refs"), refLabs = $("refLabs");
+  /* 关联线 focus: off by default; a selected / hovered / just-made end card shows only its own 关联线 */
+  var refHov = null, refFlash = null, refFlashT = 0, refFocusOn = null;
+  function madeRefsOf(id) { return S && id ? refList().filter(function (r) { return S.refs[refKey(r)] && (r.a === id || r.b === id); }) : []; }
+  function refFocusId() {
+    if (!S || showRefs || (drag && drag.type === "connect")) return null;
+    var sk = Object.keys(S.sel), sel = sk.length === 1 && madeRefsOf(sk[0]).length ? sk[0] : null;
+    var hv = refHov && madeRefsOf(refHov).length ? refHov : null;
+    var fl = refFlash && madeRefsOf(refFlash).length ? refFlash : null;
+    return hv || fl || sel;
+  }
+  function refreshFocus() {
+    if (!S || !P) return;
+    var f = refFocusId(), keep = M();
+    if (f) { keep[f] = true; madeRefsOf(f).forEach(function (r) { keep[r.a] = true; keep[r.b] = true; }); }
+    Object.keys(refEls).forEach(function (k) {
+      var o = refEls[k], on = showRefs || (f && (o.r.a === f || o.r.b === f));
+      o.p.classList.toggle("is-hid", !on); o.lb.classList.toggle("is-hid", !on);
+    });
+    if (f) {
+      refFocusOn = f;
+      P.parts.forEach(function (q) { if (els[q.id]) els[q.id].classList.toggle("is-dim", !keep[q.id] && !offId(q.id)); });
+      Object.keys(edgeEls).forEach(function (c) { edgeEls[c].classList.toggle("is-dim", !offId(c)); });
+      Object.keys(slotEls).forEach(function (c) { slotEls[c].classList.toggle("is-dim", !offId(c)); });
+    } else if (refFocusOn) {
+      refFocusOn = null; var h = hovId; hovId = undefined; setPath(h || null);
+    }
+  }
+  function flashRef(id) {
+    clearTimeout(refFlashT); refFlash = id; var g = S.gen;
+    refFlashT = setTimeout(function () { if (S && S.gen === g) { refFlash = null; refreshFocus(); } }, 1500);
+  }
   function refList() { return (P && P.refs) || []; }
   function refKey(r) { return r.a + ">" + r.b; }
   function refsTotal() { return refList().length; }
@@ -1211,6 +1245,7 @@
   var hovId = null;
   function setPath(id) {
     if (hovId === id) return; hovId = id;
+    if (refFocusId()) return;
     var keep = null;
     if (id) {
       keep = M(); var c = id, k = 0;
@@ -1281,7 +1316,7 @@
       m.hidden = !avail(3, q.id);
       if (!m.hidden) { if (!was) { m.classList.add("is-new"); newOnce(m); } slotView(3, q.id); }
     });
-    tint(); lamps();
+    tint(); lamps(); refreshFocus();
   }
 
   /* ---------- edges ---------- */
@@ -1371,7 +1406,6 @@
   /* made 关联线: thin dashed teal arcs under the tree edges, label pill at the midpoint; never touch layout */
   function renderRefs() {
     refsG.textContent = ""; refLabs.textContent = ""; refEls = M();
-    board.classList.toggle("x-norefs", !showRefs);
     board.classList.toggle("x-refopen", !!S && refsOpen());
     $("top").classList.toggle("has-refs", refsTotal() > 0); $("refBtn").hidden = !refsTotal();
     if (!S) return;
@@ -1382,15 +1416,24 @@
       refsG.appendChild(p); refLabs.appendChild(lb);
       refEls[k] = { r: r, p: p, lb: lb };
     });
-    updateRefs();
+    updateRefs(); refreshFocus();
   }
   function updateRefs() {
-    Object.keys(refEls).forEach(function (k) {
+    var ks = Object.keys(refEls); if (!ks.length) return;
+    /* the tree's main column: the root's x, the cards' mean y; arcs bow away from it */
+    var rp = pos[P.root], rs = size[P.root], n0 = 0, sy0 = 0;
+    P.parts.forEach(function (q) { if (pos[q.id] && size[q.id]) { n0++; sy0 += pos[q.id].y + size[q.id].h / 2; } });
+    var c0x = rp && rs ? rp.x + rs.w / 2 : 0, c0y = n0 ? sy0 / n0 : 0;
+    ks.forEach(function (k) {
       var o = refEls[k], a = pos[o.r.a], b = pos[o.r.b], sa = size[o.r.a], sb = size[o.r.b];
       if (!a || !b || !sa || !sb) return;
       var ax = a.x + sa.w / 2, ay = a.y + sa.h / 2, bx = b.x + sb.w / 2, by = b.y + sb.h / 2;
-      var dx = bx - ax, dy = by - ay, L = Math.hypot(dx, dy) || 1, off = Math.min(140, L * 0.22);
-      var cx = (ax + bx) / 2 - dy / L * off, cy = (ay + by) / 2 + dx / L * off;
+      var dx = bx - ax, dy = by - ay, L = Math.hypot(dx, dy) || 1, off = Math.max(90, Math.min(520, L * 0.7));
+      var nx = -dy / L, ny = dx / L, mx0 = (ax + bx) / 2, my0 = (ay + by) / 2;
+      var side = nx * (mx0 - c0x) + ny * (my0 - c0y);
+      if (Math.abs(side) < 1) side = nx || 1;
+      if (side < 0) { nx = -nx; ny = -ny; }
+      var cx = mx0 + nx * off, cy = my0 + ny * off;
       var u1x = cx - ax, u1y = cy - ay, l1 = Math.hypot(u1x, u1y) || 1; u1x /= l1; u1y /= l1;
       var u2x = cx - bx, u2y = cy - by, l2 = Math.hypot(u2x, u2y) || 1; u2x /= l2; u2y /= l2;
       var d1 = boxOut({ w: sa.w, h: sa.h }, u1x, u1y) + 3, d2 = boxOut({ w: sb.w, h: sb.h }, u2x, u2y) + 4;
@@ -1813,6 +1856,7 @@
     var k = refKey(r);
     if (S.refs[k]) { toast("这条关联线已连好"); return; }
     S.refs[k] = true;
+    flashRef(r.a);
     renderRefs();
     fx(els[r.a], "is-pop"); fx(els[r.b], "is-pop"); beep(true, "R:" + k);
     renderProgress(); renderSide(); lamps();
@@ -2288,6 +2332,15 @@
     var c = e.target.closest && e.target.closest(".x-card");
     setPath(c ? c.dataset.id : null);
   });
+  /* desktop hover on a 关联线 end shows just its 关联线 */
+  var canHover = window.matchMedia ? window.matchMedia("(hover: hover) and (pointer: fine)") : null;
+  board.addEventListener("pointerover", function (e) {
+    if (!S || drag || e.pointerType === "touch" || (canHover && !canHover.matches)) return;
+    var c = e.target.closest && e.target.closest(".x-card"), id = c ? c.dataset.id : null;
+    if (id && !madeRefsOf(id).length) id = null;
+    if (id !== refHov) { refHov = id; refreshFocus(); }
+  });
+  board.addEventListener("pointerleave", function () { if (refHov) { refHov = null; refreshFocus(); } });
   function setSpace(on) { spaceDown = on; board.classList.toggle("is-space", on); }
   function setSel(ids, add) {
     if (!add) S.sel = M();
@@ -2392,7 +2445,7 @@
       if (tmpRaf) { cancelAnimationFrame(tmpRaf); tmpRaf = 0; }
       tmp.classList.remove("is-snap", "is-deny");
       tmp.style.display = "";
-      board.classList.add("is-linking");
+      board.classList.add("is-linking"); refHov = null; refreshFocus();
       P.parts.forEach(function (q) { if (q.id !== id0 && canLink(id0, q.id)) els[q.id].classList.add("x-can"); });
     } else if (t.closest(".x-card")) {
       var id = t.closest(".x-card").dataset.id;
@@ -2472,7 +2525,8 @@
     if (ap.raf) { cancelAnimationFrame(ap.raf); ap.raf = 0; } ap.t = 0;
     board.classList.remove("is-pan");
     setHover(null);
-    if (d.type === "pan" && !d.moved && !d.mid && !cancel) { S.sel = M(); renderCards(); }
+    if (d.type === "connect") setTimeout(refreshFocus, 0);
+    if (d.type === "pan" && !d.moved && !d.mid && !cancel) { S.sel = M(); refFlash = null; renderCards(); }
     if (d.type === "move") {
       d.ids.forEach(function (k) { els[k].classList.remove("is-drag"); });
       if (d.moved && !cancel) sfx.drop();
@@ -2532,7 +2586,7 @@
     }
     if (e.key === "Escape") {
       if (drag) endDrag(true);
-      else { S.sel = M(); renderCards(); }
+      else { S.sel = M(); refFlash = null; refHov = null; renderCards(); }
     } else if (e.key === "!" || (e.shiftKey && e.code === "Digit1")) fitView(true);
     else if (e.shiftKey && e.code === "KeyA" && !e.ctrlKey && !e.metaKey && !e.altKey && !(e.target.closest && e.target.closest("select"))) { e.preventDefault(); tidy(); }
   });
@@ -2599,7 +2653,7 @@
   $("moreMenu").addEventListener("click", function (e) {
     if (e.target.closest("#refBtn")) {
       showRefs = !showRefs; $("refBtn").setAttribute("aria-pressed", showRefs ? "true" : "false");
-      board.classList.toggle("x-norefs", !showRefs);
+      refreshFocus();
       moreOpen(false); return;
     }
     var b = e.target.closest("[data-for]"); if (!b) return;
