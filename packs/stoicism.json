@@ -3,6 +3,8 @@
   "title": "斯多葛主义",
   "subtitle": "古希腊罗马哲学",
   "intro": "组装斯多葛哲学。",
+  "kind": "concept",
+  "shape": "tree",
   "parts": [
     {
       "id": "core",
