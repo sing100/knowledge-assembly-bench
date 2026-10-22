@@ -2142,15 +2142,22 @@
     refreshSlot(n, id); renderTray();
   }
   function refreshSlot(n, id) { slotView(n, id); if (n === 3 && radial()) updateEdges(); }
-  /* snap when within 24px of an (expanded) slot box; keep the current target until 36px away */
-  function dropTarget(cx, cy, n, cur) {
-    var best = null, bd = Infinity;
+  /* hit-test against the expanded pill ("关系？"/"含义？" size) centred on the slot's anchor, not the live
+     element (a 6px dot or mid-animation). (cx, cy) is the floating chip's visual centre; fr its rect.
+     Snap within 44px or on overlap; keep the current target until 64px; closest open slot wins. */
+  function slotBox(n, id) {
+    var a = anchorPt(n, id), hw = (n === 2 ? 64 : 80) * view.s / 2, hh = 12 * view.s;
+    return { x: a.x, y: a.y, left: a.x - hw, right: a.x + hw, top: a.y - hh, bottom: a.y + hh };
+  }
+  function dropTarget(cx, cy, n, cur, fr) {
+    var best = null, bd = Infinity, bc = Infinity;
     openSlots(n).forEach(function (id) {
-      var r = slotEl(n, id).getBoundingClientRect();
-      var dx = Math.max(r.left - cx, 0, cx - r.right), dy = Math.max(r.top - cy, 0, cy - r.bottom);
-      if (Math.hypot(dx, dy) > (cur && cur.id === id ? 36 : 24)) return;
-      var d = Math.hypot(cx - (r.left + r.right) / 2, cy - (r.top + r.bottom) / 2);
-      if (d < bd) { bd = d; best = id; }
+      var b = slotBox(n, id);
+      var d = Math.hypot(Math.max(b.left - cx, 0, cx - b.right), Math.max(b.top - cy, 0, cy - b.bottom));
+      if (fr && fr.left < b.right && fr.right > b.left && fr.top < b.bottom && fr.bottom > b.top) d = 0;
+      if (d > (cur && cur.id === id ? 64 : 44)) return;
+      var c = Math.hypot(cx - b.x, cy - b.y);
+      if (d < bd || (d === bd && c < bc)) { bd = d; bc = c; best = id; }
     });
     return best && { id: best, el: slotEl(n, best) };
   }
@@ -2243,7 +2250,8 @@
     var p = pos[id], s = size[id];
     return Math.hypot(Math.max(p.x - w.x, 0, w.x - (p.x + s.w)), Math.max(p.y - w.y, 0, w.y - (p.y + s.h)));
   }
-  /* snap within 40 screen px; keep the current target until 56 screen px (hysteresis) */
+  /* snap within 64 screen px; keep the current target until 84 screen px unless another card is
+     at least 12 screen px closer, or the pointer is inside another card */
   function nearestCard(w, except, cur) {
     var best = null, bd = Infinity;
     P.parts.forEach(function (q) {
@@ -2251,9 +2259,17 @@
       var d = cardDist(w, q.id);
       if (d < bd) { bd = d; best = q.id; }
     });
-    /* pointer inside another card (bd == 0) switches immediately */
-    if (cur && cur !== except && cur !== best && bd > 0 && cardDist(w, cur) * view.s <= 84) return cur;
+    if (cur && cur !== except && cur !== best && bd > 0 && vis(cur)) {
+      var cd = cardDist(w, cur) * view.s;
+      if (cd <= 84 && cd - bd * view.s < 12) return cur;
+    }
     return bd * view.s <= 64 ? best : null;
+  }
+  /* the card whose rect holds the pointer, if any */
+  function cardUnder(w, except) {
+    var hit = null;
+    P.parts.forEach(function (q) { if (!hit && q.id !== except && vis(q.id) && pos[q.id] && size[q.id] && cardDist(w, q.id) === 0) hit = q.id; });
+    return hit;
   }
   function canLink(from, to) {
     var p = from, c = to;
@@ -2327,7 +2343,7 @@
       var r = (chip || slot).getBoundingClientRect();
       var fl = document.createElement("div"); fl.className = "x-chip is-float"; fl.textContent = o.chips[ci].text;
       document.body.appendChild(fl);
-      drag = { type: "chip", kind: kind, ci: ci, src: chip ? null : slot.dataset.slot, srcEl: chip || slot, fl: fl, ox: e.clientX - r.left, oy: e.clientY - r.top, sx: e.clientX, sy: e.clientY, moved: false };
+      drag = { type: "chip", kind: kind, ci: ci, src: chip ? null : slot.dataset.slot, srcEl: chip || slot, fl: fl, ox: e.clientX - r.left, oy: e.clientY - r.top, cw: r.width, ch: r.height, sx: e.clientX, sy: e.clientY, moved: false };
       (chip || slot).classList.add("is-ghost"); setPath(null); sfx.pick();
     } else if (t.closest(".x-tray")) {
       return;
@@ -2360,7 +2376,7 @@
       vAnim = null; zt = null;
     }
     lastEv = e;
-    if (drag) { drag.th = e.pointerType === "touch" ? 6 : 4; setNear(null); }
+    if (drag) { drag.th = e.pointerType === "touch" ? 6 : 4; drag.pid = e.pointerId; drag.ptype = e.pointerType; setNear(null); }
     if (drag && !ap.raf) { ap.t = 0; ap.last = performance.now(); ap.raf = requestAnimationFrame(autoPan); }
     try { board.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
     e.preventDefault();
@@ -2403,12 +2419,16 @@
       P.parts.forEach(function (q) { var p = pos[q.id], s = size[q.id]; if (vis(q.id) && p.x < X2 && p.x + s.w > X1 && p.y < Y2 && p.y + s.h > Y1) S.sel[q.id] = true; });
       renderCards();
     } else if (d.type === "chip") {
-      if (Math.hypot(e.clientX - d.sx, e.clientY - d.sy) > (d.th || 4)) d.moved = true;
+      if (!d.moved && Math.hypot(e.clientX - d.sx, e.clientY - d.sy) > (d.th || 4)) { d.moved = true; if (d.ptype === "touch") lockTouch(true); }
       /* touch: lift the chip 40px above the finger so neither hides the target slot */
-      var ty = e.clientY - (e.pointerType === "touch" ? 40 : 0);
-      d.fl.style.transform = "translate(" + (e.clientX - d.ox) + "px," + (ty - d.oy) + "px) rotate(-2deg)";
-      reveal(d.moved ? d.kind : 0, e.clientX, ty);
-      var dt = d.moved ? dropTarget(e.clientX, ty, d.kind, d.to) : null; d.to = dt;
+      var ty = e.clientY - ((e.pointerType || d.ptype) === "touch" ? 40 : 0);
+      var fx0 = e.clientX - d.ox, fy0 = ty - d.oy;
+      d.fl.style.transform = "translate(" + fx0 + "px," + fy0 + "px) rotate(-2deg)";
+      if (!d.fw) { d.fw = d.fl.offsetWidth || d.cw || 0; d.fh = d.fl.offsetHeight || d.ch || 0; }
+      /* hit-test with the floating chip's visual centre, not the raw cursor */
+      var ccx = fx0 + d.fw / 2, ccy = fy0 + d.fh / 2;
+      reveal(d.moved ? d.kind : 0, ccx, ccy);
+      var dt = d.moved ? dropTarget(ccx, ccy, d.kind, d.to, { left: fx0, top: fy0, right: fx0 + d.fw, bottom: fy0 + d.fh }) : null; d.to = dt;
       setHover(dt ? dt.el : null);
     }
   }
@@ -2436,9 +2456,12 @@
       board.classList.remove("is-linking", "x-nocur"); $("tmpNo").style.display = "none"; $("tmpEnd").style.display = "none";
       P.parts.forEach(function (q) { if (els[q.id]) els[q.id].classList.remove("x-can"); });
       tmp.classList.remove("is-snap", "is-deny");
-      if (!cancel && !d.to) retractTmp(d.g);
+      /* a drop on a deny target is not a mistake: shake it and retract like a drop on empty board */
+      var deny = !cancel && d.to && !canLink(d.from, d.to);
+      if (deny && els[d.to]) fx(els[d.to], "is-shake");
+      if (!cancel && (!d.to || deny)) retractTmp(d.g);
       else { tmp.style.display = "none"; tmp.setAttribute("d", ""); }
-      if (!cancel && d.to) connect(d.from, d.to);
+      if (!cancel && d.to && !deny) connect(d.from, d.to);
     }
     if (d.type === "marq") {
       marq.hidden = true;
@@ -2446,6 +2469,7 @@
       else if (!cancel && !d.moved && !d.add) { S.sel = M(); renderCards(); }
     }
     if (d.type === "chip") {
+      lockTouch(false);
       d.srcEl.classList.remove("is-ghost");
       reveal(0); dropT = performance.now();
       if (!cancel && d.moved) sfx.drop();
@@ -2453,9 +2477,50 @@
       else { d.fl.remove(); if (!cancel && d.src) unChip(d.kind, d.src); }
     }
   }
-  board.addEventListener("pointerup", function (e) { if (drag) { lastEv = e; process(); endDrag(false); } });
+  /* touch chip drag past threshold: stop the browser from stealing the gesture for the rest of it */
+  var touchLocked = false, lockedEls = [];
+  function lockTouch(on) {
+    if (touchLocked === on) return; touchLocked = on;
+    if (on) {
+      lockedEls = [board, tray, chipsEl, drag && drag.srcEl].concat(Array.prototype.slice.call(chipsEl.querySelectorAll(".x-chip")));
+      lockedEls.forEach(function (el) { if (el && el.style) el.style.touchAction = "none"; });
+    } else {
+      lockedEls.forEach(function (el) { if (el && el.style) el.style.touchAction = ""; });
+      lockedEls = [];
+    }
+  }
+  document.addEventListener("touchmove", function (e) { if (touchLocked && drag && drag.type === "chip" && e.cancelable) e.preventDefault(); }, { passive: false });
+  /* finish a drop at event e: cancel the pending frame, process synchronously, then decide */
+  var upId = null, upT = -1e9;
+  function finishDrop(e) {
+    if (!drag) return;
+    if (pRaf) { cancelAnimationFrame(pRaf); pRaf = 0; }
+    if (e) lastEv = e;
+    process();
+    var d = drag;
+    if (d && d.type === "connect" && lastEv) {
+      /* release inside a card's rect: that card wins, whatever the hysteresis says */
+      var hit = cardUnder(toWorld(lastEv.clientX, lastEv.clientY), d.from);
+      if (hit) d.to = hit;
+    }
+    endDrag(false);
+  }
+  function onUp(e) {
+    if (!drag || (drag.pid != null && e.pointerId !== drag.pid)) return;
+    upId = e.pointerId; upT = performance.now();
+    finishDrop(e);
+  }
+  board.addEventListener("pointerup", onUp);
+  /* fallback: release over the side panel or outside the board never reaches it */
+  window.addEventListener("pointerup", onUp);
   board.addEventListener("pointercancel", function () { endDrag(true); });
-  board.addEventListener("lostpointercapture", function () { if (drag) endDrag(true, true); });
+  board.addEventListener("lostpointercapture", function (e) {
+    if (!drag) return;
+    if (e.pointerId === upId && performance.now() - upT < 500) return;
+    if (drag.pid != null && e.pointerId !== drag.pid) return;
+    if (drag.type === "pan" || pinch) { endDrag(true, true); return; }
+    finishDrop(null); /* use the last known pointer position */
+  });
   window.addEventListener("blur", function () { setSpace(false); if (drag) endDrag(true, true); });
   board.addEventListener("wheel", function (e) {
     if (e.target.closest && e.target.closest(".x-tray")) {
