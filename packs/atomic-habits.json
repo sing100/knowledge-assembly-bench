@@ -1,0 +1,356 @@
+{
+  "id": "atomic-habits",
+  "title": "原子习惯",
+  "subtitle": "詹姆斯·克利尔",
+  "intro": "组装《原子习惯》：习惯怎么形成，又怎么一步步建立。",
+  "kind": "book",
+  "shape": "sequence",
+  "parts": [
+    {
+      "id": "root",
+      "label": "《原子习惯》",
+      "parent": null,
+      "note": "微小改变，巨大成就"
+    },
+    {
+      "id": "basics",
+      "label": "基础",
+      "parent": "root",
+      "note": "小习惯为何重要"
+    },
+    {
+      "id": "onepct",
+      "label": "每天进步1%",
+      "parent": "basics",
+      "note": "复利效应"
+    },
+    {
+      "id": "systems",
+      "label": "系统胜于目标",
+      "parent": "basics",
+      "note": "关注过程"
+    },
+    {
+      "id": "identity",
+      "label": "基于身份的习惯",
+      "parent": "basics",
+      "note": "成为那种人"
+    },
+    {
+      "id": "plateau",
+      "label": "潜能潜伏期",
+      "parent": "basics",
+      "note": "突破前看不到"
+    },
+    {
+      "id": "loop",
+      "label": "习惯回路",
+      "parent": "root",
+      "note": "习惯的四个阶段"
+    },
+    {
+      "id": "cue",
+      "label": "提示",
+      "parent": "loop",
+      "note": "触发行为",
+      "order": 1
+    },
+    {
+      "id": "craving",
+      "label": "渴求",
+      "parent": "loop",
+      "note": "行为的动机",
+      "order": 2
+    },
+    {
+      "id": "response",
+      "label": "反应",
+      "parent": "loop",
+      "note": "实际做的事",
+      "order": 3
+    },
+    {
+      "id": "reward",
+      "label": "奖励",
+      "parent": "loop",
+      "note": "满足渴求",
+      "order": 4
+    },
+    {
+      "id": "laws",
+      "label": "四大定律",
+      "parent": "root",
+      "note": "对应回路四步"
+    },
+    {
+      "id": "law1",
+      "label": "让它显而易见",
+      "parent": "laws",
+      "note": "提示要看得见",
+      "order": 1
+    },
+    {
+      "id": "stack",
+      "label": "习惯叠加",
+      "parent": "law1",
+      "note": "接在旧习惯后"
+    },
+    {
+      "id": "intent",
+      "label": "执行意图",
+      "parent": "law1",
+      "note": "定好时间地点"
+    },
+    {
+      "id": "env",
+      "label": "环境设计",
+      "parent": "law1",
+      "note": "让提示可见"
+    },
+    {
+      "id": "law2",
+      "label": "让它有吸引力",
+      "parent": "laws",
+      "note": "让人想去做",
+      "order": 2
+    },
+    {
+      "id": "bundle",
+      "label": "诱惑捆绑",
+      "parent": "law2",
+      "note": "想做配该做"
+    },
+    {
+      "id": "law3",
+      "label": "让它简便易行",
+      "parent": "laws",
+      "note": "降低做的阻力",
+      "order": 3
+    },
+    {
+      "id": "twomin",
+      "label": "两分钟法则",
+      "parent": "law3",
+      "note": "从极小开始"
+    },
+    {
+      "id": "law4",
+      "label": "让它令人愉悦",
+      "parent": "laws",
+      "note": "做完立刻满足",
+      "order": 4
+    },
+    {
+      "id": "tracker",
+      "label": "习惯追踪",
+      "parent": "law4",
+      "note": "看见进展"
+    },
+    {
+      "id": "nevertwice",
+      "label": "绝不错过两次",
+      "parent": "law4",
+      "note": "断一次就接上"
+    },
+    {
+      "id": "advanced",
+      "label": "进阶",
+      "parent": "root",
+      "note": "从好到卓越"
+    },
+    {
+      "id": "goldilocks",
+      "label": "金发姑娘原则",
+      "parent": "advanced",
+      "note": "难度刚刚好"
+    },
+    {
+      "id": "reflect",
+      "label": "回顾与反思",
+      "parent": "advanced",
+      "note": "定期复盘"
+    },
+    {
+      "id": "clear",
+      "label": "詹姆斯·克利尔",
+      "parent": "root",
+      "note": "习惯研究作家"
+    }
+  ],
+  "links": [
+    {
+      "a": "root",
+      "b": "basics",
+      "label": "为什么"
+    },
+    {
+      "a": "basics",
+      "b": "onepct",
+      "label": "复利"
+    },
+    {
+      "a": "basics",
+      "b": "systems",
+      "label": "方法"
+    },
+    {
+      "a": "basics",
+      "b": "identity",
+      "label": "动力"
+    },
+    {
+      "a": "basics",
+      "b": "plateau",
+      "label": "耐心"
+    },
+    {
+      "a": "root",
+      "b": "loop",
+      "label": "怎么形成"
+    },
+    {
+      "a": "loop",
+      "b": "cue",
+      "label": "触发"
+    },
+    {
+      "a": "loop",
+      "b": "craving",
+      "label": "动机"
+    },
+    {
+      "a": "loop",
+      "b": "response",
+      "label": "行动"
+    },
+    {
+      "a": "loop",
+      "b": "reward",
+      "label": "回报"
+    },
+    {
+      "a": "root",
+      "b": "laws",
+      "label": "怎么建立"
+    },
+    {
+      "a": "laws",
+      "b": "law1",
+      "label": "设计提示"
+    },
+    {
+      "a": "law1",
+      "b": "stack",
+      "label": "借旧习惯"
+    },
+    {
+      "a": "law1",
+      "b": "intent",
+      "label": "定时定点"
+    },
+    {
+      "a": "law1",
+      "b": "env",
+      "label": "改环境"
+    },
+    {
+      "a": "laws",
+      "b": "law2",
+      "label": "放大渴求"
+    },
+    {
+      "a": "law2",
+      "b": "bundle",
+      "label": "配对"
+    },
+    {
+      "a": "laws",
+      "b": "law3",
+      "label": "简化反应"
+    },
+    {
+      "a": "law3",
+      "b": "twomin",
+      "label": "降门槛"
+    },
+    {
+      "a": "laws",
+      "b": "law4",
+      "label": "强化奖励"
+    },
+    {
+      "a": "law4",
+      "b": "tracker",
+      "label": "可视化"
+    },
+    {
+      "a": "law4",
+      "b": "nevertwice",
+      "label": "补救"
+    },
+    {
+      "a": "root",
+      "b": "advanced",
+      "label": "怎么精进"
+    },
+    {
+      "a": "advanced",
+      "b": "goldilocks",
+      "label": "保持动力"
+    },
+    {
+      "a": "advanced",
+      "b": "reflect",
+      "label": "防止停滞"
+    },
+    {
+      "a": "root",
+      "b": "clear",
+      "label": "作者"
+    }
+  ],
+  "refs": [
+    {
+      "a": "clear",
+      "b": "laws",
+      "type": "source",
+      "label": "提出"
+    },
+    {
+      "a": "law1",
+      "b": "cue",
+      "type": "depends",
+      "label": "作用于"
+    },
+    {
+      "a": "law2",
+      "b": "craving",
+      "type": "depends",
+      "label": "作用于"
+    },
+    {
+      "a": "law3",
+      "b": "response",
+      "type": "depends",
+      "label": "作用于"
+    },
+    {
+      "a": "law4",
+      "b": "reward",
+      "type": "depends",
+      "label": "作用于"
+    },
+    {
+      "a": "onepct",
+      "b": "plateau",
+      "type": "causes",
+      "label": "解释了"
+    },
+    {
+      "a": "twomin",
+      "b": "identity",
+      "type": "causes",
+      "label": "强化"
+    }
+  ]
+}
