@@ -254,13 +254,21 @@
       /* desktop: ⋯ only carries the 关联线 toggle, and only for packs with refs */
       @media (min-width: 601px) {
         .x-morebtn { display: inline-block; }
-        .x-app:not(.has-refs) .x-morebtn, .x-app:not(.has-refs) .x-more { display: none !important; }
         .x-more [data-for] { display: none; }
       }
       .x-more .x-refbtn { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
       .x-more .x-refbtn[hidden] { display: none; }
       .x-refbtn .x-check { color: #0F766E; font-weight: 600; visibility: hidden; }
       .x-refbtn[aria-pressed="true"] .x-check { visibility: visible; }
+      .x-allbtn .x-check { color: var(--x-acc); }
+      /* layered unlock: hidden cards are off the board; new ones fade and scale in */
+      .x-card[hidden] { display: none; }
+      .x-card.is-reveal { animation: x-reveal 320ms var(--e-over) backwards; }
+      @keyframes x-reveal { from { opacity: 0; scale: .6; } }
+      /* side panel: 这是什么 */
+      .x-what { margin: 8px 0 4px; padding: 10px 12px; background: var(--x-hover); border: 1px solid var(--x-ln); border-radius: 10px; }
+      .x-side .x-what__h { margin: 0 0 4px; font-size: 12px; font-weight: 500; color: var(--x-ink2); }
+      .x-side .x-what__t { margin: 0; font-size: 13px; line-height: 1.6; color: var(--x-ink); }
       /* 关联线 */
       .m-ref { fill: none; stroke: #0D9488; stroke-opacity: .7; }
       .x-ref { fill: none; stroke: #0D9488; stroke-opacity: .7; stroke-width: 1.25; stroke-dasharray: 4 4; stroke-linecap: round; marker-end: url(#m-ref); transition: opacity var(--m-base) var(--e-swift); animation: x-refin var(--m-sheet) var(--e-out); }
@@ -361,6 +369,7 @@
             <button class="x-tb" type="button" data-for="tidyBtn">一键整理</button>
             <button class="x-tb" type="button" data-for="muteBtn">静音</button>
             <button class="x-tb x-refbtn" id="refBtn" type="button" aria-pressed="false">显示全部关联线<span class="x-check" aria-hidden="true">✓</span></button>
+            <button class="x-tb x-refbtn x-allbtn" id="allBtn" type="button" aria-pressed="false" title="一开始就摆出全部卡片（自测用），切换后重新开始">全部摆出<span class="x-check" aria-hidden="true">✓</span></button>
           </div>
         </div>
         <div class="x-prog">
@@ -434,568 +443,238 @@
     </div>
 
     <script type="application/json" id="pack-stoicism">
-{
- "id": "stoicism",
- "title": "斯多葛主义",
- "subtitle": "古希腊罗马哲学",
- "intro": "组装斯多葛哲学。",
- "parts": [
-  {
-   "id": "core",
-   "label": "斯多葛主义",
-   "parent": null,
-   "note": "古希腊罗马哲学"
-  },
-  {
-   "id": "people",
-   "label": "人物",
-   "parent": "core",
-   "note": "学派里的人"
-  },
-  {
-   "id": "zeno",
-   "label": "季蒂昂的芝诺",
-   "parent": "people",
-   "note": "柱廊讲学"
-  },
-  {
-   "id": "chrysippus",
-   "label": "克吕西波",
-   "parent": "people",
-   "note": "第三任领袖"
-  },
-  {
-   "id": "seneca",
-   "label": "塞涅卡",
-   "parent": "people",
-   "note": "尼禄的老师"
-  },
-  {
-   "id": "epictetus",
-   "label": "爱比克泰德",
-   "parent": "people",
-   "note": "阿里安记其言"
-  },
-  {
-   "id": "marcus",
-   "label": "马可·奥勒留",
-   "parent": "people",
-   "note": "哲学家皇帝"
-  },
-  {
-   "id": "books",
-   "label": "著作",
-   "parent": "core",
-   "note": "传世文本"
-  },
-  {
-   "id": "enchiridion",
-   "label": "《手册》",
-   "parent": "books",
-   "note": "爱比克泰德要旨"
-  },
-  {
-   "id": "meditations",
-   "label": "《沉思录》",
-   "parent": "books",
-   "note": "写给自己"
-  },
-  {
-   "id": "letters",
-   "label": "《道德书简》",
-   "parent": "books",
-   "note": "塞涅卡的信"
-  },
-  {
-   "id": "physics",
-   "label": "物理学",
-   "parent": "core",
-   "note": "研究宇宙本性"
-  },
-  {
-   "id": "logos",
-   "label": "逻各斯",
-   "parent": "physics",
-   "note": "万物的理性秩序"
-  },
-  {
-   "id": "cosmo",
-   "label": "世界主义",
-   "parent": "logos",
-   "note": "人类同属一城"
-  },
-  {
-   "id": "ethics",
-   "label": "伦理学",
-   "parent": "core",
-   "note": "研究如何生活"
-  },
-  {
-   "id": "nature",
-   "label": "依顺自然而活",
-   "parent": "ethics",
-   "note": "按理性本性"
-  },
-  {
-   "id": "virtue",
-   "label": "美德",
-   "parent": "ethics",
-   "note": "品格的卓越"
-  },
-  {
-   "id": "wisdom",
-   "label": "智慧",
-   "parent": "virtue",
-   "note": "知何为善恶"
-  },
-  {
-   "id": "courage",
-   "label": "勇气",
-   "parent": "virtue",
-   "note": "知何可惧"
-  },
-  {
-   "id": "justice",
-   "label": "正义",
-   "parent": "virtue",
-   "note": "给人应得"
-  },
-  {
-   "id": "temperance",
-   "label": "节制",
-   "parent": "virtue",
-   "note": "知取舍有度"
-  },
-  {
-   "id": "eudaimonia",
-   "label": "幸福",
-   "parent": "virtue",
-   "note": "圆满的人生"
-  },
-  {
-   "id": "indiff",
-   "label": "中性之物",
-   "parent": "ethics",
-   "note": "不决定幸福"
-  },
-  {
-   "id": "preferred",
-   "label": "偏好之物",
-   "parent": "indiff",
-   "note": "健康·财富"
-  },
-  {
-   "id": "dispreferred",
-   "label": "非偏好之物",
-   "parent": "indiff",
-   "note": "疾病·贫穷"
-  },
-  {
-   "id": "dichotomy",
-   "label": "控制二分法",
-   "parent": "ethics",
-   "note": "可控 vs 不可控"
-  },
-  {
-   "id": "passion",
-   "label": "激情",
-   "parent": "ethics",
-   "note": "错判生的冲动"
-  },
-  {
-   "id": "apatheia",
-   "label": "不动心",
-   "parent": "passion",
-   "note": "平静·非冷漠"
-  },
-  {
-   "id": "logic",
-   "label": "逻辑学",
-   "parent": "core",
-   "note": "研究认识与推理"
-  },
-  {
-   "id": "impression",
-   "label": "印象",
-   "parent": "logic",
-   "note": "心中的表象"
-  },
-  {
-   "id": "assent",
-   "label": "认可",
-   "parent": "impression",
-   "note": "同意或拒绝"
-  },
-  {
-   "id": "practice",
-   "label": "斯多葛修习",
-   "parent": "core",
-   "note": "哲学变习惯"
-  },
-  {
-   "id": "premed",
-   "label": "预想逆境",
-   "parent": "practice",
-   "note": "逆境来时不慌"
-  },
-  {
-   "id": "memento",
-   "label": "死亡冥想",
-   "parent": "practice",
-   "note": "珍惜当下"
-  },
-  {
-   "id": "amor",
-   "label": "爱命运",
-   "parent": "practice",
-   "note": "接纳一切发生"
-  }
- ],
- "links": [
-  {
-   "a": "core",
-   "b": "people",
-   "label": "代表人物"
-  },
-  {
-   "a": "people",
-   "b": "zeno",
-   "label": "创始人"
-  },
-  {
-   "a": "people",
-   "b": "chrysippus",
-   "label": "体系化者"
-  },
-  {
-   "a": "people",
-   "b": "seneca",
-   "label": "罗马政治家"
-  },
-  {
-   "a": "people",
-   "b": "epictetus",
-   "label": "奴隶出身"
-  },
-  {
-   "a": "people",
-   "b": "marcus",
-   "label": "罗马皇帝"
-  },
-  {
-   "a": "core",
-   "b": "books",
-   "label": "经典著作"
-  },
-  {
-   "a": "books",
-   "b": "enchiridion",
-   "label": "阿里安辑录"
-  },
-  {
-   "a": "books",
-   "b": "meditations",
-   "label": "皇帝自省"
-  },
-  {
-   "a": "books",
-   "b": "letters",
-   "label": "致卢西里乌斯"
-  },
-  {
-   "a": "core",
-   "b": "physics",
-   "label": "三大分支"
-  },
-  {
-   "a": "physics",
-   "b": "logos",
-   "label": "核心是"
-  },
-  {
-   "a": "logos",
-   "b": "cosmo",
-   "label": "由此推出"
-  },
-  {
-   "a": "core",
-   "b": "ethics",
-   "label": "三大分支"
-  },
-  {
-   "a": "ethics",
-   "b": "nature",
-   "label": "终极目标"
-  },
-  {
-   "a": "ethics",
-   "b": "virtue",
-   "label": "唯一的善"
-  },
-  {
-   "a": "virtue",
-   "b": "wisdom",
-   "label": "四主德"
-  },
-  {
-   "a": "virtue",
-   "b": "courage",
-   "label": "四主德"
-  },
-  {
-   "a": "virtue",
-   "b": "justice",
-   "label": "四主德"
-  },
-  {
-   "a": "virtue",
-   "b": "temperance",
-   "label": "四主德"
-  },
-  {
-   "a": "virtue",
-   "b": "eudaimonia",
-   "label": "足以带来"
-  },
-  {
-   "a": "ethics",
-   "b": "indiff",
-   "label": "无善无恶"
-  },
-  {
-   "a": "indiff",
-   "b": "preferred",
-   "label": "可以选取"
-  },
-  {
-   "a": "indiff",
-   "b": "dispreferred",
-   "label": "宜于避开"
-  },
-  {
-   "a": "ethics",
-   "b": "dichotomy",
-   "label": "实践基石"
-  },
-  {
-   "a": "ethics",
-   "b": "passion",
-   "label": "要克服"
-  },
-  {
-   "a": "passion",
-   "b": "apatheia",
-   "label": "摆脱后得"
-  },
-  {
-   "a": "core",
-   "b": "logic",
-   "label": "三大分支"
-  },
-  {
-   "a": "logic",
-   "b": "impression",
-   "label": "认识起点"
-  },
-  {
-   "a": "impression",
-   "b": "assent",
-   "label": "需经"
-  },
-  {
-   "a": "core",
-   "b": "practice",
-   "label": "日常训练"
-  },
-  {
-   "a": "practice",
-   "b": "premed",
-   "label": "提前预演"
-  },
-  {
-   "a": "practice",
-   "b": "memento",
-   "label": "记住必死"
-  },
-  {
-   "a": "practice",
-   "b": "amor",
-   "label": "接纳发生"
-  }
- ],
- "refs": [
-  { "a": "enchiridion", "b": "epictetus", "type": "author", "label": "讲授者" },
-  { "a": "meditations", "b": "marcus", "type": "author", "label": "作者" },
-  { "a": "letters", "b": "seneca", "type": "author", "label": "作者" },
-  { "a": "enchiridion", "b": "dichotomy", "type": "source", "label": "开篇提出" },
-  { "a": "enchiridion", "b": "impression", "type": "source", "label": "书中阐述" },
-  { "a": "enchiridion", "b": "assent", "type": "source", "label": "书中阐述" },
-  { "a": "meditations", "b": "logos", "type": "source", "label": "书中阐述" },
-  { "a": "meditations", "b": "cosmo", "type": "source", "label": "书中阐述" },
-  { "a": "meditations", "b": "amor", "type": "source", "label": "书中阐述" },
-  { "a": "letters", "b": "premed", "type": "source", "label": "书中阐述" },
-  { "a": "letters", "b": "memento", "type": "source", "label": "书中阐述" },
-  { "a": "meditations", "b": "memento", "type": "source", "label": "书中阐述" }
- ]
-}
+{"id":"stoicism","title":"斯多葛主义","subtitle":"古希腊罗马哲学","intro":"组装斯多葛哲学。","kind":"concept","shape":"tree",
+"parts":[
+{"id":"core","label":"斯多葛主义","parent":null,"note":"古希腊罗马哲学","explain":"公元前3世纪起于雅典、后来盛行于罗马的哲学学派。它认为幸福只取决于自己的品格和判断，而不是外在遭遇。整个体系分三块：研究世界、研究如何生活、研究如何正确思考。"},
+{"id":"people","label":"人物","parent":"core","note":"学派里的人","explain":"把这套哲学提出、整理、实践出来的那些人，从雅典的开创者到罗马的皇帝都有。"},
+{"id":"zeno","label":"季蒂昂的芝诺","parent":"people","note":"柱廊讲学","explain":"约公元前300年，在雅典一座画廊（希腊语 Stoa）下讲学，学派名字「斯多葛」就来自这条柱廊。"},
+{"id":"chrysippus","label":"克吕西波","parent":"people","note":"第三任领袖","explain":"学派的第三任领袖，写了几百卷书，把逻辑和理论系统化。古人说：没有他，就没有斯多葛。"},
+{"id":"seneca","label":"塞涅卡","parent":"people","note":"尼禄的老师","explain":"罗马政治家、剧作家，当过暴君尼禄的老师，最后被尼禄逼令自尽。留下大量写给朋友的哲学书信。"},
+{"id":"epictetus","label":"爱比克泰德","parent":"people","note":"阿里安记其言","explain":"生为奴隶，获释后在希腊教哲学。本人没写书，他的话由学生阿里安记下来。"},
+{"id":"marcus","label":"马可·奥勒留","parent":"people","note":"哲学家皇帝","explain":"161 到 180 年在位的罗马皇帝，在征战间隙写下给自己看的哲学笔记。"},
+{"id":"books","label":"著作","parent":"core","note":"传世文本","explain":"这个学派流传到今天、普通人最常读的几本书。早期学者的著作大多失传了。"},
+{"id":"enchiridion","label":"《手册》","parent":"books","note":"爱比克泰德要旨","explain":"阿里安把爱比克泰德的教导浓缩成的一本小册子，开篇第一句就是：有些事在我们掌控之中，有些不在。"},
+{"id":"meditations","label":"《沉思录》","parent":"books","note":"写给自己","explain":"马可·奥勒留写给自己的私人笔记，从没打算出版。全是自我提醒：如何面对烦人的人、死亡、名声。"},
+{"id":"letters","label":"《道德书简》","parent":"books","note":"塞涅卡的信","explain":"塞涅卡晚年写给朋友卢基里乌斯的 124 封信，每封谈一个生活问题，比如时间、友谊、恐惧。"},
+{"id":"physics","label":"物理学","parent":"core","note":"研究宇宙本性","explain":"古人说的「物理学」比今天宽：研究宇宙是什么、由什么构成、如何运转，也包括神和命运。"},
+{"id":"logos","label":"逻各斯","parent":"physics","note":"万物的理性秩序","explain":"贯穿整个宇宙的理性和秩序。斯多葛派认为世界不是乱的，一切按理性的规律发生，人的理性也是它的一部分。"},
+{"id":"cosmo","label":"世界主义","parent":"logos","note":"人类同属一城","explain":"既然每个人都有同一种理性，那所有人就是同一个「宇宙城邦」的公民，不管国籍和身份。"},
+{"id":"ethics","label":"伦理学","parent":"core","note":"研究如何生活","explain":"研究人应该怎么活才算好，这是斯多葛派最关心的部分。"},
+{"id":"nature","label":"依顺自然而活","parent":"ethics","note":"按理性本性","explain":"斯多葛派给人生目标的经典表述：按照人的本性活着，而人的本性就是理性。"},
+{"id":"virtue","label":"美德","parent":"ethics","note":"品格的卓越","explain":"斯多葛派认为唯一真正的「善」。品格好不好，是你唯一能完全掌控、也唯一决定你好不好的东西。"},
+{"id":"wisdom","label":"智慧","parent":"virtue","note":"知何为善恶","explain":"判断什么真的好、什么真的坏、什么无所谓的能力。比如知道丢了钱不是「坏」，失去理智才是。"},
+{"id":"courage","label":"勇气","parent":"virtue","note":"知何可惧","explain":"不是不怕，而是看清什么值得怕、什么不值得，然后照样做该做的事。"},
+{"id":"justice","label":"正义","parent":"virtue","note":"给人应得","explain":"公正地对待别人，给每个人应得的。斯多葛派看重对社会和他人的责任。"},
+{"id":"temperance","label":"节制","parent":"virtue","note":"知取舍有度","explain":"对欲望和享乐有分寸，知道取什么、舍什么、取多少。"},
+{"id":"eudaimonia","label":"幸福","parent":"virtue","note":"圆满的人生","explain":"希腊语「好的人生」，不是一时的开心，而是活得圆满。斯多葛派说，有德就足以拥有它。"},
+{"id":"indiff","label":"中性之物","parent":"ethics","note":"不决定幸福","explain":"对是否幸福没有决定作用的东西，比如钱、健康、名声。它们不是好也不是坏，关键看你怎么用。"},
+{"id":"preferred","label":"偏好之物","parent":"indiff","note":"健康·财富","explain":"无所谓好坏，但自然地值得争取的东西，比如健康和财富。可以要，但得不到也不影响你是好人。"},
+{"id":"dispreferred","label":"非偏好之物","parent":"indiff","note":"疾病·贫穷","explain":"无所谓好坏，但自然地想避开的东西，比如生病和贫穷。碰上了，也照样能活得有德。"},
+{"id":"dichotomy","label":"控制二分法","parent":"ethics","note":"可控 vs 不可控","explain":"把事情分成两类：自己能控制的（判断、选择、态度）和不能控制的（别人、天气、结果）。只在前者上用力。"},
+{"id":"passion","label":"激情","parent":"ethics","note":"错判生的冲动","explain":"由错误判断引发的强烈情绪，比如把别人一句话判断成「我被伤害了」，于是暴怒。"},
+{"id":"apatheia","label":"不动心","parent":"passion","note":"平静·非冷漠","explain":"不被错误情绪牵着走的平静状态。不是冷漠无情，而是心里清楚、不慌不乱。"},
+{"id":"logic","label":"逻辑学","parent":"core","note":"研究认识与推理","explain":"研究怎么正确地认识和推理，包括语言、论证和人怎么形成判断。"},
+{"id":"impression","label":"印象","parent":"logic","note":"心中的表象","explain":"事情在心里留下的第一个画面或念头，比如「他在嘲笑我」。它自动出现，不由你决定。"},
+{"id":"assent","label":"认可","parent":"impression","note":"同意或拒绝","explain":"对一个印象说「是」或「不是」。斯多葛派认为这一步由你掌控，情绪就是在这里产生或被拦住的。"},
+{"id":"practice","label":"斯多葛修习","parent":"core","note":"哲学变习惯","explain":"斯多葛派认为哲学不是用来背的，是每天要练的。下面这些是他们的日常练习。"},
+{"id":"premed","label":"预想逆境","parent":"practice","note":"逆境来时不慌","explain":"提前想象可能发生的坏事：失业、生病、失去亲人。真来的时候，就不会被吓垮。"},
+{"id":"memento","label":"死亡冥想","parent":"practice","note":"珍惜当下","explain":"经常提醒自己：人终有一死。目的不是悲观，而是不浪费今天。"},
+{"id":"amor","label":"爱命运","parent":"practice","note":"接纳一切发生","explain":"不只接受发生的一切，而是把它当成该发生的去拥抱。这个说法出自尼采，但精神来自斯多葛。"}
+],
+"links":[
+{"a":"core","b":"people","label":"代表人物"},
+{"a":"people","b":"zeno","label":"创始人"},
+{"a":"people","b":"chrysippus","label":"体系化者"},
+{"a":"people","b":"seneca","label":"罗马政治家"},
+{"a":"people","b":"epictetus","label":"奴隶出身"},
+{"a":"people","b":"marcus","label":"罗马皇帝"},
+{"a":"core","b":"books","label":"经典著作"},
+{"a":"books","b":"enchiridion","label":"阿里安辑录"},
+{"a":"books","b":"meditations","label":"皇帝自省"},
+{"a":"books","b":"letters","label":"致卢西里乌斯"},
+{"a":"core","b":"physics","label":"三大分支"},
+{"a":"physics","b":"logos","label":"核心是"},
+{"a":"logos","b":"cosmo","label":"由此推出"},
+{"a":"core","b":"ethics","label":"三大分支"},
+{"a":"ethics","b":"nature","label":"终极目标"},
+{"a":"ethics","b":"virtue","label":"唯一的善"},
+{"a":"virtue","b":"wisdom","label":"四主德"},
+{"a":"virtue","b":"courage","label":"四主德"},
+{"a":"virtue","b":"justice","label":"四主德"},
+{"a":"virtue","b":"temperance","label":"四主德"},
+{"a":"virtue","b":"eudaimonia","label":"足以带来"},
+{"a":"ethics","b":"indiff","label":"无善无恶"},
+{"a":"indiff","b":"preferred","label":"可以选取"},
+{"a":"indiff","b":"dispreferred","label":"宜于避开"},
+{"a":"ethics","b":"dichotomy","label":"实践基石"},
+{"a":"ethics","b":"passion","label":"要克服"},
+{"a":"passion","b":"apatheia","label":"摆脱后得"},
+{"a":"core","b":"logic","label":"三大分支"},
+{"a":"logic","b":"impression","label":"认识起点"},
+{"a":"impression","b":"assent","label":"需经"},
+{"a":"core","b":"practice","label":"日常训练"},
+{"a":"practice","b":"premed","label":"提前预演"},
+{"a":"practice","b":"memento","label":"记住必死"},
+{"a":"practice","b":"amor","label":"接纳发生"}
+],
+"refs":[
+{"a":"enchiridion","b":"epictetus","type":"author","label":"讲授者"},
+{"a":"meditations","b":"marcus","type":"author","label":"作者"},
+{"a":"letters","b":"seneca","type":"author","label":"作者"},
+{"a":"enchiridion","b":"dichotomy","type":"source","label":"开篇提出"},
+{"a":"enchiridion","b":"impression","type":"source","label":"书中阐述"},
+{"a":"enchiridion","b":"assent","type":"source","label":"书中阐述"},
+{"a":"meditations","b":"logos","type":"source","label":"书中阐述"},
+{"a":"meditations","b":"cosmo","type":"source","label":"书中阐述"},
+{"a":"meditations","b":"amor","type":"source","label":"书中阐述"},
+{"a":"letters","b":"premed","type":"source","label":"书中阐述"},
+{"a":"letters","b":"memento","type":"source","label":"书中阐述"},
+{"a":"meditations","b":"memento","type":"source","label":"书中阐述"}
+]}
     </script>
     <script type="application/json" id="pack-thinking-fast-and-slow">
-{
- "id": "thinking-fast-and-slow",
- "title": "思考，快与慢",
- "subtitle": "丹尼尔·卡尼曼",
- "intro": "组装卡尼曼的论证：直觉很强大，但会系统性地出错。",
- "kind": "book",
- "shape": "argument",
- "parts": [
-  { "id": "root", "label": "《思考，快与慢》", "parent": null, "note": "直觉会系统性出错" },
-  { "id": "two", "label": "两个系统", "parent": "root", "note": "快直觉与慢推理" },
-  { "id": "s1", "label": "系统1", "parent": "two", "note": "自动、快速、省力" },
-  { "id": "s2", "label": "系统2", "parent": "two", "note": "费力、缓慢、懒惰" },
-  { "id": "ease", "label": "认知放松", "parent": "two", "note": "熟悉就觉得真" },
-  { "id": "wysiati", "label": "眼见即为全部", "parent": "two", "note": "只用手头信息" },
-  { "id": "heur", "label": "启发式与偏差", "parent": "root", "note": "直觉走捷径" },
-  { "id": "anchor", "label": "锚定效应", "parent": "heur", "note": "被初始数字拉住" },
-  { "id": "avail", "label": "可得性启发", "parent": "heur", "note": "易想起当常见" },
-  { "id": "repr", "label": "代表性启发", "parent": "heur", "note": "像不等于可能" },
-  { "id": "linda", "label": "琳达问题", "parent": "repr", "note": "合取谬误" },
-  { "id": "smalln", "label": "小数定律", "parent": "heur", "note": "轻信小样本" },
-  { "id": "regress", "label": "回归均值", "parent": "heur", "note": "极端之后趋常" },
-  { "id": "over", "label": "过度自信", "parent": "root", "note": "高估自己所知" },
-  { "id": "hindsight", "label": "后见之明", "parent": "over", "note": "事后都可预测" },
-  { "id": "validity", "label": "有效性错觉", "parent": "over", "note": "信心不等于准" },
-  { "id": "planning", "label": "规划谬误", "parent": "over", "note": "低估时间成本" },
-  { "id": "choice", "label": "选择", "parent": "root", "note": "人不是理性人" },
-  { "id": "prospect", "label": "前景理论", "parent": "choice", "note": "相对参照点评估" },
-  { "id": "lossav", "label": "损失厌恶", "parent": "prospect", "note": "失去比得到痛" },
-  { "id": "endow", "label": "禀赋效应", "parent": "prospect", "note": "拥有就更值钱" },
-  { "id": "framing", "label": "框架效应", "parent": "choice", "note": "说法改变选择" },
-  { "id": "selves", "label": "两个自我", "parent": "root", "note": "体验与记忆" },
-  { "id": "exper", "label": "体验自我", "parent": "selves", "note": "活在当下" },
-  { "id": "remem", "label": "记忆自我", "parent": "selves", "note": "讲故事做决定" },
-  { "id": "peakend", "label": "峰终定律", "parent": "selves", "note": "只记峰值和结尾" },
-  { "id": "colon", "label": "结肠镜实验", "parent": "peakend", "note": "长但结尾好更好受" },
-  { "id": "people", "label": "人物", "parent": "root", "note": "提出者" },
-  { "id": "kahneman", "label": "丹尼尔·卡尼曼", "parent": "people", "note": "2002年诺奖" },
-  { "id": "tversky", "label": "阿莫斯·特沃斯基", "parent": "people", "note": "长期合作者" }
- ],
- "links": [
-  { "a": "root", "b": "two", "label": "思维模型" },
-  { "a": "two", "b": "s1", "label": "快思考" },
-  { "a": "two", "b": "s2", "label": "慢思考" },
-  { "a": "two", "b": "ease", "label": "系统1的状态" },
-  { "a": "two", "b": "wysiati", "label": "系统1的规则" },
-  { "a": "root", "b": "heur", "label": "直觉捷径" },
-  { "a": "heur", "b": "anchor", "label": "数字捷径" },
-  { "a": "heur", "b": "avail", "label": "记忆捷径" },
-  { "a": "heur", "b": "repr", "label": "相似捷径" },
-  { "a": "repr", "b": "linda", "label": "经典实验" },
-  { "a": "heur", "b": "smalln", "label": "样本误判" },
-  { "a": "heur", "b": "regress", "label": "因果误判" },
-  { "a": "root", "b": "over", "label": "认知局限" },
-  { "a": "over", "b": "hindsight", "label": "回看过去" },
-  { "a": "over", "b": "validity", "label": "评判现在" },
-  { "a": "over", "b": "planning", "label": "预测未来" },
-  { "a": "root", "b": "choice", "label": "决策应用" },
-  { "a": "choice", "b": "prospect", "label": "核心理论" },
-  { "a": "prospect", "b": "lossav", "label": "核心发现" },
-  { "a": "prospect", "b": "endow", "label": "延伸现象" },
-  { "a": "choice", "b": "framing", "label": "表述影响" },
-  { "a": "root", "b": "selves", "label": "幸福测量" },
-  { "a": "selves", "b": "exper", "label": "感受者" },
-  { "a": "selves", "b": "remem", "label": "决策者" },
-  { "a": "selves", "b": "peakend", "label": "记忆规则" },
-  { "a": "peakend", "b": "colon", "label": "经典实验" },
-  { "a": "root", "b": "people", "label": "作者与合作者" },
-  { "a": "people", "b": "kahneman", "label": "作者" },
-  { "a": "people", "b": "tversky", "label": "合作者" }
- ],
- "refs": [
-  { "a": "kahneman", "b": "prospect", "type": "source", "label": "共同提出" },
-  { "a": "tversky", "b": "prospect", "type": "source", "label": "共同提出" },
-  { "a": "avail", "b": "ease", "type": "depends", "label": "建立在" },
-  { "a": "wysiati", "b": "validity", "type": "causes", "label": "导致" },
-  { "a": "lossav", "b": "endow", "type": "causes", "label": "解释了" },
-  { "a": "framing", "b": "lossav", "type": "depends", "label": "利用了" },
-  { "a": "exper", "b": "remem", "type": "contrasts", "label": "常常冲突" }
- ]
-}
+{"id":"thinking-fast-and-slow","title":"思考，快与慢","subtitle":"丹尼尔·卡尼曼","intro":"组装卡尼曼的论证：直觉很强大，但会系统性地出错。","kind":"book","shape":"argument",
+"parts":[
+{"id":"root","label":"《思考，快与慢》","parent":null,"note":"直觉会系统性出错","explain":"诺贝尔奖得主卡尼曼 2011 年的书。核心观点：人脑有两种思考方式，快的那种很能干，但会以可预测的方式犯错。"},
+{"id":"two","label":"两个系统","parent":"root","note":"快直觉与慢推理","explain":"卡尼曼用来描述大脑的比喻：一个快、一个慢的两种思考方式。全书都建立在这个框架上。"},
+{"id":"s1","label":"系统1","parent":"two","note":"自动、快速、省力","explain":"自动运行的直觉思维。看到「2+2」就冒出 4、看到生气的脸就感到不安，都是它在工作，不费力也停不下来。"},
+{"id":"s2","label":"系统2","parent":"two","note":"费力、缓慢、懒惰","explain":"需要专注的慢思考，比如算 17×24、填税表。它能纠正直觉，但很懒，常常直接接受系统1给的答案。"},
+{"id":"ease","label":"认知放松","parent":"two","note":"熟悉就觉得真","explain":"当信息看起来熟悉、清晰、好读时，大脑会觉得轻松，也更容易相信它是真的。重复多次的谎言就利用了这一点。"},
+{"id":"wysiati","label":"眼见即为全部","parent":"two","note":"只用手头信息","explain":"大脑只用眼前的信息编一个通顺的故事，不会去想「还缺了什么信息」。故事越连贯，人越自信，哪怕信息很少。"},
+{"id":"heur","label":"启发式与偏差","parent":"root","note":"直觉走捷径","explain":"大脑碰到难题时，会偷偷换成一个简单的问题来回答。这些捷径大多有用，但会带来可预测的错误。"},
+{"id":"anchor","label":"锚定效应","parent":"heur","note":"被初始数字拉住","explain":"先看到的一个数字会把后面的判断拉向它。比如先问「甘地去世时超过 114 岁吗」，人们估计的年龄会明显偏高。"},
+{"id":"avail","label":"可得性启发","parent":"heur","note":"易想起当常见","explain":"用「多容易想起例子」来判断一件事有多常见。飞机失事上新闻多，人们就高估坐飞机的危险。"},
+{"id":"repr","label":"代表性启发","parent":"heur","note":"像不等于可能","explain":"用「像不像」来判断可能性，忽略了基础比例。一个安静爱读书的人，人们会猜他是图书管理员，尽管农民多得多。"},
+{"id":"linda","label":"琳达问题","parent":"repr","note":"合取谬误","explain":"琳达热心社会运动。问人她更可能是「银行职员」还是「热心女权的银行职员」，多数人选后者，可后者的概率不可能更大。"},
+{"id":"smalln","label":"小数定律","parent":"heur","note":"轻信小样本","explain":"人们以为小样本也能反映整体。比如发现肾癌发病率最低的县多是小县，就去找原因，其实只是样本小、波动大。"},
+{"id":"regress","label":"回归均值","parent":"heur","note":"极端之后趋常","explain":"极端的表现之后，下一次通常更接近平均。表现好被表扬后变差、被批评后变好，常被误以为是表扬和批评的作用。"},
+{"id":"over","label":"过度自信","parent":"root","note":"高估自己所知","explain":"人们普遍高估自己知道多少、能预测多少。这一部分讲它的几种表现。"},
+{"id":"hindsight","label":"后见之明","parent":"over","note":"事后都可预测","explain":"事情发生后，人会觉得「我早就知道」。这让我们低估了世界的不确定性，也会不公平地评价决策者。"},
+{"id":"validity","label":"有效性错觉","parent":"over","note":"信心不等于准","explain":"即使有证据表明判断不准，人仍然对自己的判断很有信心。比如选股专家的业绩大多接近运气。"},
+{"id":"planning","label":"规划谬误","parent":"over","note":"低估时间成本","explain":"做计划时总是按最理想的情况估算，严重低估时间和成本。装修、写论文、修地铁都是这样。"},
+{"id":"choice","label":"选择","parent":"root","note":"人不是理性人","explain":"这一部分挑战经济学的假设：人在做选择时并不是冷静计算的「理性人」。"},
+{"id":"prospect","label":"前景理论","parent":"choice","note":"相对参照点评估","explain":"卡尼曼和特沃斯基提出的理论：人不是按最终财富，而是按相对某个参照点的「得」和「失」来做决定。"},
+{"id":"lossav","label":"损失厌恶","parent":"prospect","note":"失去比得到痛","explain":"失去 100 元的痛苦，大约比得到 100 元的快乐强一倍。所以人们会为了避免损失去冒险。"},
+{"id":"endow","label":"禀赋效应","parent":"prospect","note":"拥有就更值钱","explain":"东西一旦归自己所有，就觉得它更值钱。实验里拿到马克杯的人，卖价通常是买价的两倍左右。"},
+{"id":"framing","label":"框架效应","parent":"choice","note":"说法改变选择","explain":"同一件事换个说法，选择就变了。「手术存活率 90%」和「死亡率 10%」是一回事，但前者让更多人同意手术。"},
+{"id":"selves","label":"两个自我","parent":"root","note":"体验与记忆","explain":"全书最后一部分：人身上有两个「我」，一个在经历，一个在记住，它们对幸福的判断并不一致。"},
+{"id":"exper","label":"体验自我","parent":"selves","note":"活在当下","explain":"此时此刻正在感受的那个你，回答的是「现在感觉怎么样」。"},
+{"id":"remem","label":"记忆自我","parent":"selves","note":"讲故事做决定","explain":"事后回顾、讲故事的那个你，回答的是「整体来说怎么样」。下一次做选择的，是它。"},
+{"id":"peakend","label":"峰终定律","parent":"selves","note":"只记峰值和结尾","explain":"人回忆一段经历时，主要记住最强烈的时刻和结尾，几乎不管持续了多久。"},
+{"id":"colon","label":"结肠镜实验","parent":"peakend","note":"长但结尾好更好受","explain":"同样做结肠镜检查，在结尾多加几分钟较轻的不适，病人反而记得整体没那么痛苦。"},
+{"id":"people","label":"人物","parent":"root","note":"提出者","explain":"提出这些理论的心理学家。"},
+{"id":"kahneman","label":"丹尼尔·卡尼曼","parent":"people","note":"2002年诺奖","explain":"以色列裔美国心理学家，因把心理学引入经济学获 2002 年诺贝尔经济学奖。"},
+{"id":"tversky","label":"阿莫斯·特沃斯基","parent":"people","note":"长期合作者","explain":"卡尼曼几十年的合作伙伴，许多核心实验是两人一起做的。1996 年去世，未能分享诺奖。"}
+],
+"links":[
+{"a":"root","b":"two","label":"思维模型"},
+{"a":"two","b":"s1","label":"快思考"},
+{"a":"two","b":"s2","label":"慢思考"},
+{"a":"two","b":"ease","label":"系统1的状态"},
+{"a":"two","b":"wysiati","label":"系统1的规则"},
+{"a":"root","b":"heur","label":"直觉捷径"},
+{"a":"heur","b":"anchor","label":"数字捷径"},
+{"a":"heur","b":"avail","label":"记忆捷径"},
+{"a":"heur","b":"repr","label":"相似捷径"},
+{"a":"repr","b":"linda","label":"经典实验"},
+{"a":"heur","b":"smalln","label":"样本误判"},
+{"a":"heur","b":"regress","label":"因果误判"},
+{"a":"root","b":"over","label":"认知局限"},
+{"a":"over","b":"hindsight","label":"回看过去"},
+{"a":"over","b":"validity","label":"评判现在"},
+{"a":"over","b":"planning","label":"预测未来"},
+{"a":"root","b":"choice","label":"决策应用"},
+{"a":"choice","b":"prospect","label":"核心理论"},
+{"a":"prospect","b":"lossav","label":"核心发现"},
+{"a":"prospect","b":"endow","label":"延伸现象"},
+{"a":"choice","b":"framing","label":"表述影响"},
+{"a":"root","b":"selves","label":"幸福测量"},
+{"a":"selves","b":"exper","label":"感受者"},
+{"a":"selves","b":"remem","label":"决策者"},
+{"a":"selves","b":"peakend","label":"记忆规则"},
+{"a":"peakend","b":"colon","label":"经典实验"},
+{"a":"root","b":"people","label":"作者与合作者"},
+{"a":"people","b":"kahneman","label":"作者"},
+{"a":"people","b":"tversky","label":"合作者"}
+],
+"refs":[
+{"a":"kahneman","b":"prospect","type":"source","label":"共同提出"},
+{"a":"tversky","b":"prospect","type":"source","label":"共同提出"},
+{"a":"avail","b":"ease","type":"depends","label":"建立在"},
+{"a":"wysiati","b":"validity","type":"causes","label":"导致"},
+{"a":"lossav","b":"endow","type":"causes","label":"解释了"},
+{"a":"framing","b":"lossav","type":"depends","label":"利用了"},
+{"a":"exper","b":"remem","type":"contrasts","label":"常常冲突"}
+]}
     </script>
     <script type="application/json" id="pack-atomic-habits">
-{
- "id": "atomic-habits",
- "title": "原子习惯",
- "subtitle": "詹姆斯·克利尔",
- "intro": "组装《原子习惯》：习惯怎么形成，又怎么一步步建立。",
- "kind": "book",
- "shape": "sequence",
- "parts": [
-  { "id": "root", "label": "《原子习惯》", "parent": null, "note": "微小改变，巨大成就" },
-  { "id": "basics", "label": "基础", "parent": "root", "note": "小习惯为何重要" },
-  { "id": "onepct", "label": "每天进步1%", "parent": "basics", "note": "复利效应" },
-  { "id": "systems", "label": "系统胜于目标", "parent": "basics", "note": "关注过程" },
-  { "id": "identity", "label": "基于身份的习惯", "parent": "basics", "note": "成为那种人" },
-  { "id": "plateau", "label": "潜能潜伏期", "parent": "basics", "note": "突破前看不到" },
-  { "id": "loop", "label": "习惯回路", "parent": "root", "note": "习惯的四个阶段" },
-  { "id": "cue", "label": "提示", "parent": "loop", "note": "触发行为", "order": 1 },
-  { "id": "craving", "label": "渴求", "parent": "loop", "note": "行为的动机", "order": 2 },
-  { "id": "response", "label": "反应", "parent": "loop", "note": "实际做的事", "order": 3 },
-  { "id": "reward", "label": "奖励", "parent": "loop", "note": "满足渴求", "order": 4 },
-  { "id": "laws", "label": "四大定律", "parent": "root", "note": "对应回路四步" },
-  { "id": "law1", "label": "让它显而易见", "parent": "laws", "note": "提示要看得见", "order": 1 },
-  { "id": "stack", "label": "习惯叠加", "parent": "law1", "note": "接在旧习惯后" },
-  { "id": "intent", "label": "执行意图", "parent": "law1", "note": "定好时间地点" },
-  { "id": "env", "label": "环境设计", "parent": "law1", "note": "让提示可见" },
-  { "id": "law2", "label": "让它有吸引力", "parent": "laws", "note": "让人想去做", "order": 2 },
-  { "id": "bundle", "label": "诱惑捆绑", "parent": "law2", "note": "想做配该做" },
-  { "id": "law3", "label": "让它简便易行", "parent": "laws", "note": "降低做的阻力", "order": 3 },
-  { "id": "twomin", "label": "两分钟法则", "parent": "law3", "note": "从极小开始" },
-  { "id": "law4", "label": "让它令人愉悦", "parent": "laws", "note": "做完立刻满足", "order": 4 },
-  { "id": "tracker", "label": "习惯追踪", "parent": "law4", "note": "看见进展" },
-  { "id": "nevertwice", "label": "绝不错过两次", "parent": "law4", "note": "断一次就接上" },
-  { "id": "advanced", "label": "进阶", "parent": "root", "note": "从好到卓越" },
-  { "id": "goldilocks", "label": "金发姑娘原则", "parent": "advanced", "note": "难度刚刚好" },
-  { "id": "reflect", "label": "回顾与反思", "parent": "advanced", "note": "定期复盘" },
-  { "id": "clear", "label": "詹姆斯·克利尔", "parent": "root", "note": "习惯研究作家" }
- ],
- "links": [
-  { "a": "root", "b": "basics", "label": "为什么" },
-  { "a": "basics", "b": "onepct", "label": "复利" },
-  { "a": "basics", "b": "systems", "label": "方法" },
-  { "a": "basics", "b": "identity", "label": "动力" },
-  { "a": "basics", "b": "plateau", "label": "耐心" },
-  { "a": "root", "b": "loop", "label": "怎么形成" },
-  { "a": "loop", "b": "cue", "label": "触发" },
-  { "a": "loop", "b": "craving", "label": "动机" },
-  { "a": "loop", "b": "response", "label": "行动" },
-  { "a": "loop", "b": "reward", "label": "回报" },
-  { "a": "root", "b": "laws", "label": "怎么建立" },
-  { "a": "laws", "b": "law1", "label": "设计提示" },
-  { "a": "law1", "b": "stack", "label": "借旧习惯" },
-  { "a": "law1", "b": "intent", "label": "定时定点" },
-  { "a": "law1", "b": "env", "label": "改环境" },
-  { "a": "laws", "b": "law2", "label": "放大渴求" },
-  { "a": "law2", "b": "bundle", "label": "配对" },
-  { "a": "laws", "b": "law3", "label": "简化反应" },
-  { "a": "law3", "b": "twomin", "label": "降门槛" },
-  { "a": "laws", "b": "law4", "label": "强化奖励" },
-  { "a": "law4", "b": "tracker", "label": "可视化" },
-  { "a": "law4", "b": "nevertwice", "label": "补救" },
-  { "a": "root", "b": "advanced", "label": "怎么精进" },
-  { "a": "advanced", "b": "goldilocks", "label": "保持动力" },
-  { "a": "advanced", "b": "reflect", "label": "防止停滞" },
-  { "a": "root", "b": "clear", "label": "作者" }
- ],
- "refs": [
-  { "a": "clear", "b": "laws", "type": "source", "label": "提出" },
-  { "a": "law1", "b": "cue", "type": "depends", "label": "作用于" },
-  { "a": "law2", "b": "craving", "type": "depends", "label": "作用于" },
-  { "a": "law3", "b": "response", "type": "depends", "label": "作用于" },
-  { "a": "law4", "b": "reward", "type": "depends", "label": "作用于" },
-  { "a": "onepct", "b": "plateau", "type": "causes", "label": "解释了" },
-  { "a": "twomin", "b": "identity", "type": "causes", "label": "强化" }
- ]
-}
+{"id":"atomic-habits","title":"原子习惯","subtitle":"詹姆斯·克利尔","intro":"组装《原子习惯》：习惯怎么形成，又怎么一步步建立。","kind":"book","shape":"sequence",
+"parts":[
+{"id":"root","label":"《原子习惯》","parent":null,"note":"微小改变，巨大成就","explain":"詹姆斯·克利尔 2018 年的书。核心观点：大改变来自很多微小习惯的累积，而习惯是可以被设计的。"},
+{"id":"basics","label":"基础","parent":"root","note":"小习惯为何重要","explain":"全书开头先讲为什么值得从很小的习惯做起。"},
+{"id":"onepct","label":"每天进步1%","parent":"basics","note":"复利效应","explain":"每天好 1%，一年后约是原来的 37 倍；每天差 1%，会接近零。习惯像复利，短期看不出，长期差别巨大。"},
+{"id":"systems","label":"系统胜于目标","parent":"basics","note":"关注过程","explain":"目标是想要的结果，系统是每天做的流程。赢家和输家目标都一样，差别在系统。专注于改进过程，而不是盯着结果。"},
+{"id":"identity","label":"基于身份的习惯","parent":"basics","note":"成为那种人","explain":"不只说「我要跑完马拉松」，而是先认定「我是一个跑步的人」。每做一次，都是在给这个身份投一票。"},
+{"id":"plateau","label":"潜能潜伏期","parent":"basics","note":"突破前看不到","explain":"习惯带来的成果常常要积累很久才突然显现，就像冰块在 0 度前看不出变化。很多人在这段时间放弃。"},
+{"id":"loop","label":"习惯回路","parent":"root","note":"习惯的四个阶段","explain":"书中把每个习惯拆成固定的几个阶段，它们一圈圈循环，让行为变得自动。"},
+{"id":"cue","label":"提示","parent":"loop","note":"触发行为","order":1,"explain":"让大脑想到要做某件事的信号，比如手机震动、闻到咖啡香、到了晚上九点。"},
+{"id":"craving","label":"渴求","parent":"loop","note":"行为的动机","order":2,"explain":"看到信号后，心里对某种状态变化的「想要」。你想要的不是刷手机本身，而是刷手机带来的放松。"},
+{"id":"response","label":"反应","parent":"loop","note":"实际做的事","order":3,"explain":"你真正做出的那个动作或想法，比如拿起手机、去跑步。"},
+{"id":"reward","label":"奖励","parent":"loop","note":"满足渴求","order":4,"explain":"行为带来的满足感。它告诉大脑「下次还要这样做」，让循环继续。"},
+{"id":"laws","label":"四大定律","parent":"root","note":"对应回路四步","explain":"克利尔给出的建立好习惯的四条方法，反过来用就是戒掉坏习惯的方法。"},
+{"id":"law1","label":"让它显而易见","parent":"laws","note":"提示要看得见","order":1,"explain":"想养成的习惯，要让它的信号容易被看到；想戒掉的，就把信号藏起来。"},
+{"id":"stack","label":"习惯叠加","parent":"law1","note":"接在旧习惯后","explain":"把新习惯接在已有的习惯后面：「倒完咖啡后，我就冥想一分钟。」"},
+{"id":"intent","label":"执行意图","parent":"law1","note":"定好时间地点","explain":"写清楚「我会在【时间】【地点】做【行为】」。比起「我要多运动」，明确的计划成功率高得多。"},
+{"id":"env","label":"环境设计","parent":"law1","note":"让提示可见","explain":"改变周围环境，让好习惯一眼可见。想多喝水，就把水瓶放在桌上。"},
+{"id":"law2","label":"让它有吸引力","parent":"laws","note":"让人想去做","order":2,"explain":"越让人期待，越容易去做。想办法让习惯和你喜欢的东西联系起来。"},
+{"id":"bundle","label":"诱惑捆绑","parent":"law2","note":"想做配该做","explain":"把想做的事和该做的事绑在一起：「只有在跑步机上，我才能看最喜欢的剧。」"},
+{"id":"law3","label":"让它简便易行","parent":"laws","note":"降低做的阻力","order":3,"explain":"阻力越小，越容易做。减少开始需要的步骤，比靠意志力更有效。"},
+{"id":"twomin","label":"两分钟法则","parent":"law3","note":"从极小开始","explain":"新习惯开始时，把它缩到两分钟内就能做完：「每晚读书」变成「读一页」。先养成「出现」，再加量。"},
+{"id":"law4","label":"让它令人愉悦","parent":"laws","note":"做完立刻满足","order":4,"explain":"人会重复让自己立刻感觉好的事。好习惯的好处往往来得慢，所以要给它加点即时满足。"},
+{"id":"tracker","label":"习惯追踪","parent":"law4","note":"看见进展","explain":"每做一次就在日历上打个勾。看着一串连续的勾，本身就是一种奖励。"},
+{"id":"nevertwice","label":"绝不错过两次","parent":"law4","note":"断一次就接上","explain":"错过一次是意外，连续错过两次就开始变成新习惯。断了没关系，下一次一定接上。"},
+{"id":"advanced","label":"进阶","parent":"root","note":"从好到卓越","explain":"习惯稳定后，如何继续进步、避免陷入无聊或停滞。"},
+{"id":"goldilocks","label":"金发姑娘原则","parent":"advanced","note":"难度刚刚好","explain":"任务难度刚好在你能力边缘时，人最有动力：太容易会无聊，太难会放弃。"},
+{"id":"reflect","label":"回顾与反思","parent":"advanced","note":"定期复盘","explain":"习惯变成自动后，人容易停止思考。定期回顾自己做得怎样、还想成为什么样的人。"},
+{"id":"clear","label":"詹姆斯·克利尔","parent":"root","note":"习惯研究作家","explain":"美国作家，长期写关于习惯和决策的文章。他高中打棒球时被球棒砸中脸部重伤，后来靠一个个小习惯慢慢恢复。"}
+],
+"links":[
+{"a":"root","b":"basics","label":"为什么"},
+{"a":"basics","b":"onepct","label":"复利"},
+{"a":"basics","b":"systems","label":"方法"},
+{"a":"basics","b":"identity","label":"动力"},
+{"a":"basics","b":"plateau","label":"耐心"},
+{"a":"root","b":"loop","label":"怎么形成"},
+{"a":"loop","b":"cue","label":"触发"},
+{"a":"loop","b":"craving","label":"动机"},
+{"a":"loop","b":"response","label":"行动"},
+{"a":"loop","b":"reward","label":"回报"},
+{"a":"root","b":"laws","label":"怎么建立"},
+{"a":"laws","b":"law1","label":"设计提示"},
+{"a":"law1","b":"stack","label":"借旧习惯"},
+{"a":"law1","b":"intent","label":"定时定点"},
+{"a":"law1","b":"env","label":"改环境"},
+{"a":"laws","b":"law2","label":"放大渴求"},
+{"a":"law2","b":"bundle","label":"配对"},
+{"a":"laws","b":"law3","label":"简化反应"},
+{"a":"law3","b":"twomin","label":"降门槛"},
+{"a":"laws","b":"law4","label":"强化奖励"},
+{"a":"law4","b":"tracker","label":"可视化"},
+{"a":"law4","b":"nevertwice","label":"补救"},
+{"a":"root","b":"advanced","label":"怎么精进"},
+{"a":"advanced","b":"goldilocks","label":"保持动力"},
+{"a":"advanced","b":"reflect","label":"防止停滞"},
+{"a":"root","b":"clear","label":"作者"}
+],
+"refs":[
+{"a":"clear","b":"laws","type":"source","label":"提出"},
+{"a":"law1","b":"cue","type":"depends","label":"作用于"},
+{"a":"law2","b":"craving","type":"depends","label":"作用于"},
+{"a":"law3","b":"response","type":"depends","label":"作用于"},
+{"a":"law4","b":"reward","type":"depends","label":"作用于"},
+{"a":"onepct","b":"plateau","type":"causes","label":"解释了"},
+{"a":"twomin","b":"identity","type":"causes","label":"强化"}
+]}
     </script>
     <script>
 (function () {
@@ -1042,6 +721,8 @@
       if (par !== null && typeof par !== "string") throw new Error(n + "的 parent 应为文字或 null");
       var q = { id: p.id, label: p.label.trim(), parent: par, note: typeof p.note === "string" ? p.note.trim() : "" };
       if (typeof p.order === "number" && isFinite(p.order)) q.order = p.order;
+      if (p.explain != null && typeof p.explain !== "string") throw new Error(n + "的 explain 应为文字");
+      if (str(p.explain)) q.explain = p.explain.trim();
       byId[q.id] = q;
       if (par === null) {
         if (root) throw new Error(legacy
@@ -1316,7 +997,50 @@
   var view = { x: 0, y: 0, s: 1 }, GEN = 0;
   function fresh() {
     return { gen: ++GEN, par: M(), st: M(), lock: M(), done: [false, false, false, false], end: false, s2: null, s3: null,
-      miss: [0, 0, 0, 0, 0], miss2: M(), hinted: M(), t0: [], t1: [], sel: M(), focus: null, branch: null, bestCombo: 0, pw: M(), refs: M() };
+      miss: [0, 0, 0, 0, 0], miss2: M(), hinted: M(), t0: [], t1: [], sel: M(), focus: null, branch: null, bestCombo: 0, pw: M(), refs: M(), vis: M() };
+  }
+  /* ---------- layered unlock: only the root and the cards whose parent is locked are on the board ---------- */
+  var showAll = false; /* ⋯「全部摆出」: every card from the start */
+  function vis(id) { return !S || !!S.vis[id]; }
+  function visParts() { return P.parts.filter(function (q) { return vis(q.id); }); }
+  function initVis() {
+    S.vis = M();
+    P.parts.forEach(function (q) { if (showAll || q.id === P.root || C[q.id] === P.root) S.vis[q.id] = true; });
+  }
+  function applyVis() { P.parts.forEach(function (q) { if (els[q.id]) els[q.id].hidden = !vis(q.id); }); }
+  /* a card just locked to its parent: its children appear in free space near it */
+  function unlockKids(c) {
+    var kids = P.parts.filter(function (q) { return C[q.id] === c && !vis(q.id); }).map(function (q) { return q.id; });
+    if (!kids.length) return;
+    var placed = visParts().map(function (q) { return { x: pos[q.id].x, y: pos[q.id].y, w: size[q.id].w, h: CH + noteEx(q.id) }; });
+    var cx = pos[c].x + size[c].w / 2, cy = pos[c].y + CH / 2, rp = pos[P.root], away = Math.atan2(cy - (rp.y + CH / 2), cx - (rp.x + size[P.root].w / 2));
+    if (c === P.root) away = 0;
+    kids.forEach(function (id, i) {
+      S.vis[id] = true;
+      var d = els[id]; d.hidden = false;
+      size[id] = { w: d.offsetWidth || size[id].w || 90, h: d.offsetHeight || CH };
+      var w = size[id].w, best = null;
+      for (var k = 0; k < 160; k++) {
+        var r = 90 + k * 4, a = k < 100 ? away + (Math.random() - 0.5) * Math.PI * 1.2 : Math.random() * Math.PI * 2;
+        var x = cx + Math.cos(a) * r - w / 2, y = cy + Math.sin(a) * r * 0.75 - CH / 2;
+        var free = placed.every(function (b) { return x + w + 18 < b.x || x > b.x + b.w + 18 || y + CH + 14 < b.y || y > b.y + b.h + 14; });
+        if (!best || free) best = { x: x, y: y };
+        if (free) break;
+      }
+      pos[id] = best; vel[id] = { x: 0, y: 0 }; placed.push({ x: best.x, y: best.y, w: w, h: CH + noteEx(id) });
+      placeEl(id);
+      if (!reduce) {
+        d.style.animationDelay = i * 60 + "ms"; d.classList.add("is-reveal");
+        setTimeout(function () { d.classList.remove("is-reveal"); d.style.animationDelay = ""; }, 420 + i * 60);
+      }
+    });
+    toast("解锁 " + kids.length + " 张新卡");
+    /* new cards off screen: ease the view out to take in the whole visible board */
+    var g = S.gen;
+    setTimeout(function () {
+      if (S.gen !== g || drag) return;
+      if (kids.some(function (id) { return !inView(els[id]); })) fitView(true, null, null, fitFloor(), 480);
+    }, 60);
   }
   /* ---------- 关联线: cross-links outside the tree, source card (a) → target card (b) ---------- */
   var showRefs = false, refEls = M(), refsG = $("refs"), refLabs = $("refLabs");
@@ -1362,7 +1086,7 @@
   function refFor(x, y) { return refList().filter(function (r) { return (r.a === x && r.b === y) || (r.a === y && r.b === x); })[0] || null; }
   /* a drop worth trying as a 关联线: one end is a ref source, and that pair isn't made yet (no answer is revealed) */
   function refTry(x, y) {
-    if (!refsOpen() || x === y) return false;
+    if (!refsOpen() || x === y || !vis(x) || !vis(y)) return false;
     return (isBook(x) && !S.refs[x + ">" + y]) || (isBook(y) && !S.refs[y + ">" + x]);
   }
   /* availability: relation needs a locked edge with a label; meaning needs a locked card (or the root) with a note */
@@ -1427,9 +1151,9 @@
   function correctCount(n) { return n === 1 ? Object.keys(S.lock).length : Object.keys(stObj(n).ok).length; }
   function makeChips(n) {
     var ids = targets(n);
-    var chips = ids.map(function (id) { return { text: answer(n, id), at: null }; });
+    var chips = ids.map(function (id) { return { text: answer(n, id), at: null, id: id }; });
     /* one spare per distinct text, so the tray can always offer decoys, even for the last items */
-    var seen = M(); chips.slice().forEach(function (c) { if (!seen[c.text]) { seen[c.text] = true; chips.push({ text: c.text, at: null, spare: true }); } });
+    var seen = M(); chips.slice().forEach(function (c) { if (!seen[c.text]) { seen[c.text] = true; chips.push({ text: c.text, at: null, spare: true, id: c.id }); } });
     return { chips: chips, order: shuffle(chips.map(function (c, i) { return i; })), fill: M(), ok: M(), bad: M() };
   }
 
@@ -1445,15 +1169,16 @@
     });
     measure();
   }
-  function measure() { P.parts.forEach(function (q) { var d = els[q.id]; size[q.id] = { w: d.offsetWidth || 90, h: d.offsetHeight || CH }; }); }
+  function measure() { P.parts.forEach(function (q) { var d = els[q.id]; if (d.hidden && size[q.id]) return; size[q.id] = { w: d.offsetWidth || 90, h: d.offsetHeight || CH }; }); }
   function placeEl(id) {
     var p = pos[id], s = view.s, x = Math.round(p.x * s) / s, y = Math.round(p.y * s) / s;
     els[id].style.setProperty("--pos", "translate(" + x + "px," + y + "px)");
   }
   function scatter() {
     cancelAnimationFrame(springRaf); tgt = null;
+    applyVis();
     var r = P.root; pos[r] = { x: 0, y: -CH / 2 };
-    var others = shuffle(P.parts.filter(function (q) { return q.id !== r; }).map(function (q) { return q.id; }));
+    var others = shuffle(P.parts.filter(function (q) { return q.id !== r && vis(q.id); }).map(function (q) { return q.id; }));
     /* spread area grows with the pack; its shape follows the board's aspect ratio (root column takes the first 260px) */
     var br = board.getBoundingClientRect(), ar = clamp(br.width / Math.max(1, br.height), 0.45, 2.4);
     var n = others.length, A = Math.max(200000, n * 36000), W = Math.max(320, Math.sqrt(A * ar) - 260), H = Math.max(300, Math.sqrt(A / ar));
@@ -1468,7 +1193,7 @@
       }
       pos[id] = best; placed.push({ x: best.x, y: best.y, w: w, h: CH });
     });
-    P.parts.forEach(function (q) { placeEl(q.id); });
+    P.parts.forEach(function (q) { if (!vis(q.id)) pos[q.id] = { x: 0, y: -CH / 2 }; placeEl(q.id); });
   }
   function renderCards() {
     P.parts.forEach(function (q) {
@@ -1585,7 +1310,7 @@
     var ks = Object.keys(refEls); if (!ks.length) return;
     /* the tree's main column: the root's x, the cards' mean y; arcs bow away from it */
     var rp = pos[P.root], rs = size[P.root], n0 = 0, sy0 = 0;
-    P.parts.forEach(function (q) { if (pos[q.id] && size[q.id]) { n0++; sy0 += pos[q.id].y + size[q.id].h / 2; } });
+    P.parts.forEach(function (q) { if (vis(q.id) && pos[q.id] && size[q.id]) { n0++; sy0 += pos[q.id].y + size[q.id].h / 2; } });
     var c0x = rp && rs ? rp.x + rs.w / 2 : 0, c0y = n0 ? sy0 / n0 : 0;
     ks.forEach(function (k) {
       var o = refEls[k], a = pos[o.r.a], b = pos[o.r.b], sa = size[o.r.a], sb = size[o.r.b];
@@ -1665,7 +1390,7 @@
     var open = targets(n).filter(function (id) { return avail(n, id) && !o.ok[id] && !offId(id); });
     var need = M(); open.forEach(function (id) { var t = answer(n, id); need[t] = (need[t] || 0) + 1; });
     var all = [], cnt = M();
-    o.order.forEach(function (i) { if (o.chips[i].at != null) return; var t = o.chips[i].text; if (cnt[t] == null) { cnt[t] = 0; all.push(i); } cnt[t]++; });
+    o.order.forEach(function (i) { if (!freeChip(o, i)) return; var t = o.chips[i].text; if (cnt[t] == null) { cnt[t] = 0; all.push(i); } cnt[t]++; });
     var hit = all.filter(function (i) { return need[o.chips[i].text]; }), extra = Math.max(1, 4 - hit.length);
     if (S.done[1]) extra = Math.min(4, extra); /* structure done: open-slot chips plus at most 4 decoys */
     var grp = open.length ? all.filter(function (i) { var t = o.chips[i].text; if (need[t]) { cnt[t] = Math.min(cnt[t], need[t]); return true; } if (extra > 0) { extra--; cnt[t] = 1; return true; } return false; }) : [];
@@ -1714,9 +1439,11 @@
   function repOf(n, ci) {
     var o = stObj(n); if (!o || !o.chips[ci]) return ci;
     /* same rule as trayGroups: the first free chip with this text in the shuffled order (per tab/kind) */
-    var t = o.chips[ci].text, r = o.order.filter(function (i) { return o.chips[i].at == null && o.chips[i].text === t; })[0];
+    var t = o.chips[ci].text, r = o.order.filter(function (i) { return freeChip(o, i) && o.chips[i].text === t; })[0];
     return r != null ? r : ci;
   }
+  /* a chip the tray may offer: not placed, and its card is on the board */
+  function freeChip(o, i) { var c = o.chips[i]; return c.at == null && (c.id == null || vis(c.id)); }
   /* ---------- view ---------- */
   var placedS = 0;
   function applyView() {
@@ -1764,7 +1491,7 @@
   function fitView(animate, src, ids, zmin, ms) {
     src = src || pos;
     var bx = Infinity, by = Infinity, bx2 = -Infinity, by2 = -Infinity;
-    (ids ? ids.map(function (id) { return byId[id]; }) : P.parts).forEach(function (q) {
+    (ids ? ids.map(function (id) { return byId[id]; }) : visParts()).forEach(function (q) {
       var p = src[q.id]; if (!p) return;
       var extra = noteEx(q.id), side = extra ? 40 : 0;
       bx = Math.min(bx, p.x - side); by = Math.min(by, p.y);
@@ -1789,7 +1516,7 @@
     P.parts.forEach(function (q) { kids[q.id] = []; });
     P.parts.forEach(function (q) { var p = par[q.id]; if (p) kids[p].push(q.id); });
     var roots = [P.root].concat(P.parts.filter(function (q) { return q.id !== P.root && !par[q.id] && kids[q.id].length; }).map(function (q) { return q.id; }));
-    var pool = P.parts.filter(function (q) { return q.id !== P.root && !par[q.id] && !kids[q.id].length; }).map(function (q) { return q.id; });
+    var pool = P.parts.filter(function (q) { return q.id !== P.root && vis(q.id) && !par[q.id] && !kids[q.id].length; }).map(function (q) { return q.id; });
     var y = 0, maxX = 0;
     roots.forEach(function (r) {
       var colW = [];
@@ -1938,7 +1665,7 @@
       out[id] = { x: out[id].x + dx, y: out[id].y + dy };
       x2 = Math.max(x2, out[id].x + size[id].w + (noteEx(id) ? 40 : 0)); y1 = Math.min(y1, out[id].y);
     });
-    var rest = shuffle(P.parts.filter(function (q) { return !out[q.id]; }).map(function (q) { return q.id; }));
+    var rest = shuffle(P.parts.filter(function (q) { return !out[q.id] && vis(q.id); }).map(function (q) { return q.id; }));
     if (rest.length) {
       var cw = 0, ch = CH; rest.forEach(function (id) { cw = Math.max(cw, size[id].w); ch = Math.max(ch, CH + noteEx(id)); });
       cw += 24; ch += 20;
@@ -1960,8 +1687,9 @@
   function relLabel(c) { return S.s2 && S.s2.ok[c] ? " <em>" + esc(LAB[c]) + "</em>" : ""; }
   function renderSide() {
     var f = S.focus && byId[S.focus];
-    if (!f) { $("partInfo").innerHTML = '<p class="x-muted">拖圆点 → 连线</p><p class="x-muted">词块向上拖到槽位</p><p class="x-muted">卡住 → 提示</p>' + (refsTotal() ? '<p class="x-muted">有关联的卡片圆点 → 另一张卡：关联线</p>' : ""); return; }
+    if (!f) { $("partInfo").innerHTML = '<p class="x-muted">点卡片 → 右侧看它是什么</p><p class="x-muted">拖圆点 → 连线</p><p class="x-muted">词块向上拖到槽位</p><p class="x-muted">卡住 → 提示</p>' + (refsTotal() ? '<p class="x-muted">有关联的卡片圆点 → 另一张卡：关联线</p>' : ""); return; }
     var h = '<p class="x-name">' + esc(f.label) + "</p>";
+    if (f.explain) h += '<div class="x-what"><p class="x-what__h">这是什么</p><p class="x-what__t">' + esc(f.explain) + "</p></div>";
     if (S.lock[f.id] && f.parent && byId[f.parent]) h += '<p class="x-rel1">' + esc(byId[f.parent].label) + " —" + (S.s2 && S.s2.ok[f.id] ? esc(LAB[f.id]) : "？") + "→ " + esc(f.label) + "</p>";
     if (f.note && S.s3 && S.s3.ok[f.id]) h += '<p class="x-note">' + esc(f.note) + "</p>";
     else if (f.note) h += '<p class="x-muted">放对含义后显示。</p>';
@@ -2043,6 +1771,7 @@
     S.par[c] = p; delete S.st[c];
     if (p === C[c]) {
       S.lock[c] = true;
+      unlockKids(c);
       renderSlots(); renderEdges(); renderCards(); renderTray();
       fx(els[c], "is-pop"); fx(els[p], "is-pop"); beep(true, c); spark(c);
       judge(1);
@@ -2239,7 +1968,7 @@
   }
 
   /* ---------- reset ---------- */
-  function newState() { S = fresh(); S.s2 = makeChips(2); S.s3 = makeChips(3); var t = Date.now(); S.t0 = [0, t, t, t]; }
+  function newState() { S = fresh(); initVis(); S.s2 = makeChips(2); S.s3 = makeChips(3); var t = Date.now(); S.t0 = [0, t, t, t]; }
   function restartAll() {
     resetSideMem();
     newState();
@@ -2318,7 +2047,7 @@
   /* the tray chip that answers slot (n, id): switches to its tab if needed and scrolls it into view */
   function chipFor(n, id) {
     var o = stObj(n); if (!o) return null;
-    var want = answer(n, id), ci = o.order.filter(function (k) { return o.chips[k].at == null && o.chips[k].text === want; })[0];
+    var want = answer(n, id), ci = o.order.filter(function (k) { return freeChip(o, k) && o.chips[k].text === want; })[0];
     if (ci == null) return null;
     if (S.tray && S.tray.tab !== n) { S.tray.tab = n; S.tray.dot[n] = false; renderTray(); }
     var h = chipEl(n, ci); if (!h) return null;
@@ -2328,17 +2057,17 @@
   }
   /* hint priority: bad red line → unlocked card to its correct parent → open relation slot → open meaning slot */
   function hintCands() {
-    var kids = P.parts.filter(function (q) { return q.id !== P.root && !S.lock[q.id] && els[q.id] && els[q.parent]; });
+    var kids = P.parts.filter(function (q) { return q.id !== P.root && !S.lock[q.id] && vis(q.id) && vis(q.parent) && els[q.id] && els[q.parent]; });
     var bad = kids.filter(function (q) { return S.st[q.id] === "bad"; });
     var card = function (q) { return { key: "C:" + q.id, mark: q.id, from: els[q.id], to: els[q.parent] }; };
     if (bad.length) return bad.map(card);
     /* unmade 关联线 join whatever the tree/slot hints offer: source → target */
-    var refC = refList().filter(function (r) { return !S.refs[refKey(r)] && els[r.a] && els[r.b] && !(offId(r.a) && offId(r.b)); })
+    var refC = refList().filter(function (r) { return !S.refs[refKey(r)] && vis(r.a) && vis(r.b) && els[r.a] && els[r.b] && !(offId(r.a) && offId(r.b)); })
       .map(function (r) { var k = "R:" + refKey(r); return { key: k, mark: k, from: els[r.a], to: els[r.b] }; });
     if (kids.length) return kids.map(card).concat(refC);
     for (var n = 2; n <= 3; n++) {
       var o = stObj(n); if (!o) continue;
-      var L = openSlots(n).filter(function (id) { var t = answer(n, id); return o.order.some(function (k) { return o.chips[k].at == null && o.chips[k].text === t; }); });
+      var L = openSlots(n).filter(function (id) { var t = answer(n, id); return o.order.some(function (k) { return freeChip(o, k) && o.chips[k].text === t; }); });
       if (L.length) return L.map(function (id) { var p = n === 2 ? "L:" : "N:"; return { key: p + id, mark: p + id, n: n, id: id }; }).concat(refC);
     }
     return refC;
@@ -2442,7 +2171,7 @@
   board.addEventListener("pointermove", function (e) {
     if (drag || !S || !P || S.done[1] || e.pointerType === "touch") { setNear(null); return; }
     var w = toWorld(e.clientX, e.clientY), best = null, bd = 16 / view.s;
-    P.parts.forEach(function (q) { if (!pos[q.id] || !size[q.id]) return; var d = cardDist(w, q.id); if (d <= bd) { bd = d; best = q.id; } });
+    P.parts.forEach(function (q) { if (!vis(q.id) || !pos[q.id] || !size[q.id]) return; var d = cardDist(w, q.id); if (d <= bd) { bd = d; best = q.id; } });
     setNear(best);
   });
   board.addEventListener("pointerleave", function () { setNear(null); });
@@ -2518,7 +2247,7 @@
   function nearestCard(w, except, cur) {
     var best = null, bd = Infinity;
     P.parts.forEach(function (q) {
-      if (q.id === except) return;
+      if (q.id === except || !vis(q.id)) return;
       var d = cardDist(w, q.id);
       if (d < bd) { bd = d; best = q.id; }
     });
@@ -2614,6 +2343,7 @@
       var id = t.closest(".x-card").dataset.id;
       if (e.shiftKey) { if (S.sel[id]) delete S.sel[id]; else S.sel[id] = true; renderCards(); }
       else if (!S.sel[id]) setSel([id]);
+      if (!e.shiftKey && S.focus !== id) { S.focus = id; renderSide(); }
       var ids = S.sel[id] ? Object.keys(S.sel) : [id];
       var st = M(); ids.forEach(function (k) { st[k] = { x: pos[k].x, y: pos[k].y }; });
       drag = { type: "move", id: id, ids: ids, st: st, w0: w, sx: e.clientX, sy: e.clientY, moved: false };
@@ -2670,7 +2400,7 @@
       marq.style.cssText = "left:" + l + "px;top:" + tp + "px;width:" + Math.abs(e.clientX - d.sx) + "px;height:" + Math.abs(e.clientY - d.sy) + "px";
       var X1 = Math.min(d.w0.x, w.x), X2 = Math.max(d.w0.x, w.x), Y1 = Math.min(d.w0.y, w.y), Y2 = Math.max(d.w0.y, w.y);
       S.sel = Object.assign(M(), d.base);
-      P.parts.forEach(function (q) { var p = pos[q.id], s = size[q.id]; if (p.x < X2 && p.x + s.w > X1 && p.y < Y2 && p.y + s.h > Y1) S.sel[q.id] = true; });
+      P.parts.forEach(function (q) { var p = pos[q.id], s = size[q.id]; if (vis(q.id) && p.x < X2 && p.x + s.w > X1 && p.y < Y2 && p.y + s.h > Y1) S.sel[q.id] = true; });
       renderCards();
     } else if (d.type === "chip") {
       if (Math.hypot(e.clientX - d.sx, e.clientY - d.sy) > (d.th || 4)) d.moved = true;
@@ -2818,6 +2548,12 @@
       showRefs = !showRefs; $("refBtn").setAttribute("aria-pressed", showRefs ? "true" : "false");
       refreshFocus();
       moreOpen(false); return;
+    }
+    if (e.target.closest("#allBtn")) {
+      showAll = !showAll; $("allBtn").setAttribute("aria-pressed", showAll ? "true" : "false");
+      moreOpen(false); loadPack(P.id);
+      toast(showAll ? "全部摆出 · 已重新开始" : "逐层解锁 · 已重新开始");
+      return;
     }
     var b = e.target.closest("[data-for]"); if (!b) return;
     var src = $(b.dataset.for); src.click();
