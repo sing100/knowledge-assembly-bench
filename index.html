@@ -194,6 +194,8 @@
       .x-chip { flex: none; height: 32px; padding: 0 12px; display: inline-flex; align-items: center; border: 1px solid var(--x-ln); border-radius: 8px; background: var(--x-card); color: var(--x-ink); font-size: 13px; font-weight: 500; box-shadow: var(--x-sh); cursor: grab; white-space: nowrap; touch-action: pan-x; transition: border-color var(--m-base) var(--e-swift), box-shadow var(--m-base) var(--e-swift); }
       .x-chip:hover { border-color: var(--x-ln-h); }
       .x-chip.is-ghost { opacity: .3; }
+      .x-chip.is-tap-chip { outline: 2px solid var(--x-acc); outline-offset: 2px; background: var(--x-acc-l); }
+      .x-lslot.is-tap-target, .x-mslot.is-tap-target { outline: 2px dashed var(--x-acc); outline-offset: 2px; }
       .x-chip.is-float { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; box-shadow: var(--x-sh-drag); border-color: var(--x-ln-h); }
       .x-chip.is-float.is-bad { border-color: var(--x-bad); background: var(--x-bad-l); color: var(--x-bad); }
       .x-chip.is-away { visibility: hidden; }
@@ -373,6 +375,7 @@
             <button class="x-tb x-refbtn" id="refBtn" type="button" aria-pressed="false">显示全部关联线<span class="x-check" aria-hidden="true">✓</span></button>
             <button class="x-tb x-refbtn x-allbtn" id="allBtn" type="button" aria-pressed="false" title="一开始就摆出全部卡片（自测用），切换后重新开始">全部摆出<span class="x-check" aria-hidden="true">✓</span></button>
             <button class="x-tb" id="clearProgressBtn" type="button" title="清除本包已保存的进度，下次打开从头开始">清除已保存进度</button>
+            <button class="x-tb" id="exportBtn" type="button" title="把当前组装结果下载为 JSON，含结构大纲">导出组装结果</button>
           </div>
         </div>
         <div class="x-prog">
@@ -459,7 +462,7 @@
       "label": "斯多葛主义",
       "parent": null,
       "note": "古希腊罗马哲学",
-      "explain": "公元前3世纪起于雅典、后来盛行于罗马的哲学学派。它认为幸福只取决于自己的品格和判断，而不是外在遭遇。整个体系分三块：研究世界、研究如何生活、研究如何正确思考。"
+      "explain": "公元前3世纪起于雅典、后来盛行于罗马的哲学学派。它认为幸福只取决于自己的品格和判断，而不是外在遭遇。学说分三块：物理学、伦理学、逻辑学；此外还有人物、著作、日常修习。"
     },
     {
       "id": "people",
@@ -698,6 +701,20 @@
       "parent": "practice",
       "note": "接纳一切发生",
       "explain": "不只接受发生的一切，而是把它当成该发生的去拥抱。这个说法出自尼采，但精神来自斯多葛。"
+    },
+    {
+      "id": "morning",
+      "label": "晨间准备",
+      "parent": "practice",
+      "note": "先想今天",
+      "explain": "早上先想想今天可能遇到什么人、什么事，提前定好怎么回应，而不是被事情推着走。"
+    },
+    {
+      "id": "evening",
+      "label": "晚间回顾",
+      "parent": "practice",
+      "note": "复盘一天",
+      "explain": "晚上回顾今天：哪里守住了判断、哪里被情绪带走了，明天怎么改。"
     }
   ],
   "links": [
@@ -870,6 +887,16 @@
       "a": "practice",
       "b": "amor",
       "label": "接纳发生"
+    },
+    {
+      "a": "practice",
+      "b": "morning",
+      "label": "早上先做"
+    },
+    {
+      "a": "practice",
+      "b": "evening",
+      "label": "晚上再做"
     }
   ],
   "refs": [
@@ -949,149 +976,827 @@
 }
 </script>
     <script type="application/json" id="pack-thinking-fast-and-slow">
-{"id":"thinking-fast-and-slow","title":"思考，快与慢","subtitle":"丹尼尔·卡尼曼","intro":"组装卡尼曼的论证：直觉很强大，但会系统性地出错。","kind":"book","shape":"argument",
-"parts":[
-{"id":"root","label":"《思考，快与慢》","parent":null,"note":"直觉会系统性出错","explain":"诺贝尔奖得主卡尼曼 2011 年的书。核心观点：人脑有两种思考方式，快的那种很能干，但会以可预测的方式犯错。"},
-{"id":"two","label":"两个系统","parent":"root","note":"快直觉与慢推理","explain":"卡尼曼用来描述大脑的比喻：一个快、一个慢的两种思考方式。全书都建立在这个框架上。"},
-{"id":"s1","label":"系统1","parent":"two","note":"自动、快速、省力","explain":"自动运行的直觉思维。看到「2+2」就冒出 4、看到生气的脸就感到不安，都是它在工作，不费力也停不下来。"},
-{"id":"s2","label":"系统2","parent":"two","note":"费力、缓慢、懒惰","explain":"需要专注的慢思考，比如算 17×24、填税表。它能纠正直觉，但很懒，常常直接接受系统1给的答案。"},
-{"id":"ease","label":"认知放松","parent":"two","note":"熟悉就觉得真","explain":"当信息看起来熟悉、清晰、好读时，大脑会觉得轻松，也更容易相信它是真的。重复多次的谎言就利用了这一点。"},
-{"id":"wysiati","label":"眼见即为全部","parent":"two","note":"只用手头信息","explain":"大脑只用眼前的信息编一个通顺的故事，不会去想「还缺了什么信息」。故事越连贯，人越自信，哪怕信息很少。"},
-{"id":"heur","label":"启发式与偏差","parent":"root","note":"直觉走捷径","explain":"大脑碰到难题时，会偷偷换成一个简单的问题来回答。这些捷径大多有用，但会带来可预测的错误。"},
-{"id":"anchor","label":"锚定效应","parent":"heur","note":"被初始数字拉住","explain":"先看到的一个数字会把后面的判断拉向它。比如先问「甘地去世时超过 114 岁吗」，人们估计的年龄会明显偏高。"},
-{"id":"avail","label":"可得性启发","parent":"heur","note":"易想起当常见","explain":"用「多容易想起例子」来判断一件事有多常见。飞机失事上新闻多，人们就高估坐飞机的危险。"},
-{"id":"repr","label":"代表性启发","parent":"heur","note":"像不等于可能","explain":"用「像不像」来判断可能性，忽略了基础比例。一个安静爱读书的人，人们会猜他是图书管理员，尽管农民多得多。"},
-{"id":"linda","label":"琳达问题","parent":"repr","note":"合取谬误","explain":"琳达热心社会运动。问人她更可能是「银行职员」还是「热心女权的银行职员」，多数人选后者，可后者的概率不可能更大。"},
-{"id":"smalln","label":"小数定律","parent":"heur","note":"轻信小样本","explain":"人们以为小样本也能反映整体。比如发现肾癌发病率最低的县多是小县，就去找原因，其实只是样本小、波动大。"},
-{"id":"regress","label":"回归均值","parent":"heur","note":"极端之后趋常","explain":"极端的表现之后，下一次通常更接近平均。表现好被表扬后变差、被批评后变好，常被误以为是表扬和批评的作用。"},
-{"id":"over","label":"过度自信","parent":"root","note":"高估自己所知","explain":"人们普遍高估自己知道多少、能预测多少。这一部分讲它的几种表现。"},
-{"id":"hindsight","label":"后见之明","parent":"over","note":"事后都可预测","explain":"事情发生后，人会觉得「我早就知道」。这让我们低估了世界的不确定性，也会不公平地评价决策者。"},
-{"id":"validity","label":"有效性错觉","parent":"over","note":"信心不等于准","explain":"即使有证据表明判断不准，人仍然对自己的判断很有信心。比如选股专家的业绩大多接近运气。"},
-{"id":"planning","label":"规划谬误","parent":"over","note":"低估时间成本","explain":"做计划时总是按最理想的情况估算，严重低估时间和成本。装修、写论文、修地铁都是这样。"},
-{"id":"choice","label":"选择","parent":"root","note":"人不是理性人","explain":"这一部分挑战经济学的假设：人在做选择时并不是冷静计算的「理性人」。"},
-{"id":"prospect","label":"前景理论","parent":"choice","note":"相对参照点评估","explain":"卡尼曼和特沃斯基提出的理论：人不是按最终财富，而是按相对某个参照点的「得」和「失」来做决定。"},
-{"id":"lossav","label":"损失厌恶","parent":"prospect","note":"失去比得到痛","explain":"失去 100 元的痛苦，大约比得到 100 元的快乐强一倍。所以人们会为了避免损失去冒险。"},
-{"id":"endow","label":"禀赋效应","parent":"prospect","note":"拥有就更值钱","explain":"东西一旦归自己所有，就觉得它更值钱。实验里拿到马克杯的人，卖价通常是买价的两倍左右。"},
-{"id":"framing","label":"框架效应","parent":"choice","note":"说法改变选择","explain":"同一件事换个说法，选择就变了。「手术存活率 90%」和「死亡率 10%」是一回事，但前者让更多人同意手术。"},
-{"id":"selves","label":"两个自我","parent":"root","note":"体验与记忆","explain":"全书最后一部分：人身上有两个「我」，一个在经历，一个在记住，它们对幸福的判断并不一致。"},
-{"id":"exper","label":"体验自我","parent":"selves","note":"活在当下","explain":"此时此刻正在感受的那个你，回答的是「现在感觉怎么样」。"},
-{"id":"remem","label":"记忆自我","parent":"selves","note":"讲故事做决定","explain":"事后回顾、讲故事的那个你，回答的是「整体来说怎么样」。下一次做选择的，是它。"},
-{"id":"peakend","label":"峰终定律","parent":"selves","note":"只记峰值和结尾","explain":"人回忆一段经历时，主要记住最强烈的时刻和结尾，几乎不管持续了多久。"},
-{"id":"colon","label":"结肠镜实验","parent":"peakend","note":"长但结尾好更好受","explain":"同样做结肠镜检查，在结尾多加几分钟较轻的不适，病人反而记得整体没那么痛苦。"},
-{"id":"people","label":"人物","parent":"root","note":"提出者","explain":"提出这些理论的心理学家。"},
-{"id":"kahneman","label":"丹尼尔·卡尼曼","parent":"people","note":"2002年诺奖","explain":"以色列裔美国心理学家，因把心理学引入经济学获 2002 年诺贝尔经济学奖。"},
-{"id":"tversky","label":"阿莫斯·特沃斯基","parent":"people","note":"长期合作者","explain":"卡尼曼几十年的合作伙伴，许多核心实验是两人一起做的。1996 年去世，未能分享诺奖。"}
-],
-"links":[
-{"a":"root","b":"two","label":"思维模型"},
-{"a":"two","b":"s1","label":"快思考"},
-{"a":"two","b":"s2","label":"慢思考"},
-{"a":"two","b":"ease","label":"系统1的状态"},
-{"a":"two","b":"wysiati","label":"系统1的规则"},
-{"a":"root","b":"heur","label":"直觉捷径"},
-{"a":"heur","b":"anchor","label":"数字捷径"},
-{"a":"heur","b":"avail","label":"记忆捷径"},
-{"a":"heur","b":"repr","label":"相似捷径"},
-{"a":"repr","b":"linda","label":"经典实验"},
-{"a":"heur","b":"smalln","label":"样本误判"},
-{"a":"heur","b":"regress","label":"因果误判"},
-{"a":"root","b":"over","label":"认知局限"},
-{"a":"over","b":"hindsight","label":"回看过去"},
-{"a":"over","b":"validity","label":"评判现在"},
-{"a":"over","b":"planning","label":"预测未来"},
-{"a":"root","b":"choice","label":"决策应用"},
-{"a":"choice","b":"prospect","label":"核心理论"},
-{"a":"prospect","b":"lossav","label":"核心发现"},
-{"a":"prospect","b":"endow","label":"延伸现象"},
-{"a":"choice","b":"framing","label":"表述影响"},
-{"a":"root","b":"selves","label":"幸福测量"},
-{"a":"selves","b":"exper","label":"感受者"},
-{"a":"selves","b":"remem","label":"决策者"},
-{"a":"selves","b":"peakend","label":"记忆规则"},
-{"a":"peakend","b":"colon","label":"经典实验"},
-{"a":"root","b":"people","label":"作者与合作者"},
-{"a":"people","b":"kahneman","label":"作者"},
-{"a":"people","b":"tversky","label":"合作者"}
-],
-"refs":[
-{"a":"kahneman","b":"prospect","type":"source","label":"共同提出"},
-{"a":"tversky","b":"prospect","type":"source","label":"共同提出"},
-{"a":"avail","b":"ease","type":"depends","label":"建立在"},
-{"a":"wysiati","b":"validity","type":"causes","label":"导致"},
-{"a":"lossav","b":"endow","type":"causes","label":"解释了"},
-{"a":"framing","b":"lossav","type":"depends","label":"利用了"},
-{"a":"exper","b":"remem","type":"contrasts","label":"常常冲突"}
-]}
-    </script>
+{
+  "id": "thinking-fast-and-slow",
+  "title": "思考，快与慢",
+  "subtitle": "丹尼尔·卡尼曼",
+  "intro": "组装卡尼曼的论证：直觉很强大，但会系统性地出错。",
+  "kind": "book",
+  "shape": "argument",
+  "parts": [
+    {
+      "id": "root",
+      "label": "《思考，快与慢》",
+      "parent": null,
+      "note": "直觉会系统性出错",
+      "explain": "诺贝尔奖得主卡尼曼 2011 年的书。核心观点：人脑有两种思考方式，快的那种很能干，但会以可预测的方式犯错。"
+    },
+    {
+      "id": "two",
+      "label": "两个系统",
+      "parent": "root",
+      "note": "快直觉与慢推理",
+      "explain": "卡尼曼用来描述大脑的比喻：一个快、一个慢的两种思考方式。全书都建立在这个框架上。"
+    },
+    {
+      "id": "s1",
+      "label": "系统1",
+      "parent": "two",
+      "note": "自动、快速、省力",
+      "explain": "自动运行的直觉思维。看到「2+2」就冒出 4、看到生气的脸就感到不安，都是它在工作，不费力也停不下来。"
+    },
+    {
+      "id": "s2",
+      "label": "系统2",
+      "parent": "two",
+      "note": "费力、缓慢、懒惰",
+      "explain": "需要专注的慢思考，比如算 17×24、填税表。它能纠正直觉，但很懒，常常直接接受系统1给的答案。"
+    },
+    {
+      "id": "ease",
+      "label": "认知放松",
+      "parent": "two",
+      "note": "熟悉就觉得真",
+      "explain": "当信息看起来熟悉、清晰、好读时，大脑会觉得轻松，也更容易相信它是真的。重复多次的谎言就利用了这一点。"
+    },
+    {
+      "id": "wysiati",
+      "label": "眼见即为全部",
+      "parent": "two",
+      "note": "只用手头信息",
+      "explain": "大脑只用眼前的信息编一个通顺的故事，不会去想「还缺了什么信息」。故事越连贯，人越自信，哪怕信息很少。"
+    },
+    {
+      "id": "heur",
+      "label": "启发式与偏差",
+      "parent": "root",
+      "note": "直觉走捷径",
+      "explain": "大脑碰到难题时，会偷偷换成一个简单的问题来回答。这些捷径大多有用，但会带来可预测的错误。"
+    },
+    {
+      "id": "anchor",
+      "label": "锚定效应",
+      "parent": "heur",
+      "note": "被初始数字拉住",
+      "explain": "先看到的一个数字会把后面的判断拉向它。比如先问「甘地去世时超过 114 岁吗」，人们估计的年龄会明显偏高。"
+    },
+    {
+      "id": "avail",
+      "label": "可得性启发",
+      "parent": "heur",
+      "note": "易想起当常见",
+      "explain": "用「多容易想起例子」来判断一件事有多常见。飞机失事上新闻多，人们就高估坐飞机的危险。"
+    },
+    {
+      "id": "repr",
+      "label": "代表性启发",
+      "parent": "heur",
+      "note": "像不等于可能",
+      "explain": "用「像不像」来判断可能性，忽略了基础比例。一个安静爱读书的人，人们会猜他是图书管理员，尽管农民多得多。"
+    },
+    {
+      "id": "linda",
+      "label": "琳达问题",
+      "parent": "repr",
+      "note": "合取谬误",
+      "explain": "琳达热心社会运动。问人她更可能是「银行职员」还是「热心女权的银行职员」，多数人选后者，可后者的概率不可能更大。"
+    },
+    {
+      "id": "smalln",
+      "label": "小数定律",
+      "parent": "heur",
+      "note": "轻信小样本",
+      "explain": "人们以为小样本也能反映整体。比如发现肾癌发病率最低的县多是小县，就去找原因，其实只是样本小、波动大。"
+    },
+    {
+      "id": "regress",
+      "label": "回归均值",
+      "parent": "heur",
+      "note": "极端之后趋常",
+      "explain": "极端的表现之后，下一次通常更接近平均。表现好被表扬后变差、被批评后变好，常被误以为是表扬和批评的作用。"
+    },
+    {
+      "id": "over",
+      "label": "过度自信",
+      "parent": "root",
+      "note": "高估自己所知",
+      "explain": "人们普遍高估自己知道多少、能预测多少。这一部分讲它的几种表现。"
+    },
+    {
+      "id": "hindsight",
+      "label": "后见之明",
+      "parent": "over",
+      "note": "事后都可预测",
+      "explain": "事情发生后，人会觉得「我早就知道」。这让我们低估了世界的不确定性，也会不公平地评价决策者。"
+    },
+    {
+      "id": "validity",
+      "label": "有效性错觉",
+      "parent": "over",
+      "note": "信心不等于准",
+      "explain": "即使有证据表明判断不准，人仍然对自己的判断很有信心。比如选股专家的业绩大多接近运气。"
+    },
+    {
+      "id": "planning",
+      "label": "规划谬误",
+      "parent": "over",
+      "note": "低估时间成本",
+      "explain": "做计划时总是按最理想的情况估算，严重低估时间和成本。装修、写论文、修地铁都是这样。"
+    },
+    {
+      "id": "choice",
+      "label": "选择",
+      "parent": "root",
+      "note": "人不是理性人",
+      "explain": "这一部分挑战经济学的假设：人在做选择时并不是冷静计算的「理性人」。"
+    },
+    {
+      "id": "prospect",
+      "label": "前景理论",
+      "parent": "choice",
+      "note": "相对参照点评估",
+      "explain": "卡尼曼和特沃斯基提出的理论：人不是按最终财富，而是按相对某个参照点的「得」和「失」来做决定。"
+    },
+    {
+      "id": "lossav",
+      "label": "损失厌恶",
+      "parent": "prospect",
+      "note": "失去比得到痛",
+      "explain": "失去 100 元的痛苦，大约比得到 100 元的快乐强一倍。所以人们会为了避免损失去冒险。"
+    },
+    {
+      "id": "endow",
+      "label": "禀赋效应",
+      "parent": "prospect",
+      "note": "拥有就更值钱",
+      "explain": "东西一旦归自己所有，就觉得它更值钱。实验里拿到马克杯的人，卖价通常是买价的两倍左右。"
+    },
+    {
+      "id": "framing",
+      "label": "框架效应",
+      "parent": "choice",
+      "note": "说法改变选择",
+      "explain": "同一件事换个说法，选择就变了。「手术存活率 90%」和「死亡率 10%」是一回事，但前者让更多人同意手术。"
+    },
+    {
+      "id": "selves",
+      "label": "两个自我",
+      "parent": "root",
+      "note": "体验与记忆",
+      "explain": "全书最后一部分：人身上有两个「我」，一个在经历，一个在记住，它们对幸福的判断并不一致。"
+    },
+    {
+      "id": "exper",
+      "label": "体验自我",
+      "parent": "selves",
+      "note": "活在当下",
+      "explain": "此时此刻正在感受的那个你，回答的是「现在感觉怎么样」。"
+    },
+    {
+      "id": "remem",
+      "label": "记忆自我",
+      "parent": "selves",
+      "note": "讲故事做决定",
+      "explain": "事后回顾、讲故事的那个你，回答的是「整体来说怎么样」。下一次做选择的，是它。"
+    },
+    {
+      "id": "peakend",
+      "label": "峰终定律",
+      "parent": "selves",
+      "note": "只记峰值和结尾",
+      "explain": "人回忆一段经历时，主要记住最强烈的时刻和结尾，几乎不管持续了多久。"
+    },
+    {
+      "id": "colon",
+      "label": "结肠镜实验",
+      "parent": "peakend",
+      "note": "长但结尾好更好受",
+      "explain": "同样做结肠镜检查，在结尾多加几分钟较轻的不适，病人反而记得整体没那么痛苦。"
+    },
+    {
+      "id": "people",
+      "label": "人物",
+      "parent": "root",
+      "note": "提出者",
+      "explain": "卡尼曼和特沃斯基，两位心理学家，几十年合作提出这些理论，是全书论证的提出者。"
+    },
+    {
+      "id": "kahneman",
+      "label": "丹尼尔·卡尼曼",
+      "parent": "people",
+      "note": "2002年诺奖",
+      "explain": "以色列裔美国心理学家，因把心理学引入经济学获 2002 年诺贝尔经济学奖。"
+    },
+    {
+      "id": "tversky",
+      "label": "阿莫斯·特沃斯基",
+      "parent": "people",
+      "note": "长期合作者",
+      "explain": "卡尼曼几十年的合作伙伴，许多核心实验是两人一起做的。1996 年去世，未能分享诺奖。"
+    }
+  ],
+  "links": [
+    {
+      "a": "root",
+      "b": "two",
+      "label": "思维模型"
+    },
+    {
+      "a": "two",
+      "b": "s1",
+      "label": "快思考"
+    },
+    {
+      "a": "two",
+      "b": "s2",
+      "label": "慢思考"
+    },
+    {
+      "a": "two",
+      "b": "ease",
+      "label": "系统1的状态"
+    },
+    {
+      "a": "two",
+      "b": "wysiati",
+      "label": "系统1的规则"
+    },
+    {
+      "a": "root",
+      "b": "heur",
+      "label": "直觉捷径"
+    },
+    {
+      "a": "heur",
+      "b": "anchor",
+      "label": "数字捷径"
+    },
+    {
+      "a": "heur",
+      "b": "avail",
+      "label": "记忆捷径"
+    },
+    {
+      "a": "heur",
+      "b": "repr",
+      "label": "相似捷径"
+    },
+    {
+      "a": "repr",
+      "b": "linda",
+      "label": "经典实验"
+    },
+    {
+      "a": "heur",
+      "b": "smalln",
+      "label": "样本误判"
+    },
+    {
+      "a": "heur",
+      "b": "regress",
+      "label": "因果误判"
+    },
+    {
+      "a": "root",
+      "b": "over",
+      "label": "认知局限"
+    },
+    {
+      "a": "over",
+      "b": "hindsight",
+      "label": "回看过去"
+    },
+    {
+      "a": "over",
+      "b": "validity",
+      "label": "评判现在"
+    },
+    {
+      "a": "over",
+      "b": "planning",
+      "label": "预测未来"
+    },
+    {
+      "a": "root",
+      "b": "choice",
+      "label": "决策应用"
+    },
+    {
+      "a": "choice",
+      "b": "prospect",
+      "label": "核心理论"
+    },
+    {
+      "a": "prospect",
+      "b": "lossav",
+      "label": "核心发现"
+    },
+    {
+      "a": "prospect",
+      "b": "endow",
+      "label": "延伸现象"
+    },
+    {
+      "a": "choice",
+      "b": "framing",
+      "label": "表述影响"
+    },
+    {
+      "a": "root",
+      "b": "selves",
+      "label": "幸福测量"
+    },
+    {
+      "a": "selves",
+      "b": "exper",
+      "label": "感受者"
+    },
+    {
+      "a": "selves",
+      "b": "remem",
+      "label": "决策者"
+    },
+    {
+      "a": "selves",
+      "b": "peakend",
+      "label": "记忆规则"
+    },
+    {
+      "a": "peakend",
+      "b": "colon",
+      "label": "经典实验"
+    },
+    {
+      "a": "root",
+      "b": "people",
+      "label": "作者与合作者"
+    },
+    {
+      "a": "people",
+      "b": "kahneman",
+      "label": "作者"
+    },
+    {
+      "a": "people",
+      "b": "tversky",
+      "label": "合作者"
+    }
+  ],
+  "refs": [
+    {
+      "a": "kahneman",
+      "b": "prospect",
+      "type": "source",
+      "label": "共同提出"
+    },
+    {
+      "a": "tversky",
+      "b": "prospect",
+      "type": "source",
+      "label": "共同提出"
+    },
+    {
+      "a": "avail",
+      "b": "ease",
+      "type": "depends",
+      "label": "建立在"
+    },
+    {
+      "a": "wysiati",
+      "b": "validity",
+      "type": "causes",
+      "label": "导致"
+    },
+    {
+      "a": "lossav",
+      "b": "endow",
+      "type": "causes",
+      "label": "解释了"
+    },
+    {
+      "a": "framing",
+      "b": "lossav",
+      "type": "depends",
+      "label": "利用了"
+    },
+    {
+      "a": "exper",
+      "b": "remem",
+      "type": "contrasts",
+      "label": "常常冲突"
+    }
+  ]
+}
+</script>
     <script type="application/json" id="pack-atomic-habits">
-{"id":"atomic-habits","title":"原子习惯","subtitle":"詹姆斯·克利尔","intro":"组装《原子习惯》：习惯怎么形成，又怎么一步步建立。","kind":"book","shape":"sequence",
-"parts":[
-{"id":"root","label":"《原子习惯》","parent":null,"note":"微小改变，巨大成就","explain":"詹姆斯·克利尔 2018 年的书。核心观点：大改变来自很多微小习惯的累积，而习惯是可以被设计的。"},
-{"id":"basics","label":"基础","parent":"root","note":"小习惯为何重要","explain":"全书开头先讲为什么值得从很小的习惯做起。"},
-{"id":"onepct","label":"每天进步1%","parent":"basics","note":"复利效应","explain":"每天好 1%，一年后约是原来的 37 倍；每天差 1%，会接近零。习惯像复利，短期看不出，长期差别巨大。"},
-{"id":"systems","label":"系统胜于目标","parent":"basics","note":"关注过程","explain":"目标是想要的结果，系统是每天做的流程。赢家和输家目标都一样，差别在系统。专注于改进过程，而不是盯着结果。"},
-{"id":"identity","label":"基于身份的习惯","parent":"basics","note":"成为那种人","explain":"不只说「我要跑完马拉松」，而是先认定「我是一个跑步的人」。每做一次，都是在给这个身份投一票。"},
-{"id":"plateau","label":"潜能潜伏期","parent":"basics","note":"突破前看不到","explain":"习惯带来的成果常常要积累很久才突然显现，就像冰块在 0 度前看不出变化。很多人在这段时间放弃。"},
-{"id":"loop","label":"习惯回路","parent":"root","note":"习惯的四个阶段","explain":"书中把每个习惯拆成固定的几个阶段，它们一圈圈循环，让行为变得自动。"},
-{"id":"cue","label":"提示","parent":"loop","note":"触发行为","order":1,"explain":"让大脑想到要做某件事的信号，比如手机震动、闻到咖啡香、到了晚上九点。"},
-{"id":"craving","label":"渴求","parent":"loop","note":"行为的动机","order":2,"explain":"看到信号后，心里对某种状态变化的「想要」。你想要的不是刷手机本身，而是刷手机带来的放松。"},
-{"id":"response","label":"反应","parent":"loop","note":"实际做的事","order":3,"explain":"你真正做出的那个动作或想法，比如拿起手机、去跑步。"},
-{"id":"reward","label":"奖励","parent":"loop","note":"满足渴求","order":4,"explain":"行为带来的满足感。它告诉大脑「下次还要这样做」，让循环继续。"},
-{"id":"laws","label":"四大定律","parent":"root","note":"对应回路四步","explain":"克利尔给出的建立好习惯的四条方法，反过来用就是戒掉坏习惯的方法。"},
-{"id":"law1","label":"让它显而易见","parent":"laws","note":"提示要看得见","order":1,"explain":"想养成的习惯，要让它的信号容易被看到；想戒掉的，就把信号藏起来。"},
-{"id":"stack","label":"习惯叠加","parent":"law1","note":"接在旧习惯后","explain":"把新习惯接在已有的习惯后面：「倒完咖啡后，我就冥想一分钟。」"},
-{"id":"intent","label":"执行意图","parent":"law1","note":"定好时间地点","explain":"写清楚「我会在【时间】【地点】做【行为】」。比起「我要多运动」，明确的计划成功率高得多。"},
-{"id":"env","label":"环境设计","parent":"law1","note":"让提示可见","explain":"改变周围环境，让好习惯一眼可见。想多喝水，就把水瓶放在桌上。"},
-{"id":"law2","label":"让它有吸引力","parent":"laws","note":"让人想去做","order":2,"explain":"越让人期待，越容易去做。想办法让习惯和你喜欢的东西联系起来。"},
-{"id":"bundle","label":"诱惑捆绑","parent":"law2","note":"想做配该做","explain":"把想做的事和该做的事绑在一起：「只有在跑步机上，我才能看最喜欢的剧。」"},
-{"id":"law3","label":"让它简便易行","parent":"laws","note":"降低做的阻力","order":3,"explain":"阻力越小，越容易做。减少开始需要的步骤，比靠意志力更有效。"},
-{"id":"twomin","label":"两分钟法则","parent":"law3","note":"从极小开始","explain":"新习惯开始时，把它缩到两分钟内就能做完：「每晚读书」变成「读一页」。先养成「出现」，再加量。"},
-{"id":"law4","label":"让它令人愉悦","parent":"laws","note":"做完立刻满足","order":4,"explain":"人会重复让自己立刻感觉好的事。好习惯的好处往往来得慢，所以要给它加点即时满足。"},
-{"id":"tracker","label":"习惯追踪","parent":"law4","note":"看见进展","explain":"每做一次就在日历上打个勾。看着一串连续的勾，本身就是一种奖励。"},
-{"id":"nevertwice","label":"绝不错过两次","parent":"law4","note":"断一次就接上","explain":"错过一次是意外，连续错过两次就开始变成新习惯。断了没关系，下一次一定接上。"},
-{"id":"advanced","label":"进阶","parent":"root","note":"从好到卓越","explain":"习惯稳定后，如何继续进步、避免陷入无聊或停滞。"},
-{"id":"goldilocks","label":"金发姑娘原则","parent":"advanced","note":"难度刚刚好","explain":"任务难度刚好在你能力边缘时，人最有动力：太容易会无聊，太难会放弃。"},
-{"id":"reflect","label":"回顾与反思","parent":"advanced","note":"定期复盘","explain":"习惯变成自动后，人容易停止思考。定期回顾自己做得怎样、还想成为什么样的人。"},
-{"id":"clear","label":"詹姆斯·克利尔","parent":"root","note":"习惯研究作家","explain":"美国作家，长期写关于习惯和决策的文章。他高中打棒球时被球棒砸中脸部重伤，后来靠一个个小习惯慢慢恢复。"}
-],
-"links":[
-{"a":"root","b":"basics","label":"为什么"},
-{"a":"basics","b":"onepct","label":"复利"},
-{"a":"basics","b":"systems","label":"方法"},
-{"a":"basics","b":"identity","label":"动力"},
-{"a":"basics","b":"plateau","label":"耐心"},
-{"a":"root","b":"loop","label":"怎么形成"},
-{"a":"loop","b":"cue","label":"触发"},
-{"a":"loop","b":"craving","label":"动机"},
-{"a":"loop","b":"response","label":"行动"},
-{"a":"loop","b":"reward","label":"回报"},
-{"a":"root","b":"laws","label":"怎么建立"},
-{"a":"laws","b":"law1","label":"设计提示"},
-{"a":"law1","b":"stack","label":"借旧习惯"},
-{"a":"law1","b":"intent","label":"定时定点"},
-{"a":"law1","b":"env","label":"改环境"},
-{"a":"laws","b":"law2","label":"放大渴求"},
-{"a":"law2","b":"bundle","label":"配对"},
-{"a":"laws","b":"law3","label":"简化反应"},
-{"a":"law3","b":"twomin","label":"降门槛"},
-{"a":"laws","b":"law4","label":"强化奖励"},
-{"a":"law4","b":"tracker","label":"可视化"},
-{"a":"law4","b":"nevertwice","label":"补救"},
-{"a":"root","b":"advanced","label":"怎么精进"},
-{"a":"advanced","b":"goldilocks","label":"保持动力"},
-{"a":"advanced","b":"reflect","label":"防止停滞"},
-{"a":"root","b":"clear","label":"作者"}
-],
-"refs":[
-{"a":"clear","b":"laws","type":"source","label":"提出"},
-{"a":"law1","b":"cue","type":"depends","label":"作用于"},
-{"a":"law2","b":"craving","type":"depends","label":"作用于"},
-{"a":"law3","b":"response","type":"depends","label":"作用于"},
-{"a":"law4","b":"reward","type":"depends","label":"作用于"},
-{"a":"onepct","b":"plateau","type":"causes","label":"解释了"},
-{"a":"twomin","b":"identity","type":"causes","label":"强化"}
-]}
-    </script>
+{
+  "id": "atomic-habits",
+  "title": "原子习惯",
+  "subtitle": "詹姆斯·克利尔",
+  "intro": "组装《原子习惯》：习惯怎么形成，又怎么一步步建立。",
+  "kind": "book",
+  "shape": "sequence",
+  "parts": [
+    {
+      "id": "root",
+      "label": "《原子习惯》",
+      "parent": null,
+      "note": "微小改变，巨大成就",
+      "explain": "詹姆斯·克利尔 2018 年的书。核心观点：大改变来自很多微小习惯的累积，而习惯是可以被设计的。"
+    },
+    {
+      "id": "basics",
+      "label": "基础",
+      "parent": "root",
+      "note": "小习惯为何重要",
+      "explain": "全书开头先讲为什么值得从很小的习惯做起。"
+    },
+    {
+      "id": "onepct",
+      "label": "每天进步1%",
+      "parent": "basics",
+      "note": "复利效应",
+      "explain": "每天好 1%，一年后约是原来的 37 倍；每天差 1%，会接近零。习惯像复利，短期看不出，长期差别巨大。"
+    },
+    {
+      "id": "systems",
+      "label": "系统胜于目标",
+      "parent": "basics",
+      "note": "关注过程",
+      "explain": "目标是想要的结果，系统是每天做的流程。赢家和输家目标都一样，差别在系统。专注于改进过程，而不是盯着结果。"
+    },
+    {
+      "id": "identity",
+      "label": "基于身份的习惯",
+      "parent": "basics",
+      "note": "成为那种人",
+      "explain": "不只说「我要跑完马拉松」，而是先认定「我是一个跑步的人」。每做一次，都是在给这个身份投一票。"
+    },
+    {
+      "id": "plateau",
+      "label": "潜能潜伏期",
+      "parent": "basics",
+      "note": "突破前看不到",
+      "explain": "习惯带来的成果常常要积累很久才突然显现，就像冰块在 0 度前看不出变化。很多人在这段时间放弃。"
+    },
+    {
+      "id": "loop",
+      "label": "习惯回路",
+      "parent": "root",
+      "note": "习惯的四个阶段",
+      "explain": "书中把每个习惯拆成固定的几个阶段，它们一圈圈循环，让行为变得自动。"
+    },
+    {
+      "id": "cue",
+      "label": "提示",
+      "parent": "loop",
+      "note": "触发行为",
+      "order": 1,
+      "explain": "让大脑想到要做某件事的信号，比如手机震动、闻到咖啡香、到了晚上九点。"
+    },
+    {
+      "id": "craving",
+      "label": "渴求",
+      "parent": "loop",
+      "note": "行为的动机",
+      "order": 2,
+      "explain": "看到信号后，心里对某种状态变化的「想要」。你想要的不是刷手机本身，而是刷手机带来的放松。"
+    },
+    {
+      "id": "response",
+      "label": "反应",
+      "parent": "loop",
+      "note": "实际做的事",
+      "order": 3,
+      "explain": "你真正做出的那个动作或想法，比如拿起手机、去跑步。"
+    },
+    {
+      "id": "reward",
+      "label": "奖励",
+      "parent": "loop",
+      "note": "满足渴求",
+      "order": 4,
+      "explain": "行为带来的满足感。它告诉大脑「下次还要这样做」，让循环继续。"
+    },
+    {
+      "id": "laws",
+      "label": "四大定律",
+      "parent": "root",
+      "note": "对应回路四步",
+      "explain": "克利尔给出的建立好习惯的四条方法，反过来用就是戒掉坏习惯的方法。"
+    },
+    {
+      "id": "law1",
+      "label": "让它显而易见",
+      "parent": "laws",
+      "note": "提示要看得见",
+      "order": 1,
+      "explain": "想养成的习惯，要让它的信号容易被看到；想戒掉的，就把信号藏起来。"
+    },
+    {
+      "id": "stack",
+      "label": "习惯叠加",
+      "parent": "law1",
+      "note": "接在旧习惯后",
+      "explain": "把新习惯接在已有的习惯后面：「倒完咖啡后，我就冥想一分钟。」"
+    },
+    {
+      "id": "intent",
+      "label": "执行意图",
+      "parent": "law1",
+      "note": "定好时间地点",
+      "explain": "写清楚「我会在【时间】【地点】做【行为】」。比起「我要多运动」，明确的计划成功率高得多。"
+    },
+    {
+      "id": "env",
+      "label": "环境设计",
+      "parent": "law1",
+      "note": "让提示可见",
+      "explain": "改变周围环境，让好习惯一眼可见。想多喝水，就把水瓶放在桌上。"
+    },
+    {
+      "id": "law2",
+      "label": "让它有吸引力",
+      "parent": "laws",
+      "note": "让人想去做",
+      "order": 2,
+      "explain": "越让人期待，越容易去做。想办法让习惯和你喜欢的东西联系起来。"
+    },
+    {
+      "id": "bundle",
+      "label": "诱惑捆绑",
+      "parent": "law2",
+      "note": "想做配该做",
+      "explain": "把想做的事和该做的事绑在一起：「只有在跑步机上，我才能看最喜欢的剧。」"
+    },
+    {
+      "id": "law3",
+      "label": "让它简便易行",
+      "parent": "laws",
+      "note": "降低做的阻力",
+      "order": 3,
+      "explain": "阻力越小，越容易做。减少开始需要的步骤，比靠意志力更有效。"
+    },
+    {
+      "id": "twomin",
+      "label": "两分钟法则",
+      "parent": "law3",
+      "note": "从极小开始",
+      "explain": "新习惯开始时，把它缩到两分钟内就能做完：「每晚读书」变成「读一页」。先养成「出现」，再加量。"
+    },
+    {
+      "id": "law4",
+      "label": "让它令人愉悦",
+      "parent": "laws",
+      "note": "做完立刻满足",
+      "order": 4,
+      "explain": "人会重复让自己立刻感觉好的事。好习惯的好处往往来得慢，所以要给它加点即时满足。"
+    },
+    {
+      "id": "tracker",
+      "label": "习惯追踪",
+      "parent": "law4",
+      "note": "看见进展",
+      "explain": "每做一次就在日历上打个勾。看着一串连续的勾，本身就是一种奖励。"
+    },
+    {
+      "id": "nevertwice",
+      "label": "绝不错过两次",
+      "parent": "law4",
+      "note": "断一次就接上",
+      "explain": "错过一次是意外，连续错过两次就开始变成新习惯。断了没关系，下一次一定接上。"
+    },
+    {
+      "id": "advanced",
+      "label": "进阶",
+      "parent": "root",
+      "note": "从好到卓越",
+      "explain": "习惯稳定后，如何继续进步、避免陷入无聊或停滞。"
+    },
+    {
+      "id": "goldilocks",
+      "label": "金发姑娘原则",
+      "parent": "advanced",
+      "note": "难度刚刚好",
+      "explain": "任务难度刚好在你能力边缘时，人最有动力：太容易会无聊，太难会放弃。"
+    },
+    {
+      "id": "reflect",
+      "label": "回顾与反思",
+      "parent": "advanced",
+      "note": "定期复盘",
+      "explain": "习惯变成自动后，人容易停止思考。定期回顾自己做得怎样、还想成为什么样的人。"
+    },
+    {
+      "id": "clear",
+      "label": "詹姆斯·克利尔",
+      "parent": "root",
+      "note": "习惯研究作家",
+      "explain": "美国作家，长期写关于习惯和决策的文章。他高中打棒球时被球棒砸中脸部重伤，后来靠一个个小习惯慢慢恢复。"
+    },
+    {
+      "id": "culture",
+      "label": "加入同类群体",
+      "parent": "law2",
+      "note": "环境即文化",
+      "explain": "和已经有这个习惯的人待在一起，习惯会变得自然，因为人会模仿身边人的行为。"
+    },
+    {
+      "id": "automation",
+      "label": "自动化",
+      "parent": "law3",
+      "note": "不用意志力",
+      "explain": "把习惯交给自动流程，比如自动扣款、定时提醒，不用每次都靠意志力决定。"
+    }
+  ],
+  "links": [
+    {
+      "a": "root",
+      "b": "basics",
+      "label": "为什么"
+    },
+    {
+      "a": "basics",
+      "b": "onepct",
+      "label": "复利"
+    },
+    {
+      "a": "basics",
+      "b": "systems",
+      "label": "方法"
+    },
+    {
+      "a": "basics",
+      "b": "identity",
+      "label": "动力"
+    },
+    {
+      "a": "basics",
+      "b": "plateau",
+      "label": "耐心"
+    },
+    {
+      "a": "root",
+      "b": "loop",
+      "label": "怎么形成"
+    },
+    {
+      "a": "loop",
+      "b": "cue",
+      "label": "触发"
+    },
+    {
+      "a": "loop",
+      "b": "craving",
+      "label": "动机"
+    },
+    {
+      "a": "loop",
+      "b": "response",
+      "label": "行动"
+    },
+    {
+      "a": "loop",
+      "b": "reward",
+      "label": "回报"
+    },
+    {
+      "a": "root",
+      "b": "laws",
+      "label": "怎么建立"
+    },
+    {
+      "a": "laws",
+      "b": "law1",
+      "label": "设计提示"
+    },
+    {
+      "a": "law1",
+      "b": "stack",
+      "label": "借旧习惯"
+    },
+    {
+      "a": "law1",
+      "b": "intent",
+      "label": "定时定点"
+    },
+    {
+      "a": "law1",
+      "b": "env",
+      "label": "改环境"
+    },
+    {
+      "a": "laws",
+      "b": "law2",
+      "label": "放大渴求"
+    },
+    {
+      "a": "law2",
+      "b": "bundle",
+      "label": "配对"
+    },
+    {
+      "a": "laws",
+      "b": "law3",
+      "label": "简化反应"
+    },
+    {
+      "a": "law3",
+      "b": "twomin",
+      "label": "降门槛"
+    },
+    {
+      "a": "laws",
+      "b": "law4",
+      "label": "强化奖励"
+    },
+    {
+      "a": "law4",
+      "b": "tracker",
+      "label": "可视化"
+    },
+    {
+      "a": "law4",
+      "b": "nevertwice",
+      "label": "补救"
+    },
+    {
+      "a": "root",
+      "b": "advanced",
+      "label": "怎么精进"
+    },
+    {
+      "a": "advanced",
+      "b": "goldilocks",
+      "label": "保持动力"
+    },
+    {
+      "a": "advanced",
+      "b": "reflect",
+      "label": "防止停滞"
+    },
+    {
+      "a": "root",
+      "b": "clear",
+      "label": "作者"
+    },
+    {
+      "a": "law2",
+      "b": "culture",
+      "label": "借群体力量"
+    },
+    {
+      "a": "law3",
+      "b": "automation",
+      "label": "交给自动"
+    }
+  ],
+  "refs": [
+    {
+      "a": "clear",
+      "b": "laws",
+      "type": "source",
+      "label": "提出"
+    },
+    {
+      "a": "law1",
+      "b": "cue",
+      "type": "depends",
+      "label": "作用于"
+    },
+    {
+      "a": "law2",
+      "b": "craving",
+      "type": "depends",
+      "label": "作用于"
+    },
+    {
+      "a": "law3",
+      "b": "response",
+      "type": "depends",
+      "label": "作用于"
+    },
+    {
+      "a": "law4",
+      "b": "reward",
+      "type": "depends",
+      "label": "作用于"
+    },
+    {
+      "a": "onepct",
+      "b": "plateau",
+      "type": "causes",
+      "label": "解释了"
+    },
+    {
+      "a": "twomin",
+      "b": "identity",
+      "type": "causes",
+      "label": "强化"
+    }
+  ]
+}
+</script>
     <script>
 (function () {
   "use strict";
@@ -1773,6 +2478,7 @@
     el.textContent = i != null ? o.chips[i].text : near ? (n === 2 ? "关系？" : "含义？") : "";
     el.className = (n === 2 ? "x-lslot" : "x-mslot") + (empty ? (near ? " is-near" : " is-dot") : "") + (isNew ? " is-new" : "") + (i != null ? " is-filled" : "") + (o.ok[id] ? " is-ok" : "") + (o.bad[id] ? " is-bad" : "") + (n === 2 && offId(id) ? " is-off" : "");
     el.setAttribute("data-slot", id);
+    if (!el.classList.contains("is-dot")) { el.tabIndex = 0; el.setAttribute("role", "button"); el.setAttribute("aria-label", (n === 2 ? "关系槽 " : "含义槽 ") + id); } else { el.removeAttribute("tabindex"); }
   }
   /* empty, available slots of a kind, and their anchor in screen px */
   function openSlots(n) {
@@ -3032,6 +3738,10 @@
       refreshFocus();
       moreOpen(false); return;
     }
+    if (e.target.closest("#exportBtn")) {
+      exportAssembly(); moreOpen(false);
+      return;
+    }
     if (e.target.closest("#clearProgressBtn")) {
       clearProgress(); moreOpen(false); loadPack(P.id);
       toast("已清除已保存进度，从头开始");
@@ -3144,6 +3854,12 @@
   board.addEventListener("keydown", function (e) {
     if (!P || !S) return;
     if (e.key === "Escape" && tapSrc) { clearTapSrc(); return; }
+    if ((e.key === "Enter" || e.key === " ") && tapChip && e.target && e.target.dataset && e.target.dataset.slot) {
+      e.preventDefault();
+      var kind2 = e.target.classList.contains("x-lslot") ? 2 : 3;
+      if (kind2 === tapChip.kind) { putChip(kind2, e.target.dataset.slot, tapChip.ci, null); saveProgress(); }
+      clearTapChip(); return;
+    }
     if ((e.key === "Enter" || e.key === " ") && e.target && e.target.classList && e.target.classList.contains("x-card")) {
       e.preventDefault();
       var id = e.target.dataset.id;
@@ -3154,6 +3870,76 @@
       else armTapSrc(id);
     }
   });
+
+
+  /* ---------- chip tap-to-place (Frontend 1, completes tap/keyboard path) ----------
+     Drag is still primary. Tap: tap a tray chip to arm it, then tap an
+     open slot to place it. Keyboard: chip buttons are <button>, so Enter
+     arms the chip; slots are made focusable in slotView, Enter on a slot
+     places the armed chip. Esc cancels. A tap that ends as a drag never
+     fires a click on the slot, so tap state is only set by a tap. */
+  var tapChip = null;
+  function clearTapChip() {
+    tapChip = null;
+    document.querySelectorAll(".x-chip.is-tap-chip").forEach(function (el) { el.classList.remove("is-tap-chip"); });
+    document.querySelectorAll(".is-tap-target").forEach(function (el) { el.classList.remove("is-tap-target"); });
+  }
+  function armTapChip(kind, ci, el) {
+    clearTapChip(); tapChip = { kind: kind, ci: ci };
+    if (el) el.classList.add("is-tap-chip");
+    // highlight open slots of this kind
+    [2, 3].forEach(function (n) { if (n !== kind) return; openSlots(n).forEach(function (id) { var s = slotEl(n, id); if (s) s.classList.add("is-tap-target"); }); });
+    toast("已选词块「" + stObj(kind).chips[ci].text + "」，再点一个空槽放进去，Esc 取消");
+  }
+  chipsEl.addEventListener("click", function (e) {
+    if (!P || !S || drag) return;
+    var chip = e.target.closest && e.target.closest(".x-chip");
+    if (!chip) return;
+    var kind = +chip.dataset.kind, ci = +chip.dataset.chip;
+    if (tapChip && tapChip.kind === kind && tapChip.ci === ci) clearTapChip();
+    else armTapChip(kind, ci, chip);
+  });
+  board.addEventListener("click", function (e) {
+    if (!P || !S || drag || !tapChip) return;
+    var slot = e.target.closest && e.target.closest("[data-slot]");
+    if (!slot) return;
+    var kind = slot.classList.contains("x-lslot") ? 2 : 3;
+    if (kind !== tapChip.kind) { toast("这个槽不是这类词块的"); return; }
+    var id = slot.dataset.slot;
+    if (!openSlots(kind).some(function (x) { return x === id; }) && !stObj(kind).ok[id]) {
+      // putChip will reject if not available; still try for filled-but-wrong slots via unChip path is not allowed, so only open slots
+      if (stObj(kind).ok[id]) { toast("这个槽已经对了"); clearTapChip(); return; }
+    }
+    putChip(kind, id, tapChip.ci, null);
+    saveProgress();
+    clearTapChip();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && tapChip) { clearTapChip(); return; }
+    if (e.key === "Escape" && tapSrc) { /* tapSrc Esc already handled in board keydown */ }
+  });
+
+
+  /* ---------- export completed assembly (Frontend 2) ---------- */
+  function exportAssembly() {
+    if (!P || !S) return;
+    var outline = [];
+    var walk = function (id, d) {
+      var q = byId[id]; if (!q) return;
+      outline.push("  ".repeat(d) + "- " + q.label + (q.note ? "（" + q.note + "）" : ""));
+      P.parts.filter(function (x) { return x.parent === id; }).forEach(function (x) { walk(x.id, d + 1); });
+    };
+    walk(P.root, 0);
+    var data = { v: 1, pack: { id: P.id, title: P.title }, exportedAt: new Date().toISOString(),
+      tree: S.par, locked: Object.keys(S.lock), refs: Object.keys(S.refs),
+      chips: { 2: Object.keys((S.s2 && S.s2.ok) || {}), 3: Object.keys((S.s3 && S.s3.ok) || {}) },
+      progress: { tree: correctCount(1) + "/" + total(1), relation: correctCount(2) + "/" + total(2), meaning: correctCount(3) + "/" + total(3) },
+      outline: outline.join("\n") };
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = P.id + "-assembly.json";
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    toast("已导出组装结果");
+  }
 
   /* ---------- load ---------- */
   function loadPack(id) {

@@ -5,6 +5,21 @@ No history rewrite: earlier commits are left as-is; from this entry on,
 each change is one clean commit with a single clear message, and releases
 are tagged instead of relying on "latest main".
 
+## Unreleased — Frontend + packs + skill, 2026-10-25
+
+### Added
+- Chip tap-to-place: tap a tray chip, then tap an open relation/meaning slot; keyboard Enter on a chip arms it, Enter on a focused slot places it, Esc cancels. Tree tap-connect from the previous round is unchanged.
+- Export: ⋯ → 导出组装结果 downloads a JSON with pack, locked tree, refs, chip answers, progress and a text outline, so a completed assembly leaves evidence.
+- `tests/state.test.js`: headless Node tests, no browser — pack structure, distinct labels, depth/kids, explain lengths, refs, simulated correct assembly, and embedded-pack sync. Run with `node tests/state.test.js`.
+
+### Changed
+- Packs: stoicism 35→37 cards (晨间准备, 晚间回顾 under 修习), atomic-habits 27→29 cards (加入同类群体 under 让它有吸引力, 自动化 under 让它简便易行, balancing single-child laws); thinking-fast-and-slow people explain expanded from 12 to 36 chars; stoicism root explain now clarifies doctrinal three branches vs people/books/practice, instead of saying only “分三块”.
+- book-to-pack SKILL: single-child rule (chain vs category), distinct-label rule strengthened (no “三大分支/四主德” as labels), intro must be a one-sentence model and match root explain, explain floor 20 chars, and a 3-command delivery checklist (validate.js + state.test.js + sync-packs.js).
+
+### Notes
+- Single-child chains that remain (stoicism physics/logos/passion/logic/impression, thinking repr/peakend) are reported as warnings in state tests, justified as sequence/argument/example chains, not categories.
+- Full DOM state extraction into a separate module was NOT done in this round: it would be a large refactor with high break risk for a single-file offline page. Headless tests cover state rules without a browser; DOM rendering stays in index.html.
+
 ## Unreleased — Audit fixes, 2026-10-25
 
 ### Fixed
