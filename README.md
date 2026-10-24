@@ -29,7 +29,13 @@
 - 没有关卡和强制顺序，按自己的节奏来
 
 ## 知识包格式
-`packs/` 里是内置的知识包（已内嵌在 index.html 中），可在页面里用「导入知识包」导入同格式的 JSON：
+`packs/*.json` 是唯一数据源。`index.html` 里内嵌的同名包是为了离线双击打开而生成的副本，不要手改内嵌包：改完 `packs/*.json` 后运行 `node scripts/sync-packs.js`，CI（`.github/workflows/validate.yml`）会检查内嵌包是否与文件一致，不一致就失败。
+
+进度：组装进度（已连对的边、已解锁的卡、关联线、词块答案、卡片位置）会存到浏览器 localStorage，刷新后按包恢复；「⋯ → 清除已保存进度」可清掉重来。静音开关以前就是这么存的，现在进度也是。
+
+连线除了拖拽，还可以点一点连：点卡片右侧圆点选起点，再点目标卡连线；键盘用户可以 Tab 聚焦卡片、回车选起点、回车连目标，Esc 取消。拖拽行为不变。
+
+可在页面里用「导入知识包」导入同格式的 JSON：
 
 ```json
 {
@@ -51,11 +57,15 @@
 ## 用 AI 拆书：book-to-pack 技能
 `skills/book-to-pack/SKILL.md` 是一份给 AI 用的技能说明：先判定书的骨架，再拆树、写关系词、含义和解释、加关联线、核对事实。把整个 `skills/book-to-pack` 文件夹放进支持 Skills 的 AI 工具（或直接把 SKILL.md 贴进对话），再告诉它要拆哪本书即可。
 
-拆完先校验再导入（需要 Node.js）：
+拆完先校验再导入（需要 Node.js）。注意：页面里的 JS 校验和 `validate.js` 是同一套规则的两份实现，改规则要两边一起改，见 `CHANGELOG.md` 的已知限制：
 
 ```bash
 node skills/book-to-pack/scripts/validate.js your-pack.json
 ```
+
+## 变更记录
+
+见 `CHANGELOG.md`。提交请一个改动一个提交、写清楚信息，不要重复提交同一条信息；发版请打 tag，不要只依赖 main 最新版。
 
 ## 贡献
 欢迎提交新的知识包到 `packs/`，提交前请通过校验脚本。

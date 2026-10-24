@@ -2,7 +2,7 @@
   "id": "stoicism",
   "title": "斯多葛主义",
   "subtitle": "古希腊罗马哲学",
-  "intro": "组装斯多葛哲学。",
+  "intro": "幸福只取决于品格和判断，不取决于外在遭遇。",
   "kind": "concept",
   "shape": "tree",
   "parts": [
@@ -306,7 +306,7 @@
     {
       "a": "core",
       "b": "physics",
-      "label": "三大分支"
+      "label": "宇宙本性"
     },
     {
       "a": "physics",
@@ -321,7 +321,7 @@
     {
       "a": "core",
       "b": "ethics",
-      "label": "三大分支"
+      "label": "如何生活"
     },
     {
       "a": "ethics",
@@ -336,22 +336,22 @@
     {
       "a": "virtue",
       "b": "wisdom",
-      "label": "四主德"
+      "label": "判断善恶"
     },
     {
       "a": "virtue",
       "b": "courage",
-      "label": "四主德"
+      "label": "面对恐惧"
     },
     {
       "a": "virtue",
       "b": "justice",
-      "label": "四主德"
+      "label": "公正待人"
     },
     {
       "a": "virtue",
       "b": "temperance",
-      "label": "四主德"
+      "label": "欲望有度"
     },
     {
       "a": "virtue",
@@ -391,7 +391,7 @@
     {
       "a": "core",
       "b": "logic",
-      "label": "三大分支"
+      "label": "如何思考"
     },
     {
       "a": "logic",
