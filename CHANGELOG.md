@@ -5,6 +5,13 @@ No history rewrite: earlier commits are left as-is; from this entry on,
 each change is one clean commit with a single clear message, and releases
 are tagged instead of relying on "latest main".
 
+## Unreleased — Branch colour + whole-route explanation, 2026-10-25
+
+### Added
+- When a first-level branch is fully done (tree link + relation + meaning all correct, the existing `cardDone` standard), its edges and card borders take that branch's colour immediately, instead of waiting for the whole map to finish. The colour is the same branch palette used by the final radial map, so it stays consistent.
+- When a branch completes, the detail panel jumps to that branch card and shows a "支线完成" route block: root → branch chain, then the branch subtree in order, each step with its relation word and its pack explain. No new explanation text is invented; it is assembled from the pack's own labels/explains. Tapping a completed branch card later shows the same route block again.
+- Restoring a saved completed branch colours it but does not hijack focus (`suppressRoute` during pack load).
+
 ## Unreleased — Zoom top-right + detail open by default, 2026-10-25
 
 ### Changed
