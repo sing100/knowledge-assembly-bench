@@ -5,6 +5,12 @@ No history rewrite: earlier commits are left as-is; from this entry on,
 each change is one clean commit with a single clear message, and releases
 are tagged instead of relying on "latest main".
 
+## Unreleased — Zoom top-right + detail open by default, 2026-10-25
+
+### Changed
+- Zoom control moved from board bottom-right to board top-right (`right: 16px; top: 16px`), so it no longer sits between the tray and the detail panel or covers bottom cards.
+- Detail panel (`详情`) is now open by default on both desktop and mobile: removed the ≤900px auto-close on load. The 详情 button still toggles it closed manually.
+
 ## Unreleased — Frontend + packs + skill, 2026-10-25
 
 ### Added

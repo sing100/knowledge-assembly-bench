@@ -211,7 +211,7 @@
       .x-tab[aria-selected="true"] { background: var(--x-acc-l); color: var(--x-acc); }
       .x-tab__dot { position: absolute; top: 5px; right: 3px; width: 6px; height: 6px; border-radius: 50%; background: var(--x-acc); box-shadow: 0 0 0 2px var(--x-card); }
       .x-chip__n { margin-left: 8px; padding: 0 6px; border-radius: 999px; background: var(--x-acc-l); font-size: 12px; font-weight: 600; line-height: 18px; color: var(--x-acc); font-variant-numeric: tabular-nums; }
-      .x-zoom { position: absolute; right: 16px; bottom: 16px; display: flex; align-items: center; gap: 2px; padding: 4px; background: var(--x-card); border: 1px solid var(--x-ln); border-radius: 12px; box-shadow: var(--x-sh-float); }
+      .x-zoom { position: absolute; right: 16px; top: 16px; display: flex; align-items: center; gap: 2px; padding: 4px; background: var(--x-card); border: 1px solid var(--x-ln); border-radius: 12px; box-shadow: var(--x-sh-float); }
       .x-zoom button { min-width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; color: var(--x-ink2); transition: background-color var(--m-base) var(--e-swift); }
       .x-zoom button:hover { background: var(--x-hover); color: var(--x-ink); }
       .x-zoom #zPct { min-width: 56px; font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; }
@@ -3964,7 +3964,7 @@
   }
   /* opening zoom never drops below legible card text; pan for the rest */
   function fitFloor() { return window.innerWidth <= 600 ? 0.6 : 0.7; }
-  if (window.matchMedia("(max-width: 900px)").matches) { $("body").classList.add("is-closed"); $("sideBtn").setAttribute("aria-expanded", "false"); }
+  /* 详情默认打开：移动端和桌面端一致，不再在 ≤900px 时自动关闭 */
   ["pack-stoicism", "pack-thinking-fast-and-slow", "pack-atomic-habits"].forEach(function (k) {
     try { register(validate(JSON.parse($(k).textContent)), false); }
     catch (err) { toast("内置包读取失败：" + err.message, "err"); }
