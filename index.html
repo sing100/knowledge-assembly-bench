@@ -114,6 +114,10 @@
       .x-card.is-dim, .x-edge.is-dim, .x-lslot.is-dim { opacity: .25; }
       .x-edge { transition: opacity var(--m-base) var(--e-swift); }
       .x-side .x-rel1 { color: var(--x-ink); font-weight: 500; margin: 4px 0 8px; }
+      .x-route { margin: 0 0 16px; padding: 12px; border: 1px solid var(--x-ln); border-left: 4px solid var(--bt, var(--x-acc)); border-radius: 12px; background: var(--x-hover); }
+      .x-route__h { margin: 0 0 4px; font-size: 14px; font-weight: 600; color: var(--x-ink); }
+      .x-route__step { margin: 0 0 6px; font-size: 13px; line-height: 1.55; color: var(--x-ink2); }
+      .x-route__step b { color: var(--x-ink); }
       .x-card::before { content: ""; flex: none; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--bt, var(--bt0, var(--x-ln-h))); box-shadow: 0 0 0 0 transparent; transition: background-color var(--m-base) var(--e-swift), box-shadow var(--m-base) var(--e-swift), transform var(--m-base) var(--e-over); pointer-events: none; }
       .x-card.is-on { --bt0: var(--x-ok); }
       .x-card.is-on:not([class*="x-b"])::before { box-shadow: 0 0 0 3px color-mix(in srgb, var(--x-ok) 22%, transparent), 0 0 8px color-mix(in srgb, var(--x-ok) 55%, transparent); }
@@ -2050,13 +2054,17 @@
       el.classList.toggle("is-on", on);
       if (on && !was && !reduce) { el.classList.add("is-on-new"); setTimeout(function () { el.classList.remove("is-on-new"); }, 440); }
     });
-    var fired = false;
+    var fired = false, newBranch = null;
     firstKids().forEach(function (b) {
       if (S.pw[b]) return;
       var ids = P.parts.filter(function (q) { return branchOf(q.id) === b; }).map(function (q) { return q.id; });
       if (!ids.every(cardDone)) return;
-      S.pw[b] = true; powerOn(ids); fired = true;
+      S.pw[b] = true; powerOn(ids); fired = true; if (!newBranch) newBranch = b;
     });
+    if (fired) {
+      tint(); /* colour the newly completed branch now, not only after the whole map */
+      if (newBranch && !S.suppressRoute) { S.focus = newBranch; renderSide(); toast("支线完成：" + byId[newBranch].label + "，已上色"); }
+    }
     /* let the ok chime ring first; the finale replaces it when this move finishes everything */
     if (fired && !allDone()) { var g = S.gen; setTimeout(function () { if (S.gen === g) sfx.branch(); }, 280); }
   }
@@ -2348,10 +2356,9 @@
   function radial() { return S.done[1]; }
   function tint() {
     var on = radial(), first = M(), n = 0, br = M();
-    if (on) {
-      P.parts.forEach(function (q) { if (C[q.id] === P.root) first[q.id] = n++ % 6; });
-      P.parts.forEach(function (q) { var c = q.id, k = 0; while (c && C[c] !== P.root && k++ < 999) c = C[c]; if (c && first[c] != null && q.id !== P.root) br[q.id] = first[c]; });
-    }
+    /* branch colour: after the whole map (radial), or as soon as that branch is fully done (S.pw) */
+    P.parts.forEach(function (q) { if (C[q.id] === P.root) first[q.id] = n++ % 6; });
+    P.parts.forEach(function (q) { var c = q.id, k = 0; while (c && C[c] !== P.root && k++ < 999) c = C[c]; if (c && first[c] != null && q.id !== P.root && (on || (S && S.pw && S.pw[c]))) br[q.id] = first[c]; });
     function set(el, id) { if (!el) return; for (var i = 0; i < 6; i++) el.classList.remove("x-b" + i); if (br[id] != null) el.classList.add("x-b" + br[id]); }
     P.parts.forEach(function (q) { set(els[q.id], q.id); });
     Object.keys(edgeEls).forEach(function (c) { set(edgeEls[c], c); });
@@ -2807,10 +2814,24 @@
   var HOW = "连线、关系词、含义三件事可以同时做：从卡片右侧圆点拖到它的上级或下级卡片，连对立刻锁定；某条线锁定后，就能把底部「关系」页签的词拖到这条线上；某张卡锁定后，就能把「含义」拖到它下方。结构连完即变为放射导图，词块仍可继续放。卡住时按「提示」：第一次画一小段虚线指方向，再按画出完整指引。";
   function relKnown(c) { return S.lock[c] || S.done[1]; }
   function relLabel(c) { return S.s2 && S.s2.ok[c] ? " <em>" + esc(LAB[c]) + "</em>" : ""; }
+  /* whole-route explanation for a completed first-level branch, built only from pack data */
+  function routeHtml(b) {
+    var bf = byId[b]; if (!bf) return "";
+    var idx = firstKids().indexOf(b) % 6, steps = [];
+    var walk = function (id, d) {
+      var q = byId[id]; if (!q) return;
+      steps.push('<p class="x-route__step" style="margin-left:' + (d * 14) + 'px"><b>' + esc(q.label) + "</b>" + (id !== b && LAB[id] ? '<span class="x-muted">（' + esc(LAB[id]) + '）</span>' : "") + (q.explain ? "：" + esc(q.explain) : "") + "</p>");
+      P.parts.filter(function (x) { return x.parent === id; }).forEach(function (x) { walk(x.id, d + 1); });
+    };
+    walk(b, 0);
+    return '<div class="x-route x-b' + idx + '"><p class="x-route__h">✓ 支线完成：' + esc(bf.label) + "</p><p class=\"x-muted\">从" + esc(byId[P.root].label) + "的" + esc(LAB[b] || "") + "出发，这条线一路是：</p>" + steps.join("") + "</div>";
+  }
   function renderSide() {
     var f = S.focus && byId[S.focus];
     if (!f) { $("partInfo").innerHTML = '<p class="x-muted">点卡片 → 右侧看它是什么</p><p class="x-muted">拖圆点 → 连线</p><p class="x-muted">词块向上拖到槽位</p><p class="x-muted">卡住 → 提示</p>' + (refsTotal() ? '<p class="x-muted">有关联的卡片圆点 → 另一张卡：关联线</p>' : ""); return; }
-    var h = '<p class="x-name">' + esc(f.label) + "</p>";
+    var h = "";
+    if (C[f.id] === P.root && S.pw && S.pw[f.id]) h += routeHtml(f.id);
+    h += '<p class="x-name">' + esc(f.label) + "</p>";
     if (f.explain) h += '<div class="x-what"><p class="x-what__h">这是什么</p><p class="x-what__t">' + esc(f.explain) + "</p></div>";
     if (S.lock[f.id] && f.parent && byId[f.parent]) h += '<p class="x-rel1">' + esc(byId[f.parent].label) + " —" + (S.s2 && S.s2.ok[f.id] ? esc(LAB[f.id]) : "？") + "→ " + esc(f.label) + "</p>";
     if (f.note && S.s3 && S.s3.ok[f.id]) h += '<p class="x-note">' + esc(f.note) + "</p>";
@@ -3949,6 +3970,7 @@
     P.parts.forEach(function (q) { byId[q.id] = q; C[q.id] = q.parent; });
     P.links.forEach(function (l) { LAB[l.b] = l.label; });
     newState(); /* creates S with both chip pools: S.s2 = makeChips(2), S.s3 = makeChips(3) */
+    S.suppressRoute = true; /* restoring a completed branch colours it but does not hijack focus */
     combo = 0; S.bestCombo = 0; sfx.reset(); renderCombo();
     document.title = "知识组装台 · " + P.title;
     closeOverlay();
@@ -3960,6 +3982,7 @@
       applyVis(); renderAll(); renderPackList();
       toast("已恢复上次进度");
     }
+    S.suppressRoute = false;
     fitView(false, null, null, fitFloor());
   }
   /* opening zoom never drops below legible card text; pan for the rest */
