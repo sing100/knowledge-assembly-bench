@@ -5,6 +5,13 @@ No history rewrite: earlier commits are left as-is; from this entry on,
 each change is one clean commit with a single clear message, and releases
 are tagged instead of relying on "latest main".
 
+## Unreleased — Mobile tray gap + 601-900px compact top bar, 2026-10-25
+
+### Changed
+- Mobile tray moved from `bottom: 76px` to `bottom: 16px`, so there is no empty board strip between the tray and the detail panel; toasts already go to the board top on ≤900px, so they cannot cover the tray. Mobile detail top padding reduced from 20px to 12px.
+- Top bar compact rule extended from 600px to 900px: 601-900px used to get the desktop top bar wrapped to two rows together with the mobile column body, wasting about 50px of board height and leaving the second row's left side empty. Now the header is a single row throughout the column layout: logo only (brand text hidden), pack selector narrowed, import / reshuffle / tidy / mute and the progress bar hidden into the ⋯ menu, hint and detail stay on the bar, progress text wraps on the right.
+- Detail empty-state hint changed from "点卡片 → 右侧看它是什么" to "点卡片 → 看它是什么", because on mobile the panel is below, not on the right.
+
 ## Unreleased — Branch colour + whole-route explanation, 2026-10-25
 
 ### Added
