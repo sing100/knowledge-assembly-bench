@@ -248,8 +248,9 @@
       @media (max-width: 900px) {
         .x-body { flex-direction: column; }
         .x-board { flex: 1; }
-        .x-side { width: auto; max-height: 32vh; border-left: 0; border-top: 1px solid var(--x-ln); }
-        .x-tray { left: 14px; right: 14px; bottom: 76px; max-width: min(720px, calc(100% - 28px)); }
+        .x-side { width: auto; max-height: 32vh; border-left: 0; border-top: 1px solid var(--x-ln); padding: 12px 16px 16px; }
+        /* tray sits at the board bottom now (zoom moved to top-right), so no empty board strip between tray and detail; toasts already go to the board top on ≤900px, so they cannot cover the tray */
+        .x-tray { left: 14px; right: 14px; bottom: 16px; max-width: min(720px, calc(100% - 28px)); }
         .x-chip { height: 44px; min-width: 44px; padding: 0 14px; }
         .x-tab { min-height: 44px; padding: 0 14px; }
         .x-tb, .x-sel, .x-primary, .x-sec-btn { min-height: 44px; }
@@ -285,7 +286,8 @@
       @keyframes x-refin { from { opacity: 0; } }
       .x-board.is-linked.x-refopen .x-port { display: block; }
       .x-rel .x-refem { font-weight: 600; color: #0F766E; }
-      @media (max-width: 600px) {
+      /* 601-900px used to get the desktop top bar (wrapped to two rows) with the mobile column body; extend the compact single-row top bar to 900px so the header is one row throughout the column layout */
+      @media (max-width: 900px) {
         .x-top { flex-wrap: nowrap; gap: 6px; padding: 6px 8px; }
         .x-brand { font-size: 0; gap: 0; }
         #importBtn, #shuffleBtn, #layoutBtn, #tidyBtn, #muteBtn, .x-pbar, .x-combo { display: none; }
@@ -2828,7 +2830,7 @@
   }
   function renderSide() {
     var f = S.focus && byId[S.focus];
-    if (!f) { $("partInfo").innerHTML = '<p class="x-muted">点卡片 → 右侧看它是什么</p><p class="x-muted">拖圆点 → 连线</p><p class="x-muted">词块向上拖到槽位</p><p class="x-muted">卡住 → 提示</p>' + (refsTotal() ? '<p class="x-muted">有关联的卡片圆点 → 另一张卡：关联线</p>' : ""); return; }
+    if (!f) { $("partInfo").innerHTML = '<p class="x-muted">点卡片 → 看它是什么</p><p class="x-muted">拖圆点 → 连线</p><p class="x-muted">词块向上拖到槽位</p><p class="x-muted">卡住 → 提示</p>' + (refsTotal() ? '<p class="x-muted">有关联的卡片圆点 → 另一张卡：关联线</p>' : ""); return; }
     var h = "";
     if (C[f.id] === P.root && S.pw && S.pw[f.id]) h += routeHtml(f.id);
     h += '<p class="x-name">' + esc(f.label) + "</p>";
