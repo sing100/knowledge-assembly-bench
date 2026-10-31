@@ -411,6 +411,11 @@
         .x-toast { animation: x-fade var(--m-snap) linear; transition: opacity var(--m-snap) linear; }
         .x-toast.is-out { transform: none; }
       }
+      /* tray zoom-follow: --tz is set from the board zoom in applyView */
+      .x-tray { --chip-h: 32px; --chip-px: 12px; --chip-fs: 13px; }
+      .x-tray .x-chip:not(.is-float) { height: calc(var(--chip-h) * var(--tz, 1)); min-width: 0; padding: 0 calc(var(--chip-px) * var(--tz, 1)); font-size: calc(var(--chip-fs) * var(--tz, 1)); transition: height var(--m-base) var(--e-swift), font-size var(--m-base) var(--e-swift), padding var(--m-base) var(--e-swift); }
+      .x-tray .x-tab { min-height: calc(var(--chip-h) * var(--tz, 1)); font-size: calc(12px * max(var(--tz, 1), .85)); }
+      @media (max-width: 900px) { .x-tray { --chip-h: 34px; --chip-px: 10px; } }
     </style>
   </head>
   <body>
@@ -2700,6 +2705,8 @@
   function applyView() {
     world.style.transform = "translate(" + Math.round(view.x) + "px," + Math.round(view.y) + "px) scale(" + view.s + ")";
     world.style.setProperty("--inv", String(1 / view.s));
+    /* word tray follows the board zoom so chip text stays in proportion to the cards (clamped so chips stay tappable) */
+    var trayEl = $("tray"); if (trayEl) trayEl.style.setProperty("--tz", String(clamp(view.s, .72, 1)));
     if (placedS !== view.s && P && S) { placedS = view.s; P.parts.forEach(function (q) { if (els[q.id] && pos[q.id]) placeEl(q.id); }); }
     /* Swiss grid: 24px fine + 120px major lines; when the fine pitch gets too dense, step both up by 5 */
     var g = 24 * view.s, G5 = g * 5; if (g < 9) { g = G5; G5 *= 5; }
