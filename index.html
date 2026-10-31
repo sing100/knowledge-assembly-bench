@@ -4406,7 +4406,10 @@
            near full size; phones (<480px wide) get the tall stage, text stays readable */
         const m = root.clientWidth < 480;
         if (m !== M) { M = m; W = M ? 340 : 560; root.classList.toggle('m', M); }
-        stage.style.transform = `scale(${wrap.clientWidth / W})`;
+        const sc = wrap.clientWidth / W || 1;
+        stage.style.transform = `scale(${sc})`;
+        /* keep the cursor at its first-version on-screen size (26px) however much the stage is scaled down */
+        const cz = Math.max(22, 26 / sc) + 'px'; cursor.style.width = cursor.style.height = cz;
       };
       new ResizeObserver(fit).observe(root); fit();
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
