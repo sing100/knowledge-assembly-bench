@@ -418,6 +418,25 @@
       .x-tray .x-chip:not(.is-float) { height: calc(var(--chip-h) * var(--tz, 1)); min-width: 0; padding: 0 calc(var(--chip-px) * var(--tz, 1)); font-size: calc(var(--chip-fs) * var(--tz, 1)); transition: height var(--m-base) var(--e-swift), font-size var(--m-base) var(--e-swift), padding var(--m-base) var(--e-swift); }
       .x-tray .x-tab { min-height: calc(var(--chip-h) * var(--tz, 1)); font-size: calc(12px * max(var(--tz, 1), .85)); }
       @media (max-width: 900px) { .x-tray { --chip-h: 34px; --chip-px: 10px; } }
+      /* progress ring (replaces the text readout); tap it for the per-stage breakdown */
+      .x-prog { position: relative; }
+      .x-ring { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 8px 0 4px; border: 0; border-radius: 999px; background: transparent; font: inherit; cursor: pointer; color: var(--x-ink2); }
+      .x-ring:hover { background: var(--x-hover); }
+      .x-ring svg { width: 24px; height: 24px; transform: rotate(-90deg); }
+      .x-ring__bg { fill: none; stroke: var(--x-ln); stroke-width: 4; }
+      .x-ring__fg { fill: none; stroke: var(--x-acc); stroke-width: 4; stroke-linecap: round; transition: stroke-dasharray .5s var(--e-out), stroke .3s; }
+      .x-ring.is-done .x-ring__fg { stroke: #16A34A; }
+      .x-ring b { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--x-ink); }
+      .x-ring.is-flash svg { animation: x-ringpop 400ms var(--e-out); }
+      @keyframes x-ringpop { 40% { transform: rotate(-90deg) scale(1.18); } }
+      #pTxt { position: absolute; top: calc(100% + 8px); right: 0; z-index: 90; display: grid; gap: 8px; min-width: 200px; padding: 12px 14px; background: var(--x-card); border: 1px solid var(--x-ln); border-radius: 12px; box-shadow: var(--x-sh-float); font-size: 12px; line-height: 1.2; }
+      #pTxt[hidden] { display: none; }
+      #pTxt .x-pseg { display: grid; grid-template-columns: 3.5em 1fr auto; align-items: center; gap: 8px; }
+      #pTxt .x-pseg i { height: 4px; border-radius: 999px; background: var(--x-ln); overflow: hidden; }
+      #pTxt .x-pseg u { display: block; height: 100%; background: var(--x-acc); border-radius: 999px; }
+      #pTxt .x-pseg em { font-style: normal; font-variant-numeric: tabular-nums; color: var(--x-ink); }
+      @media (max-width: 900px) { #pTxt { font-size: 12px; } .x-ring { min-height: 44px; } }
+      @media (prefers-reduced-motion: reduce) { .x-ring__fg { transition: none; } .x-ring.is-flash svg { animation: none; } }
     </style>
   </head>
   <body>
@@ -450,8 +469,12 @@
         </div>
         <div class="x-prog">
           <span class="x-combo" id="comboPill" aria-hidden="true"></span>
-          <div class="x-pbar" aria-hidden="true"><i id="pBar"></i></div>
-          <span class="x-ptxt" id="pTxt" aria-live="polite">0/0</span>
+          <div class="x-pbar" aria-hidden="true" hidden><i id="pBar"></i></div>
+          <button class="x-ring" id="pRing" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="pTxt" title="进度">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><circle class="x-ring__bg" cx="18" cy="18" r="15"/><circle class="x-ring__fg" id="pArc" cx="18" cy="18" r="15" pathLength="100" stroke-dasharray="0 100"/></svg>
+            <b id="pPct">0%</b>
+          </button>
+          <span class="x-ptxt" id="pTxt" aria-live="polite" hidden>0/0</span>
         </div>
         <button class="x-tb" id="sideBtn" type="button" aria-expanded="true" aria-controls="side">详情</button>
       </header>
@@ -2987,12 +3010,14 @@
     var c = [1, 2, 3].map(correctCount), t = [1, 2, 3].map(total), rm = refsMade(), rt = refsTotal();
     var n = c[0] + c[1] + c[2] + rm, tt = t[0] + t[1] + t[2] + rt, pct = tt ? Math.round(n / tt * 100) : 100;
     $("pBar").style.width = pct + "%";
+    $("pArc").setAttribute("stroke-dasharray", pct + " 100"); $("pPct").textContent = pct + "%";
+    $("pRing").classList.toggle("is-done", pct >= 100);
     /* 25/50/75% milestones: flash the bar and a soft two-note chime, once each */
     var m = Math.min(3, Math.floor(pct / 25));
     if (m > (S.ms || 0)) {
       S.ms = m;
       if (pct < 100) {
-        var bar = $("pBar").parentNode;
+        var bar = $("pRing");
         bar.classList.remove("is-flash"); void bar.offsetWidth; bar.classList.add("is-flash");
         setTimeout(function () { bar.classList.remove("is-flash"); }, 400);
         sfx.tone(783.99, "sine", 5, 380, -30, 180); sfx.tone(1174.66, "sine", 5, 460, -32, 300);
@@ -3001,8 +3026,22 @@
     var seg = ["连 " + c[0] + "/" + t[0], "关 " + c[1] + "/" + t[1]];
     if (t[2]) seg.push("义 " + c[2] + "/" + t[2]);
     if (rt) seg.push("联 " + rm + "/" + rt);
-    $("pTxt").innerHTML = seg.map(function (s) { return '<span class="x-pseg">' + s + "</span>"; }).join(" · ");
+    var segFull = [["连线", c[0], t[0]], ["关系", c[1], t[1]]];
+    if (t[2]) segFull.push(["含义", c[2], t[2]]);
+    if (rt) segFull.push(["关联线", rm, rt]);
+    $("pTxt").innerHTML = segFull.map(function (q) { var p = q[2] ? Math.round(q[1] / q[2] * 100) : 100; return '<span class="x-pseg"><span>' + q[0] + '</span><i><u style="width:' + p + '%"></u></i><em>' + q[1] + "/" + q[2] + "</em></span>"; }).join("");
+    $("pRing").title = "进度 " + pct + "%：" + seg.join(" · ");
+    $("pRing").setAttribute("aria-label", "进度 " + pct + "%，" + seg.join("，"));
   }
+
+  /* progress ring: tap to show / hide the per-stage breakdown */
+  (function () {
+    var ring = $("pRing"), pop = $("pTxt");
+    function setOpen(o) { pop.hidden = !o; ring.setAttribute("aria-expanded", String(o)); }
+    ring.addEventListener("click", function (e) { e.stopPropagation(); setOpen(pop.hidden); });
+    document.addEventListener("pointerdown", function (e) { if (!pop.hidden && !e.target.closest("#pRing, #pTxt")) setOpen(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !pop.hidden) setOpen(false); });
+  })();
   function renderAll() {
     board.classList.toggle("is-linked", !!S.done[1]);
     renderEdges(); renderSlots(); renderCards(); renderRefs(); renderTray(); renderSide(); renderProgress(); renderBar(); updateEdges();
