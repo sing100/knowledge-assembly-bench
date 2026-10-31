@@ -136,7 +136,7 @@
       .x-port { position: absolute; right: -4px; top: 50%; width: 8px; height: 8px; margin-top: -4px; box-sizing: border-box; border-radius: 50%; background: var(--x-acc); border: 1.5px solid #fff; box-shadow: 0 0 0 1px var(--x-acc-r); cursor: crosshair; opacity: 0; transition: transform var(--m-snap) var(--e-snap), opacity var(--m-snap) var(--e-out); }
       .x-card:not(.is-on) .x-port { opacity: .35; }
       .x-card:hover .x-port, .x-card.x-near .x-port, .x-card.is-target .x-port, .x-board.is-linking .x-card.x-can .x-port { opacity: 1; }
-      .x-port::before { content: ""; position: absolute; left: 50%; top: 50%; width: 32px; height: 32px; margin: -16px 0 0 -16px; border-radius: 50%; transform: scale(var(--inv, 1)); }
+      .x-port::before { content: ""; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; transform: scale(var(--inv, 1)); }
       .x-card:hover .x-port { transform: scale(1.6); }
       .x-card:hover .x-port::before { transform: scale(calc(var(--inv, 1) / 1.6)); }
       .x-board.is-linked .x-port { display: none; }
@@ -3512,6 +3512,10 @@
   board.addEventListener("pointerup", tEnd);
   board.addEventListener("pointercancel", tEnd);
   board.addEventListener("pointerdown", function (e) {
+    /* iPad + Apple Pencil: a palm touch must never cancel a pen drag or start a pinch */
+    if (e.pointerType === "touch" && drag && drag.ptype === "pen") return;
+    /* pen wins over an in-progress finger drag */
+    if (e.pointerType === "pen" && drag && drag.ptype === "touch") endDrag(true, true);
     if (e.pointerType === "touch" && !e.target.closest(".x-tray, .x-zoom, .x-bpill")) {
       touches[e.pointerId] = { x: e.clientX, y: e.clientY };
       var tn = tPts().length;
@@ -3573,7 +3577,7 @@
       var c = t.closest(".x-edge").getAttribute("data-c");
       if (S.st[c] === "bad") removeLine(c);
       return;
-    } else if (e.pointerType !== "touch") {
+    } else if (e.pointerType !== "touch" && e.pointerType !== "pen") {
       drag = { type: "marq", w0: w, sx: e.clientX, sy: e.clientY, add: e.shiftKey, base: e.shiftKey ? Object.assign(M(), S.sel) : M(), moved: false, prev: Object.assign(M(), S.sel) };
       marq.style.cssText = "left:0;top:0;width:0;height:0";
     } else {
@@ -3581,7 +3585,7 @@
       vAnim = null; zt = null;
     }
     lastEv = e;
-    if (drag) { drag.th = e.pointerType === "touch" ? 6 : 4; drag.pid = e.pointerId; drag.ptype = e.pointerType; setNear(null); }
+    if (drag) { drag.th = (e.pointerType === "touch" || e.pointerType === "pen") ? 12 : 6; drag.pid = e.pointerId; drag.ptype = e.pointerType; setNear(null); }
     if (drag && !ap.raf) { ap.t = 0; ap.last = performance.now(); ap.raf = requestAnimationFrame(autoPan); }
     try { board.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
     e.preventDefault();
@@ -3957,6 +3961,37 @@
      on a different card never fires a click on that card, so tap state
      is only set by a tap (down+up on the same port/card). */
   var tapSrc = null, lastDragMoved = false;
+  /* tap via pointerup, not click: pointer capture retargets click to the
+     board on touch/pen (Safari + Apple Pencil especially), and a tap that
+     jitters a few px used to become a "move" drag and swallow the click.
+     A pointerup tap within 12px / 800ms on the same card still counts. */
+  var tapDown = null, tapDone = false;
+  board.addEventListener("pointerdown", function (e) {
+    if (e.button !== 0) { tapDown = null; return; }
+    if (e.pointerType === "touch" && drag && drag.ptype === "pen") { tapDown = null; return; }
+    var port = e.target.closest && e.target.closest(".x-port");
+    var card = e.target.closest && e.target.closest(".x-card");
+    tapDown = (port || card) ? { id: (port ? port.parentNode.dataset.id : card.dataset.id), x: e.clientX, y: e.clientY, t: performance.now(), type: e.pointerType } : null;
+  });
+  board.addEventListener("pointerup", function (e) {
+    if (!tapDown || !P || !S || tapChip || e.shiftKey) { tapDown = null; return; }
+    if (drag && drag.pid !== e.pointerId) { tapDown = null; return; }
+    var dt = performance.now() - tapDown.t;
+    var dist = Math.hypot(e.clientX - tapDown.x, e.clientY - tapDown.y);
+    var id = tapDown.id;
+    tapDown = null;
+    if (dt > 800 || dist > 12) return;
+    var up = cardUnder(toWorld(e.clientX, e.clientY));
+    if (up && up !== id) return;
+    if (!up && dist > 0) { /* up just outside the card edge: only accept the down card */ }
+    if (tapSrc && tapSrc !== id) {
+      if (canLink(tapSrc, id)) { connect(tapSrc, id); saveProgress(); }
+      else toast("这两张卡不能连");
+      clearTapSrc();
+    } else if (tapSrc === id) clearTapSrc();
+    else armTapSrc(id);
+    tapDone = true;
+  });
   function clearTapSrc() {
     tapSrc = null;
     P && P.parts.forEach(function (q) { if (els[q.id]) els[q.id].classList.remove("is-tap-src"); });
@@ -3967,6 +4002,7 @@
     toast("已选起点「" + byId[id].label + "」，再点目标卡连线，Esc 取消");
   }
   board.addEventListener("click", function (e) {
+    if (tapDone) { tapDone = false; return; }
     if (!P || !S || drag) return;
     if (lastDragMoved) { lastDragMoved = false; e._kabGuard = true; return; }
     if (tapChip) return; /* a chip is armed: the slot handler below owns this click */
