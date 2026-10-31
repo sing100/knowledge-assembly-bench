@@ -284,7 +284,9 @@
         .x-board { flex: 1; }
         .x-side { width: auto; max-height: 32vh; border-left: 0; border-top: 1px solid var(--x-ln); padding: 12px 16px 16px; }
         /* tray sits at the board bottom now (zoom moved to top-right), so no empty board strip between tray and detail; toasts already go to the board top on ≤900px, so they cannot cover the tray */
-        .x-tray { left: 14px; right: 14px; bottom: 16px; max-width: min(720px, calc(100% - 28px)); }
+        .x-tray { left: 14px; right: 14px; bottom: 16px; width: auto; max-width: none; }
+        /* full-width tray: chips run to the screen edge, the fade only marks "scroll for more" */
+        .x-tray__chips { flex: 1 1 auto; padding-right: 40px; -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
         /* compact tray: smaller visual weight, still finger-sized */
         .x-tray { padding: 4px 4px 4px 0; border-radius: 10px; }
         .x-chip { height: 34px; min-width: 40px; padding: 0 10px; font-size: 13px; border-radius: 7px; box-shadow: none; }
