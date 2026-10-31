@@ -240,17 +240,33 @@
       @keyframes x-dlg-in { from { opacity: 0; transform: translateY(10px) scale(.96); } }
       @keyframes x-dlg-out { to { opacity: 0; transform: translateY(6px) scale(.96); } }
       .x-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
-      /* first-run guide demo: native CSS only, no Lottie / external file, so the
-         single-file offline site stays single-file. Loop: card -> line -> lights up */
-      .x-ga { display: flex; align-items: center; gap: 0; height: 72px; padding: 0 20px; margin: 16px 0 8px; background: var(--x-bg); border: 1px solid var(--x-ln); border-radius: 12px; }
-      .x-ga__card { position: relative; flex: none; height: 32px; padding: 0 14px; display: flex; align-items: center; background: #fff; border: 1px solid var(--x-ln); border-radius: 10px; box-shadow: var(--x-sh); font-size: 13px; font-weight: 500; }
-      .x-ga__card--b { animation: ga-light 3.2s ease-in-out infinite; }
-      .x-ga__line { flex: 1; height: 2px; margin: 0 6px; background: var(--x-acc); border-radius: 2px; transform-origin: left center; animation: ga-line 3.2s ease-in-out infinite; }
-      .x-ga__dot { position: absolute; right: -3px; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--x-ok); opacity: 0; animation: ga-dot 3.2s ease-in-out infinite; }
-      @keyframes ga-line { 0%, 15% { transform: scaleX(0); } 55%, 100% { transform: scaleX(1); } }
-      @keyframes ga-light { 0%, 50% { background: #fff; color: var(--x-ink); border-color: var(--x-ln); } 65%, 100% { background: #F0FDF4; color: #15803D; border-color: #86EFAC; } }
-      @keyframes ga-dot { 0%, 60% { opacity: 0; } 70%, 100% { opacity: 1; } }
-      .x-ga__beats { display: flex; gap: 8px; justify-content: center; margin: 0 0 12px; font-size: 12px; color: var(--x-ink2); }
+      /* first-run guide demo: kab-intro, supplied final version 2026-11-01.
+         Native JS/CSS only, no external file, single-file offline site stays single-file.
+         Width adapted to the dialog (100% instead of min(560px,92vw)); rest verbatim. */
+      .kab-intro { width: 100%; --bg: #faf9f5; --card: #fff; --ink: #141413; --muted: #73726c; --line: #e8e6dc; --clay: #d97757; --clay-text: #b05535; --ok: #3f9a5c; --ok-text: #2f7d48; --bad: #c4473a; }
+      @media (prefers-color-scheme: dark) { .kab-intro { --bg: #262624; --card: #30302e; --ink: #faf9f5; --muted: #a3a29b; --line: #45443f; --clay-text: #e58b6d; --ok: #5cb87a; --ok-text: #7ccb95; } }
+      .kab-wrap { position: relative; width: 100%; aspect-ratio: 16/10; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--bg) radial-gradient(circle, var(--line) 1px, transparent 1.3px) 0 0/18px 18px; }
+      .kab-stage { position: absolute; left: 0; top: 0; width: 560px; height: 350px; transform-origin: 0 0; }
+      .kab-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+      .kab-card { position: absolute; left: 0; top: 0; padding: 8px 14px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; font-size: 15px; font-weight: 600; white-space: nowrap; will-change: transform; box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.05); transition: border-color .25s, box-shadow .4s; }
+      .kab-card.on { border-color: var(--ok); }
+      .kab-card.bad { border-color: var(--bad); }
+      .kab-card.glow { box-shadow: 0 0 0 4px rgba(63,154,92,.16), 0 6px 20px rgba(63,154,92,.22); }
+      .kab-chip { position: absolute; left: 0; top: 0; padding: 2px 8px; border-radius: 999px; background: var(--ok); color: #fff; font-size: 12px; font-weight: 600; transform: translate(-50%,-50%) scale(0); transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+      .kab-chip.show { transform: translate(-50%,-50%) scale(1); }
+      .kab-cursor { position: absolute; left: 0; top: 0; width: 22px; height: 22px; pointer-events: none; filter: drop-shadow(0 1px 2px rgba(0,0,0,.25)); }
+      .kab-done { position: absolute; left: 50%; bottom: 14px; padding: 4px 12px; border-radius: 999px; background: var(--card); border: 1px solid var(--ok); color: var(--ok-text); font-size: 13px; font-weight: 600; opacity: 0; transform: translateX(-50%) translateY(8px); transition: .4s; }
+      .kab-done.show { opacity: 1; transform: translateX(-50%); }
+      .kab-flow { stroke-dasharray: 4 10; animation: kab-flow 1s linear infinite; }
+      @keyframes kab-flow { to { stroke-dashoffset: -14; } }
+      .kab-steps { display: flex; gap: 6px; margin-top: 14px; font-size: 13px; color: var(--muted); }
+      .kab-steps span { flex: 1; padding: 8px 10px; border-radius: 10px; border: 1px solid transparent; line-height: 1.45; transition: .3s; }
+      .kab-steps span.on { color: var(--ink); background: var(--card); border-color: var(--line); }
+      .kab-steps b { color: var(--clay-text); margin-right: 3px; }
+      @media (max-width: 440px) { .kab-steps { flex-direction: column; } }
+      .kab-intro.m .kab-wrap { aspect-ratio: 340/400; }
+      .kab-intro.m .kab-stage { width: 340px; height: 400px; }
+      .kab-intro.m .kab-cursor { width: 26px; height: 26px; }
       .x-toasts { position: absolute; left: 16px; bottom: 24px; z-index: 80; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; pointer-events: none; }
       .x-toast { background: var(--x-ink); color: #FAFAFA; font-size: 13px; font-weight: 500; padding: 10px 14px; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.16); animation: x-in 220ms var(--e-out); transition: opacity 180ms ease-in, transform 180ms ease-in; }
       .x-toast.is-err::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--x-bad); vertical-align: 1px; }
@@ -371,9 +387,7 @@
       .x-card.is-drag { box-shadow: var(--x-sh-drag); }
         .x-pbar i, .x-pbar.is-flash { transition: none; animation: none; }
         .is-pop, .is-shake { animation: none; }
-        .x-ga__line, .x-ga__card--b, .x-ga__dot { animation: none; }
-        .x-ga__card--b { background: #F0FDF4; color: #15803D; border-color: #86EFAC; }
-        .x-ga__dot { opacity: 1; }
+        .kab-flow { animation: none; }
         .x-lamp { transform: none; transition: opacity var(--m-snap) linear; }
         .x-port { transition: opacity var(--m-snap) linear; }
         .x-card:hover .x-port { transform: none; }
@@ -476,13 +490,21 @@
     <div class="x-overlay" id="guideOverlay" hidden>
       <div class="x-dialog" role="dialog" aria-modal="true" aria-labelledby="guideT">
         <h2 id="guideT">这个网站是干什么的？</h2>
-        <p>把一本书拆成知识卡片，你亲手把它们连回原书结构，连对就亮灯，连完变思维导图。</p>
-        <div class="x-ga" aria-hidden="true">
-          <span class="x-ga__card">斯多葛主义</span>
-          <span class="x-ga__line"></span>
-          <span class="x-ga__card x-ga__card--b">逻辑学<span class="x-ga__dot"></span></span>
+        <div class="kab-intro">
+          <div class="kab-wrap">
+            <div class="kab-stage">
+              <svg></svg>
+              <div class="kab-chip">核心</div>
+              <div class="kab-done">✓ 组装完成</div>
+              <svg class="kab-cursor" viewBox="0 0 22 22"><path d="M2 1.5 L2 17 L6.3 13 L9 19.5 L11.8 18.3 L9.2 12 L15 12 Z" fill="#141413" stroke="#fff" stroke-width="1.3" stroke-linejoin="round" /></svg>
+            </div>
+          </div>
+          <div class="kab-steps">
+            <span><b>①</b>一本书被拆成知识卡片</span>
+            <span><b>②</b>亲手连回原书结构，连对就亮灯</span>
+            <span><b>③</b>连完，就成了你自己的思维导图</span>
+          </div>
         </div>
-        <p class="x-ga__beats"><span>看懂一张卡</span><span>→</span><span>连对一条线</span><span>→</span><span>亮灯成图</span></p>
         <p class="x-muted">卡住按「提示」，Esc 取消已选。</p>
         <div class="x-actions">
           <button class="x-sec-btn" id="guideSkip" type="button">跳过</button>
@@ -4253,6 +4275,150 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (P) { measure(); updateEdges(); } });
   window.addEventListener("resize", function () { if (P && !drag) applyView(); });
 })();
+    </script>
+    <script>
+    /* kab-intro final version, supplied 2026-11-01, verbatim except no standalone <html>/<body> wrapper */
+    (() => {
+      const T = 12;
+      let W = 560, M = false;
+      const root = document.querySelector('.kab-intro');
+      const wrap = root.querySelector('.kab-wrap');
+      const stage = root.querySelector('.kab-stage');
+      const svg = stage.querySelector('svg');
+      const chip = stage.querySelector('.kab-chip');
+      const done = stage.querySelector('.kab-done');
+      const cursor = stage.querySelector('.kab-cursor');
+      const steps = root.querySelectorAll('.kab-steps span');
+      const NS = 'http://www.w3.org/2000/svg';
+      const C = {
+        root: { t: '斯多葛主义',  s: [300, 190, -4], f: [280, 165], ms: [175, 215, -4], mf: [170, 190] },
+        eth:  { t: '伦理学',      s: [ 95,  70,  6], f: [140,  90], ms: [ 65,  70,  6], mf: [ 75,  90] },
+        phy:  { t: '物理学',      s: [470, 285, -7], f: [420,  90], ms: [270, 330, -7], mf: [265,  90] },
+        vir:  { t: '美德',        s: [455,  80,  5], f: [110, 250], ms: [270,  85,  5], mf: [ 65, 205] },
+        mar:  { t: '马可·奥勒留', s: [125, 280, -5], f: [400, 240], ms: [ 90, 320, -5], mf: [240, 280] },
+        med:  { t: '《沉思录》',  s: [300,  60,  7], f: [470, 305], ms: [180, 140,  7], mf: [265, 325] }
+      };
+      const L = [
+        { a: 'root', b: 'eth', s: 2.7 },
+        { a: 'eth',  b: 'vir', s: 3.85 },
+        { a: 'mar',  b: 'phy', s: 5.0, bad: true },
+        { a: 'root', b: 'phy', s: 6.0 },
+        { a: 'root', b: 'mar', s: 7.1 },
+        { a: 'mar',  b: 'med', s: 8.2 }
+      ];
+      const DRAG = 0.7, MOVE = 0.35, LAYOUT = 9.0, DONE = 10.2;
+      const cl = x => Math.max(0, Math.min(1, x));
+      const lerp = (a, b, p) => a + (b - a) * p;
+      const eio = p => p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      const back = p => 1 + 2.7 * Math.pow(p - 1, 3) + 1.7 * Math.pow(p - 1, 2);
+      const spring = p => p >= 1 ? 1 : 1 - Math.exp(-7 * p) * Math.cos(10 * p);
+      const keys = Object.keys(C);
+      keys.forEach(k => {
+        const el = document.createElement('div');
+        el.className = 'kab-card'; el.textContent = C[k].t;
+        stage.insertBefore(el, chip); C[k].el = el;
+      });
+      const mk = (cls, attrs) => {
+        const e = document.createElementNS(NS, 'line');
+        if (cls) e.setAttribute('class', cls);
+        for (const n in attrs) e.setAttribute(n, attrs[n]);
+        svg.appendChild(e); return e;
+      };
+      L.forEach(l => {
+        if (l.bad) return;
+        l.base = mk('', { stroke: '#3f9a5c', 'stroke-width': 2, 'stroke-linecap': 'round' });
+        l.flow = mk('kab-flow', { stroke: 'rgba(255,255,255,.75)', 'stroke-width': 2, 'stroke-linecap': 'round' });
+      });
+      const temp = mk('', { 'stroke-width': 2, 'stroke-dasharray': '5 5', 'stroke-linecap': 'round' });
+      const setL = (e, p, q, op) => {
+        e.setAttribute('x1', p[0]); e.setAttribute('y1', p[1]);
+        e.setAttribute('x2', q[0]); e.setAttribute('y2', q[1]);
+        e.style.opacity = op;
+      };
+      function render(t) {
+        const st = {};
+        keys.forEach((k, i) => {
+          const c = C[k], d = 0.2 + i * 0.16, S = M ? c.ms : c.s, F = M ? c.mf : c.f;
+          const p = back(cl((t - d) / 0.8)), q = spring(cl((t - LAYOUT) / 1.2));
+          st[k] = {
+            x: lerp(S[0], F[0], q), y: lerp(S[1], F[1], q) - 40 * (1 - p),
+            r: S[2] * (1 - q), sc: lerp(.85, 1, p), op: cl((t - d) / .4),
+            on: false, bad: false
+          };
+        });
+        L.forEach(l => {
+          const d = t - (l.s + DRAG);
+          if (d < 0) return;
+          if (l.bad) {
+            if (d < .45) { st[l.b].x += Math.sin(d * 45) * 5 * (1 - d / .45); st[l.a].bad = st[l.b].bad = true; }
+          } else {
+            st[l.a].on = st[l.b].on = true;
+            if (d < .35) { const k = 1 + .12 * Math.sin(Math.PI * d / .35); st[l.a].sc *= k; st[l.b].sc *= k; }
+          }
+        });
+        const P = k => [st[k].x, st[k].y];
+        let cur = M ? [300, 350] : [520, 330], tempOn = false;
+        for (const l of L) {
+          const A = P(l.a), B = P(l.b), lk = l.s + DRAG;
+          if (t < l.s - MOVE) break;
+          if (t < l.s) { const pr = eio(cl((t - l.s + MOVE) / MOVE)); cur = [lerp(cur[0], A[0], pr), lerp(cur[1], A[1], pr)]; break; }
+          if (t < lk) {
+            const pr = eio((t - l.s) / DRAG); cur = [lerp(A[0], B[0], pr), lerp(A[1], B[1], pr)];
+            temp.setAttribute('stroke', '#8a8880'); setL(temp, A, cur, .7); tempOn = true; break;
+          }
+          cur = B;
+          if (l.bad && t < lk + .35) {
+            const pr = eio((t - lk) / .35);
+            temp.setAttribute('stroke', '#c4473a'); setL(temp, A, [lerp(B[0], A[0], pr), lerp(B[1], A[1], pr)], 1); tempOn = true; break;
+          }
+        }
+        if (!tempOn) temp.style.opacity = 0;
+        cursor.style.transform = `translate(${cur[0]}px,${cur[1]}px)`;
+        cursor.style.opacity = cl((t - 2.1) / .3) * (1 - cl((t - 8.95) / .3));
+        L.forEach(l => {
+          if (l.bad) return;
+          const show = t >= l.s + DRAG ? 1 : 0;
+          setL(l.base, P(l.a), P(l.b), show); setL(l.flow, P(l.a), P(l.b), show);
+        });
+        const m = [(st.root.x + st.eth.x) / 2, (st.root.y + st.eth.y) / 2];
+        chip.style.left = m[0] + 'px'; chip.style.top = m[1] + 'px';
+        chip.classList.toggle('show', t >= L[0].s + DRAG);
+        keys.forEach(k => {
+          const s = st[k], el = C[k].el;
+          el.style.transform = `translate(${s.x}px,${s.y}px) translate(-50%,-50%) rotate(${s.r}deg) scale(${s.sc})`;
+          el.style.opacity = s.op;
+          el.classList.toggle('on', s.on);
+          el.classList.toggle('bad', s.bad);
+          el.classList.toggle('glow', t >= DONE);
+        });
+        done.classList.toggle('show', t >= DONE);
+        const idx = t < 2.4 ? 0 : t < LAYOUT ? 1 : 2;
+        steps.forEach((s, i) => s.classList.toggle('on', i === idx));
+        stage.style.opacity = t < .3 ? t / .3 : t > T - .6 ? (T - t) / .6 : 1;
+      }
+      const fit = () => {
+        /* adaptation for the 400px dialog: original 480 threshold would always
+           pick the tall vertical layout inside the dialog; 300 keeps the wide
+           layout in a normal dialog and only switches on very narrow phones */
+        const m = root.clientWidth < 300;
+        if (m !== M) { M = m; W = M ? 340 : 560; root.classList.toggle('m', M); }
+        stage.style.transform = `scale(${wrap.clientWidth / W})`;
+      };
+      new ResizeObserver(fit).observe(root); fit();
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        render(10.8); stage.style.opacity = 1;
+        steps.forEach(s => s.classList.add('on'));
+        return;
+      }
+      let start = null, visible = true;
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(root);
+      const tick = now => {
+        if (start === null) start = now;
+        if (visible) render(((now - start) / 1000) % T);
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    })();
     </script>
   </body>
 </html>
