@@ -420,14 +420,14 @@
       @media (max-width: 900px) { .x-tray { --chip-h: 34px; --chip-px: 10px; } }
       /* progress ring (replaces the text readout); tap it for the per-stage breakdown */
       .x-prog { position: relative; }
-      .x-ring { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 8px 0 4px; border: 0; border-radius: 999px; background: transparent; font: inherit; cursor: pointer; color: var(--x-ink2); }
-      .x-ring:hover { background: var(--x-hover); }
-      .x-ring svg { width: 24px; height: 24px; transform: rotate(-90deg); }
-      .x-ring__bg { fill: none; stroke: var(--x-ln); stroke-width: 4; }
-      .x-ring__fg { fill: none; stroke: var(--x-acc); stroke-width: 4; stroke-linecap: round; transition: stroke-dasharray .5s var(--e-out), stroke .3s; }
-      .x-ring.is-done .x-ring__fg { stroke: #16A34A; }
-      .x-ring b { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--x-ink); }
-      .x-ring.is-flash svg { animation: x-ringpop 400ms var(--e-out); }
+      .x-pring { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 8px 0 4px; border: 0; border-radius: 999px; background: transparent; font: inherit; cursor: pointer; color: var(--x-ink2); }
+      .x-pring:hover { background: var(--x-hover); }
+      .x-pring svg { width: 24px; height: 24px; transform: rotate(-90deg); }
+      .x-pring__bg { fill: none; stroke: var(--x-ln); stroke-width: 4; }
+      .x-pring__fg { fill: none; stroke: var(--x-acc); stroke-width: 4; stroke-linecap: round; transition: stroke-dasharray .5s var(--e-out), stroke .3s; }
+      .x-pring.is-done .x-pring__fg { stroke: #16A34A; }
+      .x-pring b { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--x-ink); }
+      .x-pring.is-flash svg { animation: x-ringpop 400ms var(--e-out); }
       @keyframes x-ringpop { 40% { transform: rotate(-90deg) scale(1.18); } }
       #pTxt { position: absolute; top: calc(100% + 8px); right: 0; z-index: 90; display: grid; gap: 8px; min-width: 200px; padding: 12px 14px; background: var(--x-card); border: 1px solid var(--x-ln); border-radius: 12px; box-shadow: var(--x-sh-float); font-size: 12px; line-height: 1.2; }
       #pTxt[hidden] { display: none; }
@@ -435,8 +435,15 @@
       #pTxt .x-pseg i { height: 4px; border-radius: 999px; background: var(--x-ln); overflow: hidden; }
       #pTxt .x-pseg u { display: block; height: 100%; background: var(--x-acc); border-radius: 999px; }
       #pTxt .x-pseg em { font-style: normal; font-variant-numeric: tabular-nums; color: var(--x-ink); }
-      @media (max-width: 900px) { #pTxt { font-size: 12px; } .x-ring { min-height: 44px; } }
-      @media (prefers-reduced-motion: reduce) { .x-ring__fg { transition: none; } .x-ring.is-flash svg { animation: none; } }
+      @media (max-width: 900px) { #pTxt { font-size: 12px; } .x-pring { min-height: 44px; } }
+      @media (prefers-reduced-motion: reduce) { .x-pring__fg { transition: none; } .x-pring.is-flash svg { animation: none; } }
+      /* zoom bar: only the fit-view button, at every width (pinch / wheel / Ctrl± still zoom) */
+      .x-zoom { padding: 0; background: transparent; border: 0; box-shadow: none; }
+      .x-zoom #zOut, .x-zoom #zPct, .x-zoom #zIn { display: none; }
+      .x-zoom #zFit { min-width: 32px; height: 32px; background: var(--x-card); border: 1px solid var(--x-ln); border-radius: 8px; box-shadow: var(--x-sh-float); }
+      /* desktop tray spans the board too */
+      .x-tray { right: 16px; width: auto; max-width: none; }
+      .x-tray__chips { flex: 1 1 auto; padding-right: 40px; -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
     </style>
   </head>
   <body>
@@ -470,8 +477,8 @@
         <div class="x-prog">
           <span class="x-combo" id="comboPill" aria-hidden="true"></span>
           <div class="x-pbar" aria-hidden="true" hidden><i id="pBar"></i></div>
-          <button class="x-ring" id="pRing" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="pTxt" title="进度">
-            <svg viewBox="0 0 36 36" aria-hidden="true"><circle class="x-ring__bg" cx="18" cy="18" r="15"/><circle class="x-ring__fg" id="pArc" cx="18" cy="18" r="15" pathLength="100" stroke-dasharray="0 100"/></svg>
+          <button class="x-pring" id="pRing" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="pTxt" title="进度">
+            <svg viewBox="0 0 36 36" aria-hidden="true"><circle class="x-pring__bg" cx="18" cy="18" r="15"/><circle class="x-pring__fg" id="pArc" cx="18" cy="18" r="15" pathLength="100" stroke-dasharray="0 100"/></svg>
             <b id="pPct">0%</b>
           </button>
           <span class="x-ptxt" id="pTxt" aria-live="polite" hidden>0/0</span>
