@@ -243,6 +243,13 @@
       .x-toasts { position: absolute; left: 16px; bottom: 24px; z-index: 80; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; pointer-events: none; }
       .x-toast { background: var(--x-ink); color: #FAFAFA; font-size: 13px; font-weight: 500; padding: 10px 14px; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.16); animation: x-in 220ms var(--e-out); transition: opacity 180ms ease-in, transform 180ms ease-in; }
       .x-toast.is-err::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--x-bad); vertical-align: 1px; }
+      /* game-style unlock feedback: green, check icon, +N badge, affirmation text */
+      .x-toast.is-unlock { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: linear-gradient(135deg, #16A34A, #15803D); color: #fff; border-radius: 14px; box-shadow: 0 10px 28px rgba(22,163,74,.45); animation: x-unlock-pop 360ms var(--e-over); }
+      .x-toast.is-unlock .x-unlock-ic { flex: none; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,.25); font-size: 16px; font-weight: 800; }
+      .x-toast.is-unlock .x-unlock-t { font-size: 14px; font-weight: 700; line-height: 1.3; }
+      .x-toast.is-unlock .x-unlock-s { font-size: 12px; line-height: 1.3; opacity: .9; }
+      .x-toast.is-unlock .x-unlock-plus { flex: none; padding: 3px 9px; border-radius: 999px; background: #fff; color: #15803D; font-size: 13px; font-weight: 800; }
+      @keyframes x-unlock-pop { 0% { opacity: 0; transform: scale(.8); } 60% { transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
       .x-toast.is-out { opacity: 0; transform: translateY(-8px); }
       @keyframes x-in { from { opacity: 0; transform: translateY(12px); } }
       @media (max-width: 900px) {
@@ -1850,6 +1857,20 @@
     $("toasts").appendChild(t);
     setTimeout(function () { t.classList.add("is-out"); setTimeout(function () { t.remove(); }, 320); }, 2600);
   }
+  function toastUnlock(n) {
+    var t = document.createElement("div"); t.className = "x-toast is-unlock";
+    var ic = document.createElement("span"); ic.className = "x-unlock-ic"; ic.textContent = "✓";
+    var tx = document.createElement("span");
+    var main = document.createElement("div"); main.className = "x-unlock-t"; main.textContent = "解锁 " + n + " 张新卡";
+    var sub = document.createElement("div"); sub.className = "x-unlock-s"; sub.textContent = "I can！又拼对一步，继续！";
+    tx.appendChild(main); tx.appendChild(sub);
+    var plus = document.createElement("span"); plus.className = "x-unlock-plus"; plus.textContent = "+" + n;
+    t.appendChild(ic); t.appendChild(tx); t.appendChild(plus);
+    var tr = $("tray"), up = tr && !tr.hidden && !tr.classList.contains("is-out");
+    $("toasts").style.bottom = (up ? tr.parentNode.clientHeight - tr.offsetTop + 10 : 24) + "px";
+    $("toasts").appendChild(t);
+    setTimeout(function () { t.classList.add("is-out"); setTimeout(function () { t.remove(); }, 320); }, 3200);
+  }
 
   /* ---------- packs ---------- */
   var PACKS = {}, order = [];
@@ -2190,7 +2211,7 @@
         setTimeout(function () { d.classList.remove("is-reveal"); d.style.animationDelay = ""; }, 420 + i * 60);
       }
     });
-    toast("解锁 " + kids.length + " 张新卡");
+    toastUnlock(kids.length);
     /* new cards off screen: ease the view out to take in the whole visible board */
     var g = S.gen;
     setTimeout(function () {
