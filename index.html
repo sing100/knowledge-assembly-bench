@@ -304,11 +304,18 @@
         .x-brand { font-size: 0; gap: 0; }
         #importBtn, #shuffleBtn, #layoutBtn, #tidyBtn, #muteBtn, .x-pbar, .x-combo { display: none; }
         .x-morebtn { display: inline-block; }
-        .x-sel { max-width: 96px; min-width: 0; flex: 0 1 auto; }
-        .x-prog { min-width: 0; }
-        #pTxt { white-space: normal; max-width: 112px; line-height: 1.25; text-align: right; }
+        .x-sel { max-width: 84px; min-width: 0; flex: 0 1 auto; }
+        .x-prog { min-width: 0; flex: 0 0 auto; gap: 6px; }
+        /* mobile progress: one line, no wrap, so the header stays one row */
+        #pTxt { white-space: nowrap; max-width: none; line-height: 1; text-align: right; font-size: 11px; }
+        .x-pseg { white-space: nowrap; }
         .x-toasts { top: 72px; bottom: auto !important; }
         .x-actions .x-primary, .x-actions .x-sec-btn { padding: 0 12px; }
+      }
+      @media (max-width: 480px) {
+        #pTxt { font-size: 10px; }
+        .x-sel { max-width: 72px; }
+        .x-top { gap: 4px; padding: 6px 6px; }
       }
       /* B6b: combo, current dot, corner lamp, branch power-on, finale ring */
       .x-combo { padding: 4px 10px; border-radius: 999px; background: var(--x-acc-l); font-size: 13px; font-weight: 600; line-height: 1.2; color: var(--x-acc); font-variant-numeric: tabular-nums; white-space: nowrap; opacity: 0; transition: opacity var(--m-base) var(--e-swift), background-color var(--m-base) var(--e-swift), color var(--m-base) var(--e-swift); }
@@ -1982,16 +1989,25 @@
       return actx;
     }
     function db(v) { return Math.pow(10, v / 20) * (0.9 + Math.random() * 0.2); }
-    /* start time honouring ≥60ms same-sound spacing and the 8-voice cap; -1 = skip */
+    /* start time honouring ≥60ms same-sound spacing and the 8-voice cap; -1 = skip.
+       Bug fixed: a suspended context used to swallow sounds into a frozen
+       timeline, and onended never fired while suspended, so voices stuck
+       at 8 and every later sound was dropped. Now suspended = skip + resume,
+       and voices always free up via a timeout fallback. */
     function slot(key, delayMs) {
-      if (muted || !ctx() || voices >= 8) return -1;
+      if (muted || !ctx()) return -1;
+      if (actx.state !== "running") { try { actx.resume(); } catch (err) { /* ignore */ } return -1; }
+      if (voices >= 8) return -1;
       var t = actx.currentTime + (delayMs || 0) / 1000, p = last[key];
       if (p != null && t - p < 0.06) t = p + 0.06;
       last[key] = t; return t;
     }
     function run(src, g, t, end) {
       g.connect(out); voices++;
-      src.onended = function () { voices--; };
+      var done = false;
+      var free = function () { if (!done) { done = true; voices = Math.max(0, voices - 1); } };
+      src.onended = free;
+      setTimeout(free, Math.max(0, (end - actx.currentTime) * 1000) + 500);
       src.start(t); src.stop(end);
     }
     function tone(freq, type, attackMs, decayMs, gainDb, delayMs, opt) {
@@ -2021,7 +2037,12 @@
       } catch (err) { /* no audio */ }
     }
     function arp(notes, gap, dB, tri) { notes.forEach(function (f, i) { tone(f, "sine", 5, 320, dB, i * gap); if (tri) tone(f, "triangle", 5, 220, dB - 10, i * gap); }); }
-    document.addEventListener("pointerdown", function () { ctx(); }, { once: true, capture: true });
+    /* unlock audio on every gesture, not just the first: iOS re-suspends the
+       context when the tab backgrounds, and a once-only unlock never recovers */
+    document.addEventListener("pointerdown", function () { ctx(); }, { capture: true });
+    document.addEventListener("pointerup", function () { if (actx && actx.state === "suspended") { try { actx.resume(); } catch (err) { /* ignore */ } } }, { capture: true });
+    document.addEventListener("keydown", function () { ctx(); }, { capture: true });
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) ctx(); });
     return {
       tone: tone,
       /* pitch follows the combo level; past level 6 it wraps back to 3 */
