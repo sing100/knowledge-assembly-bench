@@ -193,7 +193,6 @@
 
       .x-tray { position: absolute; left: 16px; right: 200px; bottom: 16px; margin: 0; width: fit-content; max-width: 720px; box-sizing: border-box; background: var(--x-card); border: 1px solid var(--x-ln); border-radius: 12px; box-shadow: var(--x-sh-float); padding: 6px 6px 6px 0; display: flex; flex-direction: row; align-items: center; }
       .x-tray__h { flex: none; display: flex; gap: 2px; padding: 0 8px 0 14px; background: transparent; font-size: 12px; color: var(--x-ink2); margin: 0; }
-      .x-tray__h::before { content: "待放"; flex: none; margin-right: 8px; font-size: 12px; font-weight: 500; color: var(--x-ink2); white-space: nowrap; }
       .x-tray__chips { flex: 0 1 auto; min-width: 0; align-items: center; border-left: 1px solid var(--x-ln); padding-left: 8px; display: flex; flex-wrap: nowrap; gap: 4px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; touch-action: pan-x; overscroll-behavior: contain; padding-right: 24px; -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent); }
       .x-chip { flex: none; height: 32px; padding: 0 12px; display: inline-flex; align-items: center; border: 1px solid var(--x-ln); border-radius: 8px; background: var(--x-card); color: var(--x-ink); font-size: 13px; font-weight: 500; box-shadow: var(--x-sh); cursor: grab; white-space: nowrap; touch-action: pan-x; transition: border-color var(--m-base) var(--e-swift), box-shadow var(--m-base) var(--e-swift); }
       .x-chip:hover { border-color: var(--x-ln-h); }
@@ -291,7 +290,6 @@
         .x-chip { height: 34px; min-width: 40px; padding: 0 10px; font-size: 13px; border-radius: 7px; box-shadow: none; }
         .x-tab { min-height: 34px; padding: 0 10px; }
         .x-tray__h { padding: 0 6px 0 10px; }
-        .x-tray__h::before { margin-right: 4px; }
         .x-tb, .x-sel, .x-primary, .x-sec-btn { min-height: 44px; }
         .x-tb { min-width: 44px; }
         .x-zoom button { min-width: 44px; height: 44px; }
@@ -334,7 +332,11 @@
       @media (max-width: 900px) {
         .x-top { flex-wrap: nowrap; gap: 6px; padding: 6px 8px; }
         .x-brand { font-size: 0; gap: 0; }
-        #importBtn, #shuffleBtn, #layoutBtn, #tidyBtn, #muteBtn, .x-pbar, .x-combo { display: none; }
+        #importBtn, #shuffleBtn, #layoutBtn, #muteBtn, .x-pbar, .x-combo { display: none; }
+        /* 一键整理 stays in the compact top bar as an icon button */
+        #tidyBtn { font-size: 0; min-width: 44px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+        #tidyBtn svg { width: 18px; height: 18px; margin: 0 !important; vertical-align: 0 !important; }
+        .x-more [data-for="tidyBtn"] { display: none; }
         .x-morebtn { display: inline-block; }
         .x-sel { max-width: 84px; min-width: 0; flex: 0 1 auto; }
         .x-prog { min-width: 0; flex: 0 0 auto; gap: 6px; }
