@@ -240,6 +240,17 @@
       @keyframes x-dlg-in { from { opacity: 0; transform: translateY(10px) scale(.96); } }
       @keyframes x-dlg-out { to { opacity: 0; transform: translateY(6px) scale(.96); } }
       .x-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+      /* first-run guide demo: native CSS only, no Lottie / external file, so the
+         single-file offline site stays single-file. Loop: card -> line -> lights up */
+      .x-ga { display: flex; align-items: center; gap: 0; height: 72px; padding: 0 20px; margin: 16px 0 8px; background: var(--x-bg); border: 1px solid var(--x-ln); border-radius: 12px; }
+      .x-ga__card { position: relative; flex: none; height: 32px; padding: 0 14px; display: flex; align-items: center; background: #fff; border: 1px solid var(--x-ln); border-radius: 10px; box-shadow: var(--x-sh); font-size: 13px; font-weight: 500; }
+      .x-ga__card--b { animation: ga-light 3.2s ease-in-out infinite; }
+      .x-ga__line { flex: 1; height: 2px; margin: 0 6px; background: var(--x-acc); border-radius: 2px; transform-origin: left center; animation: ga-line 3.2s ease-in-out infinite; }
+      .x-ga__dot { position: absolute; right: -3px; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--x-ok); opacity: 0; animation: ga-dot 3.2s ease-in-out infinite; }
+      @keyframes ga-line { 0%, 15% { transform: scaleX(0); } 55%, 100% { transform: scaleX(1); } }
+      @keyframes ga-light { 0%, 50% { background: #fff; color: var(--x-ink); border-color: var(--x-ln); } 65%, 100% { background: #F0FDF4; color: #15803D; border-color: #86EFAC; } }
+      @keyframes ga-dot { 0%, 60% { opacity: 0; } 70%, 100% { opacity: 1; } }
+      .x-ga__beats { display: flex; gap: 8px; justify-content: center; margin: 0 0 12px; font-size: 12px; color: var(--x-ink2); }
       .x-toasts { position: absolute; left: 16px; bottom: 24px; z-index: 80; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; pointer-events: none; }
       .x-toast { background: var(--x-ink); color: #FAFAFA; font-size: 13px; font-weight: 500; padding: 10px 14px; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.16); animation: x-in 220ms var(--e-out); transition: opacity 180ms ease-in, transform 180ms ease-in; }
       .x-toast.is-err::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--x-bad); vertical-align: 1px; }
@@ -360,6 +371,9 @@
       .x-card.is-drag { box-shadow: var(--x-sh-drag); }
         .x-pbar i, .x-pbar.is-flash { transition: none; animation: none; }
         .is-pop, .is-shake { animation: none; }
+        .x-ga__line, .x-ga__card--b, .x-ga__dot { animation: none; }
+        .x-ga__card--b { background: #F0FDF4; color: #15803D; border-color: #86EFAC; }
+        .x-ga__dot { opacity: 1; }
         .x-lamp { transform: none; transition: opacity var(--m-snap) linear; }
         .x-port { transition: opacity var(--m-snap) linear; }
         .x-card:hover .x-port { transform: none; }
@@ -461,13 +475,15 @@
 
     <div class="x-overlay" id="guideOverlay" hidden>
       <div class="x-dialog" role="dialog" aria-modal="true" aria-labelledby="guideT">
-        <h2 id="guideT">一分钟示范：从哪开始</h2>
-        <p class="x-muted">不用先看全图，跟着这四步走完一条分支：</p>
-        <p>1. 点一张卡片，右侧看它是什么。</p>
-        <p>2. 点一张卡片（已选为起点），再点它的上级或下级卡片，连线。</p>
-        <p>3. 点底部词块，再点一个空槽，把关系词 / 含义放进去。</p>
-        <p>4. 一条分支的卡都连对后，它会变色，右侧出现整条路的解释。</p>
-        <p class="x-muted">卡住时按「提示」。随时按 Esc 取消已选的起点或词块。</p>
+        <h2 id="guideT">这个网站是干什么的？</h2>
+        <p>把一本书拆成知识卡片，你亲手把它们连回原书结构，连对就亮灯，连完变思维导图。</p>
+        <div class="x-ga" aria-hidden="true">
+          <span class="x-ga__card">斯多葛主义</span>
+          <span class="x-ga__line"></span>
+          <span class="x-ga__card x-ga__card--b">逻辑学<span class="x-ga__dot"></span></span>
+        </div>
+        <p class="x-ga__beats"><span>看懂一张卡</span><span>→</span><span>连对一条线</span><span>→</span><span>亮灯成图</span></p>
+        <p class="x-muted">卡住按「提示」，Esc 取消已选。</p>
         <div class="x-actions">
           <button class="x-sec-btn" id="guideSkip" type="button">跳过</button>
           <button class="x-primary" id="guideStart" type="button">开始</button>
