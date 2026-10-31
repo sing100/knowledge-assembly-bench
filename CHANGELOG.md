@@ -1,6 +1,24 @@
 # Changelog
 
 All notable changes to Knowledge Assembly Bench are documented here.
+
+## Unreleased — 0178eb3 repair list, branch only, 2026-10-31 (not merged)
+
+### Fixed
+- Save reliability: progress is no longer overwritten by a fresh empty state during load (save is suppressed until restore finishes, and the "已恢复" toast only appears when something was actually restored). Progress is now stored per pack (`kabProgress:<packId>`, with one-time migration from the old shared key), so switching packs no longer overwrites the previous pack.
+- Imported packs now persist across refreshes (localStorage `kabCustomPacks`) and can be removed: ⋯ → 删除当前导入包 / 重置全部导入包, which also clear their saved progress.
+- Mouse click-to-connect: clicking a card now arms it as the source and a second click on another card connects (drag and keyboard unchanged; a drag-moved click does not arm, shift-click stays multi-select, arming a chip clears an armed source and vice versa).
+- Chip slots: empty open slots are now focusable (Tab) even as dots, and when a chip is armed its open slots expand into tappable 64×32 targets, so tap/keyboard placement no longer depends on drag proximity.
+- Mobile: the initial fit floor on ≤600px is now 1.0 instead of 0.6, so card text stays at its 13px size instead of shrinking to ~7.8px; the board is panned instead of shrunk. Port hit area on phones is 44×44.
+- Pack order: siblings with an `order` field now render in that order in layouts, branch routes and exported outlines (file order is kept where no order is given).
+- Export/import: ⋯ → 导出知识包 downloads a valid pack JSON that re-imports; 导出进度备份 is now tagged `kab-progress-backup` and re-imports into its pack, restoring locks/refs/chips/positions. Import shows a preview summary (title, card/link/ref counts) and a clear error for a backup whose pack is not loaded, instead of a generic failure.
+- Tests: the simulated-assembly check no longer compares a parent to itself; it now requires a real link edge for every locked card, plus sequence-order checks and static regression guards for per-pack keys, save suppression, custom-pack persistence, pack export/backup and order rendering.
+
+### Added
+- Skippable first-run guide (⋯ → 新手示范 reopens it): read a card → connect → place a chip → finish one branch, in about a minute. It does not auto-complete progress.
+
+### Notes
+- Browser checks for refresh restore, per-pack isolation, mouse click connect, chip tap placement and 390px readability are being run as a separate live-browser test on this branch; headless Node tests and `sync-packs --check` pass, but they do not cover DOM interaction.
 No history rewrite: earlier commits are left as-is; from this entry on,
 each change is one clean commit with a single clear message, and releases
 are tagged instead of relying on "latest main".

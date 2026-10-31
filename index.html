@@ -175,7 +175,7 @@
       .x-lslot { position: absolute; left: 0; top: 0; min-width: 64px; transition: background-color var(--m-base) var(--e-swift), border-color var(--m-base) var(--e-swift), color var(--m-base) var(--e-swift), opacity var(--m-base) var(--e-swift); }
       .x-mslot[hidden] { display: none; }
       /* slot states: none (not rendered) → dot (6px round anchor) → near (dashed indigo ghost, only while dragging a chip of its kind) → filled → ok */
-      .x-mslot.is-dot, .x-lslot.is-dot { width: 6px; height: 6px; min-width: 0; padding: 0; border: 0; border-radius: 50%; background: var(--x-ln-h); color: transparent; overflow: hidden; pointer-events: none; transition: background-color var(--m-snap) var(--e-out), box-shadow var(--m-snap) var(--e-out), opacity var(--m-base) var(--e-swift); }
+      .x-mslot.is-dot, .x-lslot.is-dot { width: 6px; height: 6px; min-width: 0; padding: 0; border: 0; border-radius: 50%; background: var(--x-ln-h); color: transparent; overflow: hidden; pointer-events: auto; } transition: background-color var(--m-snap) var(--e-out), box-shadow var(--m-snap) var(--e-out), opacity var(--m-base) var(--e-swift); }
       .x-mslot.is-dot { top: calc(100% + 16px); opacity: .5; }
       .x-board.x-arm-3 .x-mslot.is-dot, .x-card:hover .x-mslot.is-dot { opacity: 1; }
       .x-board.x-arm-2 .x-lslot.is-dot, .x-board.x-arm-3 .x-mslot.is-dot { background: var(--x-acc); box-shadow: 0 0 0 3px var(--x-acc-r); }
@@ -199,7 +199,7 @@
       .x-chip:hover { border-color: var(--x-ln-h); }
       .x-chip.is-ghost { opacity: .3; }
       .x-chip.is-tap-chip { outline: 2px solid var(--x-acc); outline-offset: 2px; background: var(--x-acc-l); }
-      .x-lslot.is-tap-target, .x-mslot.is-tap-target { outline: 2px dashed var(--x-acc); outline-offset: 2px; }
+      .x-lslot.is-tap-target, .x-mslot.is-tap-target { outline: 2px dashed var(--x-acc); outline-offset: 2px; pointer-events: auto !important; min-width: 64px; min-height: 32px; }
       .x-chip.is-float { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; box-shadow: var(--x-sh-drag); border-color: var(--x-ln-h); }
       .x-chip.is-float.is-bad { border-color: var(--x-bad); background: var(--x-bad-l); color: var(--x-bad); }
       .x-chip.is-away { visibility: hidden; }
@@ -256,6 +256,7 @@
         .x-tb, .x-sel, .x-primary, .x-sec-btn { min-height: 44px; }
         .x-tb { min-width: 44px; }
         .x-zoom button { min-width: 44px; height: 44px; }
+        .x-port::before { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
         .x-zoom #zPct { min-width: 54px; }
       }
       /* desktop: ⋯ only carries the 关联线 toggle, and only for packs with refs */
@@ -381,7 +382,11 @@
             <button class="x-tb x-refbtn" id="refBtn" type="button" aria-pressed="false">显示全部关联线<span class="x-check" aria-hidden="true">✓</span></button>
             <button class="x-tb x-refbtn x-allbtn" id="allBtn" type="button" aria-pressed="false" title="一开始就摆出全部卡片（自测用），切换后重新开始">全部摆出<span class="x-check" aria-hidden="true">✓</span></button>
             <button class="x-tb" id="clearProgressBtn" type="button" title="清除本包已保存的进度，下次打开从头开始">清除已保存进度</button>
-            <button class="x-tb" id="exportBtn" type="button" title="把当前组装结果下载为 JSON，含结构大纲">导出组装结果</button>
+            <button class="x-tb" id="exportPackBtn" type="button" title="把当前知识包下载为可导入的 JSON">导出知识包</button>
+            <button class="x-tb" id="exportBtn" type="button" title="把当前组装进度下载为 JSON，可再导入恢复">导出进度备份</button>
+            <button class="x-tb" id="deletePackBtn" type="button" title="删除当前导入的知识包（内置包不可删）">删除当前导入包</button>
+            <button class="x-tb" id="resetPacksBtn" type="button" title="删除全部导入的知识包及它们的进度">重置全部导入包</button>
+            <button class="x-tb" id="guideBtn" type="button" title="打开一分钟新手示范">新手示范</button>
           </div>
         </div>
         <div class="x-prog">
@@ -433,6 +438,22 @@
           <div class="x-toasts" id="toasts" aria-live="polite"></div>
         </main>
         <aside class="x-side" id="side" aria-label="卡片详情"><div id="partInfo" aria-live="polite"></div></aside>
+      </div>
+    </div>
+
+    <div class="x-overlay" id="guideOverlay" hidden>
+      <div class="x-dialog" role="dialog" aria-modal="true" aria-labelledby="guideT">
+        <h2 id="guideT">一分钟示范：从哪开始</h2>
+        <p class="x-muted">不用先看全图，跟着这四步走完一条分支：</p>
+        <p>1. 点一张卡片，右侧看它是什么。</p>
+        <p>2. 点一张卡片（已选为起点），再点它的上级或下级卡片，连线。</p>
+        <p>3. 点底部词块，再点一个空槽，把关系词 / 含义放进去。</p>
+        <p>4. 一条分支的卡都连对后，它会变色，右侧出现整条路的解释。</p>
+        <p class="x-muted">卡住时按「提示」。随时按 Esc 取消已选的起点或词块。</p>
+        <div class="x-actions">
+          <button class="x-sec-btn" id="guideSkip" type="button">跳过</button>
+          <button class="x-primary" id="guideStart" type="button">开始</button>
+        </div>
       </div>
     </div>
 
@@ -2233,7 +2254,15 @@
   /* edges only clear the meaning label once one sits there; an empty slot is just a dot */
   function noteOn(id) { var o = S && S.s3; return o && (o.ok[id] || o.fill[id] != null) ? noteEx(id) : 0; }
   /* ---------- branch focus (after the structure is done) ---------- */
-  function firstKids() { return P.parts.filter(function (q) { return C[q.id] === P.root; }).map(function (q) { return q.id; }); }
+  function firstKids() { return sortByOrder(P.parts.filter(function (q) { return C[q.id] === P.root; }).map(function (q) { return q.id; })); }
+  /* order: siblings with an order field render in that order; others keep file order (stable sort) */
+  function sortByOrder(ids) {
+    return ids.slice().sort(function (a, b) {
+      var oa = byId[a] && byId[a].order, ob = byId[b] && byId[b].order;
+      if (typeof oa === "number" && typeof ob === "number") return oa - ob;
+      return 0;
+    });
+  }
   function branchOf(id) { var c = id, k = 0; while (c && C[c] !== P.root && k++ < 999) c = C[c]; return c && C[c] === P.root ? c : null; }
   /* opt-in: whole view by default; clicking a first-level branch card focuses it, 「全图」 exits */
   function eff() { return S && S.rt ? S.rt.b : S && S.done[1] && !allDone() ? S.branch : null; }
@@ -2257,7 +2286,7 @@
   function fitBranch(src) {
     var b = eff(); if (!b) return;
     var ids = P.parts.filter(function (q) { return q.id === P.root || branchOf(q.id) === b; }).map(function (q) { return q.id; });
-    fitView(true, src, ids, 0.85, 600);
+    fitView(true, src, ids, window.innerWidth <= 600 ? 1 : 0.85, 600);
   }
   /* hover path highlight */
   var hovId = null;
@@ -2487,7 +2516,8 @@
     el.textContent = i != null ? o.chips[i].text : near ? (n === 2 ? "关系？" : "含义？") : "";
     el.className = (n === 2 ? "x-lslot" : "x-mslot") + (empty ? (near ? " is-near" : " is-dot") : "") + (isNew ? " is-new" : "") + (i != null ? " is-filled" : "") + (o.ok[id] ? " is-ok" : "") + (o.bad[id] ? " is-bad" : "") + (n === 2 && offId(id) ? " is-off" : "");
     el.setAttribute("data-slot", id);
-    if (!el.classList.contains("is-dot")) { el.tabIndex = 0; el.setAttribute("role", "button"); el.setAttribute("aria-label", (n === 2 ? "关系槽 " : "含义槽 ") + id); } else { el.removeAttribute("tabindex"); }
+    var isOpen = avail(n, id) && !o.ok[id] && o.fill[id] == null;
+    if (!el.classList.contains("is-dot") || isOpen) { el.tabIndex = 0; el.setAttribute("role", "button"); el.setAttribute("aria-label", (n === 2 ? "关系槽 " : "含义槽 ") + id); } else { el.removeAttribute("tabindex"); }
   }
   /* empty, available slots of a kind, and their anchor in screen px */
   function openSlots(n) {
@@ -2646,6 +2676,7 @@
     var par = S.par, kids = M(), out = M();
     P.parts.forEach(function (q) { kids[q.id] = []; });
     P.parts.forEach(function (q) { var p = par[q.id]; if (p) kids[p].push(q.id); });
+    Object.keys(kids).forEach(function (k) { kids[k] = sortByOrder(kids[k]); });
     var roots = [P.root].concat(P.parts.filter(function (q) { return q.id !== P.root && !par[q.id] && kids[q.id].length; }).map(function (q) { return q.id; }));
     var pool = P.parts.filter(function (q) { return q.id !== P.root && vis(q.id) && !par[q.id] && !kids[q.id].length; }).map(function (q) { return q.id; });
     var y = 0, maxX = 0;
@@ -2677,6 +2708,7 @@
     var step = rels ? 130 : s3 ? 120 : 100;
     P.parts.forEach(function (q) { kids[q.id] = []; });
     P.parts.forEach(function (q) { if (C[q.id] && kids[C[q.id]]) kids[C[q.id]].push(q.id); });
+    Object.keys(kids).forEach(function (k) { kids[k] = sortByOrder(kids[k]); });
     (function count(id) { leaves[id] = kids[id].length ? kids[id].reduce(function (s, k) { return s + count(k); }, 0) : 1; return leaves[id]; })(P.root);
     (function sector(id, a0, a1, d) {
       var pa = C[id];
@@ -2773,6 +2805,7 @@
     var kids = M(), out = M();
     P.parts.forEach(function (q) { kids[q.id] = []; });
     P.parts.forEach(function (q) { var p = S.par[q.id]; if (S.lock[q.id] && p && kids[p]) kids[p].push(q.id); });
+    Object.keys(kids).forEach(function (k) { kids[k] = sortByOrder(kids[k]); });
     /* the root's locked tree, plus any locked sub-tree whose top is not yet connected (kept whole so its locked links stay short) */
     var roots = [P.root].concat(P.parts.filter(function (q) { return q.id !== P.root && !S.lock[q.id] && kids[q.id].length; }).map(function (q) { return q.id; }));
     var y = 0;
@@ -2823,7 +2856,7 @@
     var walk = function (id, d) {
       var q = byId[id]; if (!q) return;
       steps.push('<p class="x-route__step" style="margin-left:' + (d * 14) + 'px"><b>' + esc(q.label) + "</b>" + (id !== b && LAB[id] ? '<span class="x-muted">（' + esc(LAB[id]) + '）</span>' : "") + (q.explain ? "：" + esc(q.explain) : "") + "</p>");
-      P.parts.filter(function (x) { return x.parent === id; }).forEach(function (x) { walk(x.id, d + 1); });
+      sortByOrder(P.parts.filter(function (x) { return x.parent === id; }).map(function (x) { return x.id; })).forEach(function (kid) { walk(kid, d + 1); });
     };
     walk(b, 0);
     return '<div class="x-route x-b' + idx + '"><p class="x-route__h">✓ 支线完成：' + esc(bf.label) + "</p><p class=\"x-muted\">从" + esc(byId[P.root].label) + "的" + esc(LAB[b] || "") + "出发，这条线一路是：</p>" + steps.join("") + "</div>";
@@ -3581,6 +3614,7 @@
   }
   function endDrag(cancel, keep) {
     var d = drag; if (!d) return;
+    if (d.moved && (d.type === "move" || d.type === "connect")) lastDragMoved = true;
     drag = null; if (pRaf) { cancelAnimationFrame(pRaf); pRaf = 0; }
     if (ap.raf) { cancelAnimationFrame(ap.raf); ap.raf = 0; } ap.t = 0;
     board.classList.remove("is-pan");
@@ -3765,6 +3799,22 @@
       exportAssembly(); moreOpen(false);
       return;
     }
+    if (e.target.closest("#exportPackBtn")) {
+      exportPack(); moreOpen(false);
+      return;
+    }
+    if (e.target.closest("#deletePackBtn")) {
+      deleteCurrentPack(); moreOpen(false);
+      return;
+    }
+    if (e.target.closest("#resetPacksBtn")) {
+      resetImportedPacks(); moreOpen(false);
+      return;
+    }
+    if (e.target.closest("#guideBtn")) {
+      showGuide(true); moreOpen(false);
+      return;
+    }
     if (e.target.closest("#clearProgressBtn")) {
       clearProgress(); moreOpen(false); loadPack(P.id);
       toast("已清除已保存进度，从头开始");
@@ -3788,8 +3838,28 @@
     if (!f) return;
     var rd = new FileReader();
     rd.onload = function () {
-      try { var p = register(validate(JSON.parse(rd.result)), true); loadPack(p.id); toast("已导入「" + p.title + "」"); }
-      catch (err) { toast("导入失败：" + (err instanceof SyntaxError ? "不是有效的 JSON" : err.message), "err"); }
+      var raw = null;
+      try { raw = JSON.parse(rd.result); }
+      catch (err) { toast("导入失败：不是有效的 JSON", "err"); return; }
+      /* progress backup: restore it into its pack, if that pack is loaded */
+      if (raw && (raw.format === "kab-progress-backup" || (raw.pack && raw.tree && !raw.parts))) {
+        var pid = raw.packId || (raw.pack && raw.pack.id);
+        var saved = raw.saved || raw;
+        if (!pid || !PACKS[pid]) { toast("导入失败：这是「" + (pid || "未知") + "」的进度备份，先导入对应的知识包", "err"); return; }
+        if (pid !== P.id) loadPack(pid);
+        var ok = false;
+        try { ok = applyProgress(saved); } catch (err) { ok = false; }
+        if (!ok) { toast("导入失败：进度备份里没有可恢复的进度", "err"); return; }
+        P.parts.forEach(function (q) { if (els[q.id]) placeEl(q.id); });
+        applyVis(); renderAll(); renderPackList(); saveProgress();
+        toast("已恢复进度备份：「" + PACKS[pid].title + "」，已连 " + Object.keys(S.lock).length + " 条");
+        return;
+      }
+      try {
+        var p = register(validate(raw), true); saveCustomPacks(); loadPack(p.id);
+        toast("已导入「" + p.title + "」：" + p.parts.length + " 张卡、" + p.links.length + " 条关系、" + (p.refs ? p.refs.length : 0) + " 条关联线");
+      }
+      catch (err) { toast("导入失败：" + err.message, "err"); }
     };
     rd.onerror = function () { toast("读取失败", "err"); };
     rd.readAsText(f);
@@ -3803,30 +3873,29 @@
      card positions. Chips are restored by answer text, not by tray index,
      so a shuffled tray order does not break restore. If storage is
      unavailable (sandboxed iframe / file://), progress is simply not saved. */
+  var saveOff = false; /* true while a pack is loading: renderProgress must not overwrite the saved pack with a fresh empty state */
+  function progressKey(id) { return "kabProgress:" + id; }
+  function progressData() {
+    return { v: 1, packId: P.id, lock: S.lock, par: S.par, vis: S.vis, done: S.done, refs: S.refs,
+      pos: pos, chips: { 2: Object.keys((S.s2 && S.s2.ok) || {}), 3: Object.keys((S.s3 && S.s3.ok) || {}) } };
+  }
   function saveProgress() {
-    if (!P || !S) return;
-    try {
-      var data = { v: 1, packId: P.id, lock: S.lock, par: S.par, vis: S.vis, done: S.done, refs: S.refs,
-        pos: pos, chips: { 2: Object.keys((S.s2 && S.s2.ok) || {}), 3: Object.keys((S.s3 && S.s3.ok) || {}) } };
-      localStorage.setItem("kabProgress", JSON.stringify(data));
-    } catch (err) { /* sandboxed: no storage */ }
+    if (!P || !S || saveOff) return;
+    try { localStorage.setItem(progressKey(P.id), JSON.stringify(progressData())); } catch (err) { /* sandboxed: no storage */ }
   }
-  function clearProgress() {
-    try { localStorage.removeItem("kabProgress"); } catch (err) {}
+  function clearProgress(id) {
+    var pid = id || (P && P.id);
+    try { if (pid) localStorage.removeItem(progressKey(pid)); localStorage.removeItem("kabProgress"); } catch (err) {}
   }
-  function restoreProgress() {
-    if (!P || !S) return false;
-    var raw = null;
-    try { raw = localStorage.getItem("kabProgress"); } catch (err) { return false; }
-    if (!raw) return false;
-    var d = null;
-    try { d = JSON.parse(raw); } catch (err) { return false; }
+  /* Apply a progress object (saved or backup) to the current pack. Returns true only if it actually restored something. */
+  function applyProgress(d) {
     if (!d || d.packId !== P.id || !d.lock) return false;
-    var ok = true;
-    Object.keys(d.lock).forEach(function (id) { if (byId[id] && d.par[id] && byId[d.par[id]]) { S.lock[id] = true; S.par[id] = d.par[id]; } });
+    var restored = 0;
+    Object.keys(d.lock).forEach(function (id) { if (byId[id] && d.par[id] && byId[d.par[id]]) { S.lock[id] = true; S.par[id] = d.par[id]; restored++; } });
     Object.keys(d.vis || {}).forEach(function (id) { if (byId[id]) S.vis[id] = true; });
-    Object.keys(d.refs || {}).forEach(function (k) { S.refs[k] = true; });
+    Object.keys(d.refs || {}).forEach(function (k) { S.refs[k] = true; restored++; });
     if (d.done) S.done = d.done;
+    if (Array.isArray(d.done) && d.done.some(function (v) { return v; })) restored++;
     if (d.pos) { Object.keys(d.pos).forEach(function (id) { if (pos[id] && d.pos[id]) pos[id] = d.pos[id]; }); }
     // chips by answer text
     [2, 3].forEach(function (n) {
@@ -3836,9 +3905,23 @@
         var want = answer(n, id);
         var ci = o.chips.findIndex(function (c, i) { return c.text === want && c.at == null && !o.fill[id]; });
         if (ci < 0) return;
-        o.fill[id] = ci; o.chips[ci].at = id; o.ok[id] = true;
+        o.fill[id] = ci; o.chips[ci].at = id; o.ok[id] = true; restored++;
       });
     });
+    return restored > 0;
+  }
+  function restoreProgress() {
+    if (!P || !S) return false;
+    var raw = null, legacy = false;
+    try { raw = localStorage.getItem(progressKey(P.id)); } catch (err) { return false; }
+    if (!raw) { try { raw = localStorage.getItem("kabProgress"); legacy = !!raw; } catch (err) { return false; } }
+    if (!raw) return false;
+    var d = null;
+    try { d = JSON.parse(raw); } catch (err) { return false; }
+    if (!d || d.packId !== P.id) return false;
+    var ok = applyProgress(d);
+    if (!ok) return false;
+    if (legacy) { try { localStorage.removeItem("kabProgress"); } catch (err) {} }
     return true;
   }
   /* ---------- tap / click-to-connect + keyboard (Fix 4) ----------
@@ -3848,18 +3931,21 @@
      Esc cancels. This does not change drag behaviour: a drag that ends
      on a different card never fires a click on that card, so tap state
      is only set by a tap (down+up on the same port/card). */
-  var tapSrc = null;
+  var tapSrc = null, lastDragMoved = false;
   function clearTapSrc() {
     tapSrc = null;
     P && P.parts.forEach(function (q) { if (els[q.id]) els[q.id].classList.remove("is-tap-src"); });
   }
   function armTapSrc(id) {
-    clearTapSrc(); tapSrc = id;
+    clearTapChip(); clearTapSrc(); tapSrc = id;
     if (els[id]) els[id].classList.add("is-tap-src");
     toast("已选起点「" + byId[id].label + "」，再点目标卡连线，Esc 取消");
   }
   board.addEventListener("click", function (e) {
     if (!P || !S || drag) return;
+    if (lastDragMoved) { lastDragMoved = false; e._kabGuard = true; return; }
+    if (tapChip) return; /* a chip is armed: the slot handler below owns this click */
+    if (e.shiftKey) return; /* shift-click is multi-select, not connect */
     var port = e.target.closest && e.target.closest(".x-port");
     if (port) {
       var src = port.parentNode && port.parentNode.dataset && port.parentNode.dataset.id;
@@ -3867,11 +3953,14 @@
       return;
     }
     var card = e.target.closest && e.target.closest(".x-card");
-    if (card && tapSrc && card.dataset.id !== tapSrc) {
-      var to = card.dataset.id;
-      if (canLink(tapSrc, to)) { connect(tapSrc, to); saveProgress(); }
-      else toast("这两张卡不能连");
-      clearTapSrc();
+    if (card) {
+      var id = card.dataset.id;
+      if (tapSrc && tapSrc !== id) {
+        if (canLink(tapSrc, id)) { connect(tapSrc, id); saveProgress(); }
+        else toast("这两张卡不能连");
+        clearTapSrc();
+      } else if (tapSrc === id) clearTapSrc();
+      else armTapSrc(id);
     }
   });
   board.addEventListener("keydown", function (e) {
@@ -3908,7 +3997,7 @@
     document.querySelectorAll(".is-tap-target").forEach(function (el) { el.classList.remove("is-tap-target"); });
   }
   function armTapChip(kind, ci, el) {
-    clearTapChip(); tapChip = { kind: kind, ci: ci };
+    clearTapSrc(); clearTapChip(); tapChip = { kind: kind, ci: ci };
     if (el) el.classList.add("is-tap-chip");
     // highlight open slots of this kind
     [2, 3].forEach(function (n) { if (n !== kind) return; openSlots(n).forEach(function (id) { var s = slotEl(n, id); if (s) s.classList.add("is-tap-target"); }); });
@@ -3924,6 +4013,8 @@
   });
   board.addEventListener("click", function (e) {
     if (!P || !S || drag || !tapChip) return;
+    if (e._kabGuard) return;
+    if (lastDragMoved) { lastDragMoved = false; return; }
     var slot = e.target.closest && e.target.closest("[data-slot]");
     if (!slot) return;
     var kind = slot.classList.contains("x-lslot") ? 2 : 3;
@@ -3943,30 +4034,77 @@
   });
 
 
+  /* ---------- custom packs persistence: imported packs survive a refresh ---------- */
+  function saveCustomPacks() {
+    try {
+      var list = order.filter(function (id) { return PACKS[id] && PACKS[id].imported; }).map(function (id) { return PACKS[id]; });
+      localStorage.setItem("kabCustomPacks", JSON.stringify(list));
+    } catch (err) { /* sandboxed: no storage */ }
+  }
+  function loadCustomPacks() {
+    var raw = null;
+    try { raw = localStorage.getItem("kabCustomPacks"); } catch (err) { return; }
+    if (!raw) return;
+    var list = null;
+    try { list = JSON.parse(raw); } catch (err) { return; }
+    if (!Array.isArray(list)) return;
+    list.forEach(function (item) {
+      try { register(validate(item), true); } catch (err) { /* skip a broken saved pack */ }
+    });
+  }
+  function deleteCurrentPack() {
+    if (!P || !P.imported) { toast("当前不是导入包，内置包不可删", "err"); return; }
+    var id = P.id;
+    delete PACKS[id]; order.splice(order.indexOf(id), 1);
+    clearProgress(id); saveCustomPacks(); renderPackList();
+    if (order.length) loadPack(order[0]);
+    toast("已删除导入包");
+  }
+  function resetImportedPacks() {
+    var ids = order.filter(function (id) { return PACKS[id] && PACKS[id].imported; });
+    ids.forEach(function (id) { delete PACKS[id]; clearProgress(id); });
+    order = order.filter(function (id) { return PACKS[id]; });
+    saveCustomPacks(); renderPackList();
+    if (order.length) loadPack(order[0]);
+    toast("已重置全部导入包");
+  }
+
   /* ---------- export completed assembly (Frontend 2) ---------- */
+  function exportPack() {
+    if (!P) return;
+    var data = { id: P.id, title: P.title, subtitle: P.subtitle || "", kind: P.kind || "", shape: P.shape || "tree",
+      parts: P.parts.map(function (q) { var o = { id: q.id, label: q.label, parent: q.parent, note: q.note || "" }; if (q.explain) o.explain = q.explain; if (typeof q.order === "number") o.order = q.order; return o; }),
+      links: P.links, refs: P.refs || [] };
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = P.id + "-pack.json";
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    toast("已导出知识包，可用「导入知识包」再导入");
+  }
   function exportAssembly() {
     if (!P || !S) return;
     var outline = [];
     var walk = function (id, d) {
       var q = byId[id]; if (!q) return;
       outline.push("  ".repeat(d) + "- " + q.label + (q.note ? "（" + q.note + "）" : ""));
-      P.parts.filter(function (x) { return x.parent === id; }).forEach(function (x) { walk(x.id, d + 1); });
+      sortByOrder(P.parts.filter(function (x) { return x.parent === id; }).map(function (x) { return x.id; })).forEach(function (kid) { walk(kid, d + 1); });
     };
     walk(P.root, 0);
-    var data = { v: 1, pack: { id: P.id, title: P.title }, exportedAt: new Date().toISOString(),
+    var data = { v: 1, format: "kab-progress-backup", packId: P.id, pack: { id: P.id, title: P.title }, exportedAt: new Date().toISOString(),
       tree: S.par, locked: Object.keys(S.lock), refs: Object.keys(S.refs),
       chips: { 2: Object.keys((S.s2 && S.s2.ok) || {}), 3: Object.keys((S.s3 && S.s3.ok) || {}) },
       progress: { tree: correctCount(1) + "/" + total(1), relation: correctCount(2) + "/" + total(2), meaning: correctCount(3) + "/" + total(3) },
+      saved: progressData(),
       outline: outline.join("\n") };
     var blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
     var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = P.id + "-assembly.json";
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
-    toast("已导出组装结果");
+    toast("已导出进度备份，可用「导入知识包」再导入恢复");
   }
 
   /* ---------- load ---------- */
   function loadPack(id) {
     P = PACKS[id]; if (!P) return;
+    saveOff = true;
     resetSideMem();
     byId = M(); C = M(); LAB = M();
     P.parts.forEach(function (q) { byId[q.id] = q; C[q.id] = q.parent; });
@@ -3979,6 +4117,7 @@
     buildCards(); scatter(); renderAll(); renderPackList();
     var restored = false;
     try { restored = restoreProgress(); } catch (err) { restored = false; }
+    saveOff = false;
     if (restored) {
       P.parts.forEach(function (q) { if (els[q.id]) placeEl(q.id); });
       applyVis(); renderAll(); renderPackList();
@@ -3987,15 +4126,32 @@
     S.suppressRoute = false;
     fitView(false, null, null, fitFloor());
   }
+  /* ---------- first-run guide: skippable one-minute demo ---------- */
+  function showGuide(force) {
+    if (!force) { try { if (localStorage.getItem("kabGuideSeen") === "1") return; } catch (err) { return; } }
+    var g = $("guideOverlay"); if (g) { g.hidden = false; $("guideSkip").focus(); }
+  }
+  $("guideSkip").addEventListener("click", function () {
+    try { localStorage.setItem("kabGuideSeen", "1"); } catch (err) {}
+    $("guideOverlay").hidden = true;
+  });
+  $("guideStart").addEventListener("click", function () {
+    try { localStorage.setItem("kabGuideSeen", "1"); } catch (err) {}
+    $("guideOverlay").hidden = true;
+    if (P) { S.focus = P.root; renderSide(); fitView(true, null, [P.root], 1); toast("先点一张卡片看它是什么，再点另一张卡片连线"); }
+  });
+
   /* opening zoom never drops below legible card text; pan for the rest */
-  function fitFloor() { return window.innerWidth <= 600 ? 0.6 : 0.7; }
+  function fitFloor() { return window.innerWidth <= 600 ? 1 : 0.7; }
   /* 详情默认打开：移动端和桌面端一致，不再在 ≤900px 时自动关闭 */
   ["pack-stoicism", "pack-thinking-fast-and-slow", "pack-atomic-habits"].forEach(function (k) {
     try { register(validate(JSON.parse($(k).textContent)), false); }
     catch (err) { toast("内置包读取失败：" + err.message, "err"); }
   });
+  loadCustomPacks();
   applyView();
   if (order.length) loadPack(order[0]);
+  showGuide(false);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (P) { measure(); updateEdges(); } });
   window.addEventListener("resize", function () { if (P && !drag) applyView(); });
 })();

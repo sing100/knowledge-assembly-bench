@@ -37,10 +37,25 @@ for (const f of packFiles) {
     check(by.has(r.a) && by.has(r.b), `${f}: refs[${i}] endpoints exist`);
     check(!edges.has(r.a + ">" + r.b) && !edges.has(r.b + ">" + r.a), `${f}: refs[${i}] is not a tree edge`);
   });
-  // simulated assembly: correct parent locks, wrong parent does not
+  // simulated assembly: a card locks ONLY if a link actually says parent -> card.
+  // (The old check compared a parent to itself, so it was always true and proved nothing.)
+  const edgeSet = new Set(d.links.map(l => l.a + ">" + l.b));
   const lock = new Set();
-  d.parts.forEach(p => { if (p.parent) { if (p.parent === p.parent) lock.add(p.id); } });
+  d.parts.forEach(p => { if (p.parent && edgeSet.has(p.parent + ">" + p.id)) lock.add(p.id); });
   check(lock.size === d.parts.length - 1, `${f}: simulated correct connections lock all ${lock.size} non-root cards`);
+  const wrong = d.parts.filter(p => p.parent && !edgeSet.has(p.parent + ">" + p.id));
+  check(!wrong.length, `${f}: every non-root card has a matching link (no orphan parent)`);
+  // sequence packs: siblings must carry order 1..n, so rendering by order is well-defined
+  if (d.shape === "sequence") {
+    const byParent = new Map();
+    d.parts.forEach(p => { if (p.parent) { if (!byParent.has(p.parent)) byParent.set(p.parent, []); byParent.get(p.parent).push(p); } });
+    byParent.forEach((kids, parent) => {
+      if (!kids.some(k => k.order != null)) return; // unordered group: file order stands
+      const orders = kids.map(k => k.order).sort((a, b) => a - b);
+      check(orders.length === kids.length && orders.every((o, i) => o === i + 1),
+        `${f}: ${parent} children order is 1..${kids.length} (got ${orders.join(",")})`);
+    });
+  }
   // single-child chains are reported, not failed: they must be a sequence/argument, not a category
   const singles = [...kids.entries()].filter(([, n]) => n === 1).map(([id]) => id);
   if (singles.length) console.log(`WARN ${f}: single-child parents (justify as sequence/argument, not category): ${singles.join(", ")}`);
@@ -53,5 +68,19 @@ for (const f of packFiles) {
     check(!!m && JSON.stringify(JSON.parse(m[1])) === JSON.stringify(d), `${f}: embedded pack in index.html matches packs/*.json`);
   }
 }
+// Regression guards for the 0178eb3 repair list (static checks on index.html).
+// These cannot run the browser, so they assert the code paths a browser test
+// then exercises manually: per-pack save keys, no save-during-load, custom
+// pack persistence, pack export / backup import, order rendering, guide.
+const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+check(html.includes('progressKey'), "index.html: per-pack progress key function exists");
+check(!html.includes('setItem("kabProgress"'), "index.html: no single shared kabProgress write left (per-pack only)");
+check(html.includes("saveOff"), "index.html: save is suppressed while a pack loads (restore-before-write)");
+check(html.includes("kabCustomPacks"), "index.html: imported packs are persisted to localStorage");
+check(html.includes("exportPack"), "index.html: pack export exists (separate from progress backup)");
+check(html.includes("kab-progress-backup"), "index.html: progress backup format is tagged and importable");
+check(html.includes("sortByOrder"), "index.html: sibling rendering sorts by order");
+check(html.includes("guideOverlay"), "index.html: skippable first-run guide exists");
+check(html.includes("is-tap-target"), "index.html: armed-chip slots become tappable targets");
 if (failures) { console.error(`\n${failures} failure(s)`); process.exit(1); }
 console.log("\nAll headless state tests passed.");
