@@ -333,9 +333,8 @@
         .x-top { flex-wrap: nowrap; gap: 6px; padding: 6px 8px; }
         .x-brand { font-size: 0; gap: 0; }
         #importBtn, #shuffleBtn, #layoutBtn, #muteBtn, .x-pbar, .x-combo { display: none; }
-        /* 一键整理 stays in the compact top bar as an icon button */
-        #tidyBtn { font-size: 0; min-width: 44px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
-        #tidyBtn svg { width: 18px; height: 18px; margin: 0 !important; vertical-align: 0 !important; }
+        /* 一键整理 sits right next to 提示 in the compact top bar, as a text button labelled 整理 */
+        #tidyBtn svg, #tidyBtn .x-tidy1 { display: none !important; }
         .x-more [data-for="tidyBtn"] { display: none; }
         .x-morebtn { display: inline-block; }
         .x-sel { max-width: 84px; min-width: 0; flex: 0 1 auto; }
@@ -423,8 +422,8 @@
           <button class="x-tb" id="importBtn" type="button">导入知识包</button>
           <input type="file" id="fileIn" accept=".json,application/json" hidden />
           <button class="x-tb" id="hintBtn" type="button">提示</button>
+          <button class="x-tb" id="tidyBtn" type="button" title="一键整理 (Shift+A)" aria-keyshortcuts="Shift+A"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:5px"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/></svg><span class="x-tidy1">一键</span>整理</button>
           <button class="x-tb" id="shuffleBtn" type="button">重新打散</button>
-          <button class="x-tb" id="tidyBtn" type="button" title="一键整理 (Shift+A)" aria-keyshortcuts="Shift+A"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:5px"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/></svg>一键整理</button>
           <button class="x-tb" id="muteBtn" type="button" aria-pressed="false" title="静音" aria-label="静音"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg></button>
           <button class="x-tb x-morebtn" id="moreBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="moreMenu" aria-label="更多" title="更多">⋯</button>
           <div class="x-more" id="moreMenu" hidden>
