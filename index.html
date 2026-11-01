@@ -110,7 +110,7 @@
 
       /* card: white, 10px radius, hairline border, 32px tall. The 8px dot + 8px gap is always reserved, so
          14 + 16 + text + 14 equals the old 20 + text + 24 and measured widths never change when a branch is set */
-      .x-card { position: absolute; left: 0; top: 0; height: 32px; box-sizing: border-box; display: flex; align-items: center; padding: 0 14px; background: var(--x-card); border: 1px solid var(--x-ln); border-radius: 10px; box-shadow: var(--x-sh); outline: 2px solid transparent; outline-offset: 1px; font: 500 13px/1 var(--x-font); color: var(--x-ink); white-space: nowrap; pointer-events: auto; cursor: grab; scale: 1;
+      .x-card { position: absolute; left: 0; top: 0; height: 32px; box-sizing: border-box; display: flex; align-items: center; padding: 0 14px; background: var(--x-card); border: 1px solid var(--x-ln); border-radius: 10px; box-shadow: var(--x-sh); outline: 2px solid transparent; outline-offset: 1px; font: 500 14px/1 var(--x-font); color: var(--x-ink); white-space: nowrap; pointer-events: auto; cursor: grab; scale: 1;
         transition: background-color var(--m-base) var(--e-swift), border-color var(--m-base) var(--e-swift), color var(--m-base) var(--e-swift), outline-color var(--m-base) var(--e-swift), box-shadow var(--m-snap) var(--e-snap), opacity var(--m-base) var(--e-swift), scale var(--m-snap) var(--e-snap); }
       .x-card.is-off, .x-edge.is-off, .x-lslot.is-off { opacity: .3; }
       .x-card.is-dim, .x-edge.is-dim, .x-lslot.is-dim { opacity: .25; }
@@ -356,13 +356,13 @@
         .x-sel { max-width: 84px; min-width: 0; flex: 0 1 auto; }
         .x-prog { min-width: 0; flex: 0 0 auto; gap: 6px; }
         /* mobile progress: one line, no wrap, so the header stays one row */
-        #pTxt { white-space: nowrap; max-width: none; line-height: 1; text-align: right; font-size: 11px; }
+        #pTxt { white-space: nowrap; max-width: none; line-height: 1; text-align: right; font-size: 12px; }
         .x-pseg { white-space: nowrap; }
         .x-toasts { top: 72px; bottom: auto !important; }
         .x-actions .x-primary, .x-actions .x-sec-btn { padding: 0 12px; }
       }
       @media (max-width: 480px) {
-        #pTxt { font-size: 10px; }
+        #pTxt { font-size: 11px; }
         .x-sel { max-width: 72px; }
         .x-top { gap: 4px; padding: 6px 6px; }
       }
@@ -559,11 +559,38 @@
       .x-notes { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--x-ln); }
       .x-notes[hidden] { display: none; }
       .x-notes__h { display: flex; align-items: center; justify-content: space-between; margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--x-ink2); }
-      .x-notes__s { font-weight: 400; color: var(--x-ink3); transition: opacity .3s; }
+      .x-notes__s { font-weight: 400; color: var(--x-ink2); transition: opacity .3s; }
       .x-notes textarea { display: block; width: 100%; box-sizing: border-box; min-height: 120px; resize: vertical; padding: 10px 12px; border: 1px solid var(--x-ln); border-radius: 10px; background: #FFFDF7; font: 14px/1.65 var(--x-font); color: var(--x-ink); outline: none; transition: border-color var(--m-base, .15s) ease, box-shadow var(--m-base, .15s) ease; }
       .x-notes textarea:focus { border-color: var(--x-acc); box-shadow: 0 0 0 3px var(--x-acc-r); background: #fff; }
-      .x-notes textarea::placeholder { color: var(--x-ink3); }
+      .x-notes textarea::placeholder { color: #8E8E96; }
       .x-card.has-memo > span:first-child::after { content: "✎"; margin-left: 5px; font-size: .78em; color: #B45309; opacity: .8; }
+
+      /* ---- readability pass (2026-11-01): side panel hierarchy + line length ---- */
+      .x-side > * { max-width: 52em; margin-left: auto; margin-right: auto; }
+      .x-side p { font-size: 14px; line-height: 1.7; }
+      .x-side p, .x-side .x-what__t, .x-rel { max-width: 38em; }
+      .x-side .x-name { font-size: 18px; line-height: 1.35; font-weight: 650; letter-spacing: -.01em; margin: 0 0 10px; }
+      .x-side .x-what { margin: 10px 0 18px; padding: 14px 16px; }
+      .x-side .x-what__h { font-size: 12px; }
+      .x-rel { font-size: 14px; gap: 10px; margin-top: 20px; padding-top: 18px; }
+      .x-rel__h, .x-notes__h { font-size: 13px !important; font-weight: 600 !important; color: var(--x-ink) !important; letter-spacing: .02em; }
+      .x-notes { margin-top: 20px; padding-top: 18px; }
+      .x-notes textarea { font-size: 15px; line-height: 1.7; }
+      /* ---- motion: side panel slides in/out, content cross-fades on a new card ---- */
+      @keyframes x-side-in { from { opacity: 0; transform: translateX(14px); } }
+      @keyframes x-side-out { to { opacity: 0; transform: translateX(14px); } }
+      @keyframes x-swap-in { from { opacity: 0; transform: translateY(4px); } }
+      .x-side.is-opening { animation: x-side-in var(--m-base) var(--e-out); }
+      .x-side.is-closing { animation: x-side-out 160ms var(--e-out) forwards; pointer-events: none; }
+      #partInfo.is-swap { animation: x-swap-in 150ms var(--e-out); }
+      @media (prefers-reduced-motion: reduce) { .x-side.is-opening, .x-side.is-closing, #partInfo.is-swap { animation-duration: 1ms; transform: none; } }
+      /* ---- toolbar: 提示 stands out; rarely used 导入 / 重新打散 live in ⋯ on desktop ---- */
+      @media (min-width: 901px) {
+        #hintBtn { color: var(--x-acc); background: var(--x-acc-l); }
+        #hintBtn:hover { background: color-mix(in srgb, var(--x-acc) 14%, #fff); color: var(--x-acc-h); }
+        #importBtn, #shuffleBtn { display: none !important; }
+        .x-more [data-for="importBtn"], .x-more [data-for="shuffleBtn"] { display: flex !important; }
+      }
     </style>
   </head>
   <body>
@@ -2956,7 +2983,7 @@
     world.style.transform = "translate(" + Math.round(view.x) + "px," + Math.round(view.y) + "px) scale(" + view.s + ")";
     world.style.setProperty("--inv", String(1 / view.s));
     /* word tray follows the board zoom so chip text stays in proportion to the cards (clamped so chips stay tappable) */
-    var trayEl = $("tray"); if (trayEl) trayEl.style.setProperty("--tz", String(clamp(view.s, .72, 1)));
+    var trayEl = $("tray"); if (trayEl) trayEl.style.setProperty("--tz", String(clamp(view.s, .9, 1)));
     if (placedS !== view.s && P && S) { placedS = view.s; P.parts.forEach(function (q) { if (els[q.id] && pos[q.id]) placeEl(q.id); }); }
     /* Swiss grid: 24px fine + 120px major lines; when the fine pitch gets too dense, step both up by 5 */
     var g = 24 * view.s, G5 = g * 5; if (g < 9) { g = G5; G5 *= 5; }
@@ -3233,6 +3260,7 @@
     walk(b, 0);
     return '<div class="x-route x-b' + idx + '"><p class="x-route__h">✓ 支线完成：' + esc(bf.label) + "</p><p class=\"x-muted\">从" + esc(byId[P.root].label) + "的" + esc(LAB[b] || "") + "出发，这条线一路是：</p>" + steps.join("") + "</div>";
   }
+  var sideShown = null;
   function renderSide() {
     var f = S.focus && byId[S.focus];
     if (!f) syncMemo(null);
@@ -3255,6 +3283,7 @@
     }).join("");
     if (xr) h += '<ul class="x-rel"><li class="x-rel__h">关联线</li>' + xr + "</ul>";
     $("partInfo").innerHTML = h;
+    if (sideShown !== f.id) { sideShown = f.id; var pi = $("partInfo"); pi.classList.remove("is-swap"); void pi.offsetWidth; pi.classList.add("is-swap"); }
     syncMemo(f.id);
   }
   function renderProgress() {
@@ -4137,10 +4166,19 @@
     try { localStorage.setItem("kabMute", muted ? "1" : "0"); } catch (err) { /* sandboxed: no storage */ }
   });
   try { if (localStorage.getItem("kabMute") === "1") $("muteBtn").click(); } catch (err) { /* sandboxed: no storage */ }
+  var sideAnimT = 0;
   $("sideBtn").addEventListener("click", function () {
-    var closed = $("body").classList.toggle("is-closed");
-    this.setAttribute("aria-expanded", closed ? "false" : "true");
-    applyView(); if (!closed) keepFocusInView(true);
+    var body = $("body"), side = $("side"), btn = this, closing = btn.getAttribute("aria-expanded") !== "false";
+    clearTimeout(sideAnimT); side.classList.remove("is-opening", "is-closing");
+    btn.setAttribute("aria-expanded", closing ? "false" : "true");
+    if (closing) {
+      side.classList.add("is-closing");
+      sideAnimT = setTimeout(function () { side.classList.remove("is-closing"); body.classList.add("is-closed"); applyView(); }, reduce ? 0 : 160);
+    } else {
+      body.classList.remove("is-closed"); void side.offsetWidth; side.classList.add("is-opening");
+      sideAnimT = setTimeout(function () { side.classList.remove("is-opening"); }, 240);
+      applyView(); keepFocusInView(true);
+    }
   });
   $("hintBtn").addEventListener("click", hint);
   $("wholeBtn").addEventListener("click", function () {
@@ -4607,7 +4645,7 @@
   });
 
   /* opening zoom never drops below legible card text; pan for the rest */
-  function fitFloor() { return window.innerWidth <= 600 ? 1 : 0.7; }
+  function fitFloor() { return window.innerWidth <= 600 ? 1 : 0.85; }
   /* 详情默认打开：移动端和桌面端一致，不再在 ≤900px 时自动关闭 */
   ["pack-stoicism", "pack-thinking-fast-and-slow", "pack-atomic-habits"].forEach(function (k) {
     try { register(validate(JSON.parse($(k).textContent)), false); }
