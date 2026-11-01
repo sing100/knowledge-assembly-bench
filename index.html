@@ -500,6 +500,29 @@
       .x-howto .hs { fill: none; stroke: var(--x-acc); stroke-width: 1.2; stroke-dasharray: 3 2.5; } .x-howto .hr { stroke: #0D9488; fill: none; stroke-width: 1.5; stroke-dasharray: 3 3; stroke-linecap: round; }
       .x-howto .hy { fill: #FDE68A; stroke: #D97706; stroke-width: 1.2; } .x-howto .hg { fill: #16A34A; }
       @media (max-width: 900px) { .x-howto { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); } .x-howto__t { grid-column: 1 / -1; } }
+
+      /* relation (indigo) vs meaning (amber) theme colours */
+      :root { --x-r: #4F46E5; --x-r-l: #EEF2FF; --x-r-b: #C7D2FE; --x-r-d: #3730A3; --x-r-r: rgba(79,70,229,.2);
+              --x-m: #D97706; --x-m-l: #FFFBEB; --x-m-b: #FCD34D; --x-m-d: #92400E; --x-m-r: rgba(217,119,6,.22); }
+      .x-chip[data-kind="2"] { background: var(--x-r-l); border-color: var(--x-r-b); color: var(--x-r-d); }
+      .x-chip[data-kind="3"] { background: var(--x-m-l); border-color: var(--x-m-b); color: var(--x-m-d); }
+      .x-chip[data-kind="2"]:hover { border-color: var(--x-r); }
+      .x-chip[data-kind="3"]:hover { border-color: var(--x-m); }
+      .x-chip[data-kind="3"] .x-chip__n { background: #FEF3C7; color: var(--x-m-d); }
+      .x-chip[data-kind="3"].is-guide { border-color: var(--x-m); background: var(--x-m-l); color: var(--x-m-d); box-shadow: 0 0 0 3px var(--x-m-r); }
+      .x-chip[data-kind="3"].is-tap-chip { outline-color: var(--x-m); background: var(--x-m-l); }
+      .x-tab[data-tab="2"][aria-selected="true"] { background: var(--x-r-l); color: var(--x-r); }
+      .x-tab[data-tab="3"][aria-selected="true"] { background: var(--x-m-l); color: var(--x-m-d); }
+      .x-tab[data-tab="3"] .x-tab__dot { background: var(--x-m); }
+      .x-tab[data-tab="2"]::before, .x-tab[data-tab="3"]::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 5px; border-radius: 50%; vertical-align: 1px; background: var(--x-r); }
+      .x-tab[data-tab="3"]::before { background: var(--x-m); }
+      .x-board.x-arm-3 .x-mslot.is-dot { background: var(--x-m); box-shadow: 0 0 0 3px var(--x-m-r); }
+      .x-mslot.is-near { border-color: var(--x-m); background: var(--x-m-l); color: var(--x-m-d); }
+      .x-mslot.is-target { border-color: var(--x-m); background: var(--x-m-l); color: var(--x-m-d); box-shadow: 0 0 0 3px var(--x-m-r); }
+      .x-mslot.is-tap-target { outline-color: var(--x-m); }
+      .x-chip.is-float.is-k3 { background: var(--x-m-l); border-color: var(--x-m); color: var(--x-m-d); }
+      .x-chip.is-float.is-k2 { background: var(--x-r-l); border-color: var(--x-r); color: var(--x-r-d); }
+      .x-chip.is-float.is-bad { border-color: var(--x-bad); background: var(--x-bad-l); color: var(--x-bad); }
     </style>
   </head>
   <body>
@@ -3799,7 +3822,7 @@
       var o = stObj(kind), ci = chip ? +chip.dataset.chip : o && o.fill[slot.dataset.slot];
       if (!o || ci == null || !o.chips[ci]) return;
       var r = (chip || slot).getBoundingClientRect();
-      var fl = document.createElement("div"); fl.className = "x-chip is-float"; fl.textContent = o.chips[ci].text;
+      var fl = document.createElement("div"); fl.className = "x-chip is-float is-k" + kind; fl.textContent = o.chips[ci].text;
       document.body.appendChild(fl);
       drag = { type: "chip", kind: kind, ci: ci, src: chip ? null : slot.dataset.slot, srcEl: chip || slot, fl: fl, ox: e.clientX - r.left, oy: e.clientY - r.top, cw: r.width, ch: r.height, sx: e.clientX, sy: e.clientY, moved: false };
       (chip || slot).classList.add("is-ghost"); setPath(null); sfx.pick();
