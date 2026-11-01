@@ -2555,8 +2555,11 @@
       var o = refEls[k], on = showRefs || (f && (o.r.a === f || o.r.b === f));
       o.p.classList.toggle("is-hid", !on); o.lb.classList.toggle("is-hid", !on);
     });
-    if (f) {
-      refFocusOn = f;
+    /* hover only reveals the 关联线; dimming the rest is kept for a selected card or a flash */
+    var hvSave = refHov; refHov = null; var g = refFocusId(); refHov = hvSave;
+    keep = M(); if (g) { keep[g] = true; madeRefsOf(g).forEach(function (r) { keep[r.a] = true; keep[r.b] = true; }); }
+    if (g) {
+      refFocusOn = g;
       P.parts.forEach(function (q) { if (els[q.id]) els[q.id].classList.toggle("is-dim", !keep[q.id] && !offId(q.id)); });
       Object.keys(edgeEls).forEach(function (c) { edgeEls[c].classList.toggle("is-dim", !offId(c)); });
       Object.keys(slotEls).forEach(function (c) { slotEls[c].classList.toggle("is-dim", !offId(c)); });
