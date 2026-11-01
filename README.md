@@ -1,6 +1,29 @@
-# 知识组装台 · Knowledge Assembly Bench
+<p align="center">
+  <img src="logo.png" width="96" alt="知识组装台 logo" />
+</p>
 
-把一本书拆成知识卡片，自己动手把它们连回去：先读懂每张卡是什么，再推理它挂在哪。连对就亮灯，结构连完变成思维导图。适合从零开始学一本学习类的书。
+<h1 align="center">知识组装台 · Knowledge Assembly Bench</h1>
+
+<p align="center">
+  把一本书拆成知识卡片，自己动手把它们连回去。<br />
+  先读懂每张卡是什么，再推理它挂在哪。连对就亮灯，结构连完变成思维导图。
+</p>
+
+<p align="center">
+  <a href="https://loom-kab.pages.dev/"><strong>▶ 在线试玩</strong></a> ·
+  <a href="#怎么用">怎么用</a> ·
+  <a href="#知识包格式">知识包格式</a> ·
+  <a href="#用-ai-拆书book-to-pack-技能">用 AI 拆书</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/sing100/knowledge-assembly-bench/actions/workflows/validate.yml"><img src="https://github.com/sing100/knowledge-assembly-bench/actions/workflows/validate.yml/badge.svg" alt="validate" /></a>
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT" />
+  <img src="https://img.shields.io/badge/依赖-零-blue" alt="零依赖" />
+  <img src="https://img.shields.io/badge/离线-可用-blue" alt="离线可用" />
+</p>
+
+适合从零开始学一本学习类的书。单个 `index.html`，不用安装、不用构建、不发网络请求。
 
 **在线试玩：** https://loom-kab.pages.dev/
 
@@ -61,6 +84,28 @@
 
 ```bash
 node skills/book-to-pack/scripts/validate.js your-pack.json
+```
+
+## 开发
+
+不需要安装依赖，只要 Node.js：
+
+```bash
+npm test          # 检查内嵌包与 packs/ 一致 + 校验所有知识包 + 无头状态测试
+npm run sync      # 改完 packs/*.json 后，同步到 index.html 的内嵌副本
+npm start         # 起一个本地静态服务器（也可以直接双击 index.html）
+```
+
+每次 push 和 PR 都会由 GitHub Actions 跑同样的检查。
+
+## 目录结构
+
+```
+index.html                  整个应用（内嵌三个知识包，可离线打开）
+packs/*.json                知识包的唯一数据源
+scripts/sync-packs.js       把 packs/ 同步进 index.html
+skills/book-to-pack/        给 AI 用的拆书技能 + 校验脚本
+tests/state.test.js         无头状态测试
 ```
 
 ## 变更记录
