@@ -136,12 +136,12 @@
       .x-card.is-drag { cursor: grabbing; z-index: 2; scale: 1.03; border-color: var(--x-ln-h); box-shadow: var(--x-sh-drag); transition: box-shadow var(--m-snap) var(--e-snap), scale var(--m-snap) var(--e-snap); }
       .x-card.is-root-done { background: var(--x-acc); color: #fff; border-color: var(--x-acc); transition: background-color var(--m-slow) var(--e-out), color var(--m-slow) var(--e-out), border-color var(--m-slow) var(--e-out), outline-color var(--m-base) var(--e-swift), box-shadow var(--m-snap) var(--e-snap), opacity var(--m-base) var(--e-swift), scale var(--m-snap) var(--e-snap); }
       .x-card.is-root-done::before { background: rgba(255,255,255,.85); }
-      .x-port { position: absolute; right: -4px; top: 50%; width: 8px; height: 8px; margin-top: -4px; box-sizing: border-box; border-radius: 50%; background: var(--x-acc); border: 1.5px solid #fff; box-shadow: 0 0 0 1px var(--x-acc-r); cursor: crosshair; opacity: 0; transition: transform var(--m-snap) var(--e-snap), opacity var(--m-snap) var(--e-out); }
+      .x-port { position: absolute; right: -4px; top: 50%; width: 8px; height: 8px; margin-top: -4px; box-sizing: border-box; border-radius: 50%; background: var(--x-acc); border: 1.5px solid #fff; box-shadow: 0 0 0 1px var(--x-acc-r); cursor: crosshair; opacity: 0; transition: width var(--m-snap) var(--e-snap), height var(--m-snap) var(--e-snap), margin var(--m-snap) var(--e-snap), right var(--m-snap) var(--e-snap), opacity var(--m-snap) var(--e-out); }
       .x-card:not(.is-on) .x-port { opacity: .35; }
       .x-card:hover .x-port, .x-card.x-near .x-port, .x-card.is-target .x-port, .x-board.is-linking .x-card.x-can .x-port { opacity: 1; }
       .x-port::before { content: ""; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; transform: scale(var(--inv, 1)); }
-      .x-card:hover .x-port { transform: scale(1.6); }
-      .x-card:hover .x-port::before { transform: scale(calc(var(--inv, 1) / 1.6)); }
+      /* grow the port by size, not transform: a transform animation inside the zoomed world makes Chrome raster the board at a stale scale (blurry text) */
+      .x-card:hover .x-port { width: 13px; height: 13px; margin-top: -6.5px; right: -6.5px; }
       .x-board.is-linked .x-port { display: none; }
       @media (hover: none) { .x-port { opacity: .55; } }
       /* guide: dashed indigo line (JS sets the dash and marching offset); widths follow the zoom */
@@ -413,8 +413,7 @@
         .kab-flow { animation: none; }
         .x-lamp { transform: none; transition: opacity var(--m-snap) linear; }
         .x-port { transition: opacity var(--m-snap) linear; }
-        .x-card:hover .x-port { transform: none; }
-        .x-card:hover .x-port::before { transform: scale(var(--inv, 1)); }
+        .x-card:hover .x-port { width: 8px; height: 8px; margin-top: -4px; right: -4px; }
         .x-mslot, .x-lslot, .x-mslot.is-dot, .x-lslot.is-dot { transition: opacity var(--m-snap) linear; }
         .x-lslot.is-new, .x-mslot.is-new, .x-mslot.is-near, .x-lslot.is-near { animation: x-fade var(--m-snap) linear; }
         .x-edge .pw { transition: opacity var(--m-snap) linear; }
