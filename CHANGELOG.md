@@ -2,7 +2,22 @@
 
 All notable changes to Knowledge Assembly Bench are documented here.
 
-## Unreleased — 0178eb3 repair list, branch only, 2026-10-31 (not merged)
+## 2026-11-01
+
+### Fixed
+- 放大白板后整块发糊：白板缩放从 `transform: scale()` 改为 CSS `zoom`，文字按实际尺寸排版，不再被当成位图拉伸；悬停连接点也不再用 transform / 透明度动画。
+- 浏览器标签页图标显示成字母 L：改用 `favicon.ico`。
+
+### Added
+- GitHub Actions：每次 push / PR 检查内嵌包同步、校验所有知识包、跑无头状态测试（README 之前提到但仓库里缺这个文件）。
+- `package.json`：`npm test` / `npm run sync` / `npm start`，零依赖。
+- 页面分享信息（description、Open Graph），分享链接时有标题、简介和图标。
+
+### Changed
+- 在线地址改为 https://loom-kab.pages.dev/ （Cloudflare Pages）。
+- README 加上图标、徽章、开发和目录结构说明；`logo.png` 压缩到 256px（约 248 KB → 65 KB）。
+
+## 2026-10-31
 
 ### Fixed
 - Save reliability: progress is no longer overwritten by a fresh empty state during load (save is suppressed until restore finishes, and the "已恢复" toast only appears when something was actually restored). Progress is now stored per pack (`kabProgress:<packId>`, with one-time migration from the old shared key), so switching packs no longer overwrites the previous pack.
