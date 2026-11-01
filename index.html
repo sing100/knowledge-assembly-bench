@@ -554,6 +554,16 @@
       #exportMapBtn { display: inline-flex; align-items: center; gap: 6px; }
       #exportMapBtn::before { content: ""; flex: none; width: 16px; height: 16px; background: currentColor; -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat;
         --ic: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%222.5%22%20y%3D%229.5%22%20width%3D%226%22%20height%3D%225%22%20rx%3D%221.2%22/%3E%3Crect%20x%3D%2215.5%22%20y%3D%223.5%22%20width%3D%226%22%20height%3D%225%22%20rx%3D%221.2%22/%3E%3Crect%20x%3D%2215.5%22%20y%3D%2215.5%22%20width%3D%226%22%20height%3D%225%22%20rx%3D%221.2%22/%3E%3Cpath%20d%3D%22M8.5%2012h3m0%200V6h4m-4%206v6h4%22/%3E%3C/svg%3E"); }
+
+      /* my notes (per card, saved locally) */
+      .x-notes { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--x-ln); }
+      .x-notes[hidden] { display: none; }
+      .x-notes__h { display: flex; align-items: center; justify-content: space-between; margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--x-ink2); }
+      .x-notes__s { font-weight: 400; color: var(--x-ink3); transition: opacity .3s; }
+      .x-notes textarea { display: block; width: 100%; box-sizing: border-box; min-height: 120px; resize: vertical; padding: 10px 12px; border: 1px solid var(--x-ln); border-radius: 10px; background: #FFFDF7; font: 14px/1.65 var(--x-font); color: var(--x-ink); outline: none; transition: border-color var(--m-base, .15s) ease, box-shadow var(--m-base, .15s) ease; }
+      .x-notes textarea:focus { border-color: var(--x-acc); box-shadow: 0 0 0 3px var(--x-acc-r); background: #fff; }
+      .x-notes textarea::placeholder { color: var(--x-ink3); }
+      .x-card.has-memo > span:first-child::after { content: "✎"; margin-left: 5px; font-size: .78em; color: #B45309; opacity: .8; }
     </style>
   </head>
   <body>
@@ -637,7 +647,7 @@
           </div>
           <div class="x-toasts" id="toasts" aria-live="polite"></div>
         </main>
-        <div class="x-side-rz" id="sideRz" role="separator" aria-orientation="vertical" aria-label="拖动调整详情栏宽度" title="拖动调整宽度，双击恢复"></div><aside class="x-side" id="side" aria-label="卡片详情"><div id="partInfo" aria-live="polite"></div></aside>
+        <div class="x-side-rz" id="sideRz" role="separator" aria-orientation="vertical" aria-label="拖动调整详情栏宽度" title="拖动调整宽度，双击恢复"></div><aside class="x-side" id="side" aria-label="卡片详情"><div id="partInfo" aria-live="polite"></div><div class="x-notes" id="noteBox" hidden><p class="x-notes__h"><span>我的笔记</span><span class="x-notes__s" id="noteState"></span></p><textarea id="noteTa" placeholder="写下你的理解、例子、联想……只保存在这台设备上" spellcheck="false"></textarea></div></aside>
       </div>
     </div>
 
@@ -2658,6 +2668,7 @@
       d.innerHTML = '<span>' + esc(q.label) + '</span><span class="x-port" data-port="1"></span><span class="x-mslot" hidden></span><span class="x-lamp" aria-hidden="true"></span>';
       cardsL.appendChild(d); els[q.id] = d; pos[q.id] = { x: 0, y: 0 };
     });
+    try { memoMarks(); } catch (e) {}
     measure();
   }
   function measure() { P.parts.forEach(function (q) { var d = els[q.id]; if (d.hidden && size[q.id]) return; size[q.id] = { w: d.offsetWidth || 90, h: d.offsetHeight || CH }; }); }
@@ -3196,6 +3207,7 @@
   }
   function renderSide() {
     var f = S.focus && byId[S.focus];
+    if (!f) syncMemo(null);
     if (!f) { $("partInfo").innerHTML = '<div class="x-howto"><p class="x-howto__t">怎么玩</p><div class="x-howto__i"><svg viewBox="0 0 64 44" aria-hidden="true"><rect class="hc" x="8" y="12" width="40" height="16" rx="5"/><circle class="hg" cx="15" cy="20" r="2"/><rect class="hm" x="20" y="18.5" width="20" height="3" rx="1.5"/><g transform="translate(38 24)"><path class="hk" d="M0 0v10l2.8-2.6 1.8 4.2 1.8-.8-1.8-4.1H8z"/></g></svg><p><b>点一张卡片</b><span>这里会显示它是什么</span></p></div><div class="x-howto__i"><svg viewBox="0 0 64 44" aria-hidden="true"><rect class="hc" x="4" y="6" width="22" height="12" rx="4"/><rect class="hc" x="38" y="26" width="22" height="12" rx="4"/><circle class="ha" cx="26" cy="12" r="2.2"/><path class="hl" d="M26 12c10 0 6 20 12 20" stroke-dasharray="3 2.5"/><g transform="translate(36 28)"><path class="hk" d="M0 0v10l2.8-2.6 1.8 4.2 1.8-.8-1.8-4.1H8z"/></g></svg><p><b>拖卡片右边的圆点</b><span>拉到另一张卡上，连出上下级</span></p></div><div class="x-howto__i"><svg viewBox="0 0 64 44" aria-hidden="true"><rect class="hs" x="14" y="5" width="36" height="12" rx="4"/><rect class="hc" x="16" y="28" width="32" height="11" rx="4"/><rect class="hm" x="22" y="32" width="20" height="3" rx="1.5"/><path class="hl" d="M32 26v-6m-3 3 3-3 3 3"/></svg><p><b>词块向上拖到槽位</b><span>给连线配上关系、给卡片配上含义</span></p></div><div class="x-howto__i"><svg viewBox="0 0 64 44" aria-hidden="true"><path class="hy" d="M32 8a8 8 0 0 0-4.8 14.4c.8.7 1.3 1.6 1.3 2.6h7c0-1 .5-1.9 1.3-2.6A8 8 0 0 0 32 8z"/><path class="hl" d="M29 29h6M30 32.5h4" stroke="#D97706"/><path class="hl" d="M18 16h-4M50 16h-4M21 6l-2.5-2.5M43 6l2.5-2.5" stroke="#D97706"/></svg><p><b>卡住了点「提示」</b><span>会高亮下一步该连哪里</span></p></div>' + (refsTotal() ? '<div class="x-howto__i"><svg viewBox="0 0 64 44" aria-hidden="true"><rect class="hc" x="4" y="8" width="20" height="11" rx="4"/><rect class="hc" x="40" y="25" width="20" height="11" rx="4"/><path class="hr" d="M24 14c12 0 6 17 16 17"/></svg><p><b>圆点拖到有关联的卡</b><span>连出青色虚线的关联线</span></p></div>' : "") + '</div>'; return; }
     var h = "";
     if (C[f.id] === P.root && S.pw && S.pw[f.id]) h += routeHtml(f.id);
@@ -3215,6 +3227,7 @@
     }).join("");
     if (xr) h += '<ul class="x-rel"><li class="x-rel__h">关联线</li>' + xr + "</ul>";
     $("partInfo").innerHTML = h;
+    syncMemo(f.id);
   }
   function renderProgress() {
     saveProgress();
@@ -4578,6 +4591,34 @@
   showGuide(false);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (P) { measure(); updateEdges(); } });
   window.addEventListener("resize", function () { if (P && !drag) applyView(); });
+  /* ---------- my notes per card (localStorage kabMemos: {packId: {cardId: text}}) ---------- */
+  var memoId = null, memoPack = null, memoT = 0;
+  function memoAll() { try { return JSON.parse(localStorage.getItem("kabMemos") || "{}") || {}; } catch (e) { return {}; } }
+  function memosOf(pid) { return memoAll()[pid] || {}; }
+  function memoSave(pid, id, text) {
+    var all = memoAll(), m = all[pid] || (all[pid] = {});
+    if (text.trim()) m[id] = text; else delete m[id];
+    if (!Object.keys(m).length) delete all[pid];
+    try { localStorage.setItem("kabMemos", JSON.stringify(all)); return true; } catch (e) { return false; }
+  }
+  function memoMarks() { if (!P) return; var m = memosOf(P.id); P.parts.forEach(function (q) { if (els[q.id]) els[q.id].classList.toggle("has-memo", !!m[q.id]); }); }
+  function memoFlush() {
+    clearTimeout(memoT); if (!memoId || !memoPack) return;
+    var ok = memoSave(memoPack, memoId, $("noteTa").value);
+    $("noteState").textContent = ok ? "已保存" : "保存失败"; memoMarks();
+  }
+  function syncMemo(id) {
+    var box = $("noteBox"); if (!box) return;
+    if (!id || !P) { memoFlush(); memoId = null; box.hidden = true; return; }
+    if (id === memoId && memoPack === P.id) { box.hidden = false; return; }
+    memoFlush(); memoId = id; memoPack = P.id;
+    $("noteTa").value = memosOf(P.id)[id] || ""; $("noteState").textContent = ""; box.hidden = false;
+  }
+  $("noteTa").addEventListener("input", function () { $("noteState").textContent = "正在输入…"; clearTimeout(memoT); memoT = setTimeout(memoFlush, 500); });
+  $("noteTa").addEventListener("blur", memoFlush);
+  $("noteTa").addEventListener("keydown", function (e) { e.stopPropagation(); });
+  window.addEventListener("pagehide", memoFlush);
+
   /* ---------- export mind map: PNG / PDF / SVG / XMind / Markdown / OPML / FreeMind ---------- */
   (function () {
     var ov = $("expOverlay"); if (!ov) return;
@@ -4587,11 +4628,12 @@
     function kidsFull(id) { return sortByOrder(P.parts.filter(function (q) { return q.parent === id; }).map(function (q) { return q.id; })); }
     function kidsMine(id) { return sortByOrder(P.parts.filter(function (q) { return S.lock[q.id] && S.par[q.id] === id; }).map(function (q) { return q.id; })); }
     function tree() {
-      var full = mode === "full" || !S, r2 = okOf(2), r3 = okOf(3), seen = {};
+      var full = mode === "full" || !S, r2 = okOf(2), r3 = okOf(3), seen = {}; memoFlush(); var memoMap = memosOf(P.id);
       function node(id, isRoot) {
         if (seen[id]) return null; seen[id] = 1;
         var q = byId[id];
         var n = { id: id, label: q.label, rel: isRoot ? "" : (full || r2[id] ? (LAB[id] || "") : ""), note: (full || r3[id]) ? (q.note || "") : "", kids: [] };
+        n.memo = memoMap[id] || "";
         (full ? kidsFull(id) : kidsMine(id)).forEach(function (k) { var c = node(k, false); if (c) n.kids.push(c); });
         return n;
       }
@@ -4710,7 +4752,7 @@
     function xmindOf(root) {
       function topic(n) {
         var t = { id: nid(), class: "topic", title: n.label };
-        if (n.note) t.notes = { plain: { content: n.note } };
+        var nt = [n.note, n.memo ? "笔记：" + n.memo : ""].filter(Boolean).join("\n\n"); if (nt) t.notes = { plain: { content: nt } };
         if (n.rel) t.labels = [n.rel];
         if (n.kids.length) t.children = { attached: n.kids.map(topic) };
         return t;
@@ -4718,7 +4760,7 @@
       var rt = topic(root); rt.structureClass = "org.xmind.ui.logic.right";
       var content = [{ id: nid(), class: "sheet", title: P.title || "思维导图", rootTopic: rt }];
       function xt(n) {
-        return '<topic id="' + nid() + '"><title>' + xesc(n.label) + "</title>" + (n.rel ? "<labels><label>" + xesc(n.rel) + "</label></labels>" : "") + (n.note ? "<notes><plain>" + xesc(n.note) + "</plain></notes>" : "") +
+        return '<topic id="' + nid() + '"><title>' + xesc(n.label) + "</title>" + (n.rel ? "<labels><label>" + xesc(n.rel) + "</label></labels>" : "") + ((n.note || n.memo) ? "<notes><plain>" + xesc([n.note, n.memo ? "笔记：" + n.memo : ""].filter(Boolean).join("\n\n")) + "</plain></notes>" : "") +
           (n.kids.length ? '<children><topics type="attached">' + n.kids.map(xt).join("") + "</topics></children>" : "") + "</topic>";
       }
       var xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><xmap-content xmlns="urn:xmind:xmap:xmlns:content:2.0" version="2.0"><sheet id="' + nid() + '"><title>' + xesc(P.title || "") + "</title>" + xt(root).replace("<topic ", '<topic structure-class="org.xmind.ui.logic.right" ') + "</sheet></xmap-content>";
@@ -4734,19 +4776,20 @@
     function mdOf(root) {
       var L = ["# " + (P.title || root.label), ""]; if (P.subtitle) L.push("> " + P.subtitle, "");
       if (root.note) L.push(root.note, "");
-      (function w(n, d) { n.kids.forEach(function (k) { L.push("  ".repeat(d) + "- " + (k.rel ? "〔" + k.rel + "〕" : "") + "**" + k.label + "**" + (k.note ? "：" + k.note : "")); w(k, d + 1); }); })(root, 0);
+      if (root.memo) L.push("> 笔记：" + root.memo.replace(/\n/g, "\n> "), "");
+      (function w(n, d) { n.kids.forEach(function (k) { L.push("  ".repeat(d) + "- " + (k.rel ? "〔" + k.rel + "〕" : "") + "**" + k.label + "**" + (k.note ? "：" + k.note : "")); if (k.memo) k.memo.split("\n").forEach(function (ln) { L.push("  ".repeat(d + 1) + "> " + ln); }); w(k, d + 1); }); })(root, 0);
       return new Blob([L.join("\n") + "\n"], { type: "text/markdown;charset=utf-8" });
     }
     function opmlOf(root) {
       function o(n) {
-        var note = [n.rel ? "关系：" + n.rel : "", n.note ? "含义：" + n.note : ""].filter(Boolean).join("；");
+        var note = [n.rel ? "关系：" + n.rel : "", n.note ? "含义：" + n.note : "", n.memo ? "笔记：" + n.memo.replace(/\n/g, " ") : ""].filter(Boolean).join("；");
         return '<outline text="' + xesc(n.label) + '"' + (note ? ' _note="' + xesc(note) + '"' : "") + (n.kids.length ? ">" + n.kids.map(o).join("") + "</outline>" : "/>");
       }
       return new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n<opml version="2.0"><head><title>' + xesc(P.title || "") + "</title></head><body>" + o(root) + "</body></opml>\n"], { type: "text/x-opml;charset=utf-8" });
     }
     function mmOf(root) {
       function m(n, side) {
-        var note = [n.rel ? "关系：" + n.rel : "", n.note ? "含义：" + n.note : ""].filter(Boolean).join("<br/>");
+        var note = [n.rel ? "关系：" + n.rel : "", n.note ? "含义：" + n.note : "", n.memo ? "笔记：" + n.memo.replace(/\n/g, " ") : ""].filter(Boolean).join("<br/>");
         return '<node TEXT="' + xesc(n.label) + '"' + (side ? ' POSITION="right"' : "") + ">" + (note ? '<richcontent TYPE="NOTE"><html><head/><body><p>' + note.split("<br/>").map(xesc).join("<br/>") + "</p></body></html></richcontent>" : "") + n.kids.map(function (k) { return m(k, n === root); }).join("") + "</node>";
       }
       return new Blob(['<map version="1.0.1">' + m(root, false) + "</map>\n"], { type: "application/x-freemind;charset=utf-8" });
