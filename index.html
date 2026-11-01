@@ -2981,7 +2981,9 @@
   /* ---------- view ---------- */
   var placedS = 0;
   function applyView() {
-    world.style.transform = "translate(" + Math.round(view.x) + "px," + Math.round(view.y) + "px) scale(" + view.s + ")";
+    /* CSS zoom instead of transform scale: the browser lays text out at the zoomed size, so cards stay crisp (scale() could leave a blurry bitmap) */
+    world.style.zoom = String(view.s);
+    world.style.transform = "translate(" + (Math.round(view.x) / view.s) + "px," + (Math.round(view.y) / view.s) + "px)";
     world.style.setProperty("--inv", String(1 / view.s));
     /* word tray follows the board zoom so chip text stays in proportion to the cards (clamped so chips stay tappable) */
     var trayEl = $("tray"); if (trayEl) trayEl.style.setProperty("--tz", String(clamp(view.s, .9, 1)));
