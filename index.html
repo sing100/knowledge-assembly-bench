@@ -539,6 +539,21 @@
       .x-body.is-closed .x-side-rz { display: none; }
       body.is-rz, body.is-rz * { cursor: col-resize !important; user-select: none !important; }
       @media (max-width: 900px) { .x-side-rz { display: none; } }
+      /* export dialog */
+      #expOverlay .x-dialog { width: min(520px, 94vw); }
+      .x-exp-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 16px 0 12px; }
+      .x-exp-seg button, .x-exp-grid button { font: inherit; text-align: left; cursor: pointer; border: 1px solid var(--x-ln); background: var(--x-card); border-radius: 10px; color: var(--x-ink); transition: border-color var(--m-base, .15s) ease, background-color var(--m-base, .15s) ease, box-shadow var(--m-base, .15s) ease; }
+      .x-exp-seg button { padding: 10px 12px; font-size: 14px; font-weight: 600; }
+      .x-exp-seg small { display: block; margin-top: 2px; font-size: 12px; font-weight: 400; color: var(--x-ink2); }
+      .x-exp-seg button[aria-pressed="true"] { border-color: var(--x-acc); background: var(--x-acc-l); box-shadow: 0 0 0 3px var(--x-acc-r); }
+      .x-exp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-bottom: 8px; }
+      .x-exp-grid button { padding: 10px 12px; min-height: 60px; }
+      .x-exp-grid button:hover { border-color: var(--x-acc); background: var(--x-acc-l); }
+      .x-exp-grid b { display: block; font-size: 14px; }
+      .x-exp-grid span { display: block; margin-top: 2px; font-size: 12px; line-height: 1.4; color: var(--x-ink2); }
+      #exportMapBtn { display: inline-flex; align-items: center; gap: 6px; }
+      #exportMapBtn::before { content: ""; flex: none; width: 16px; height: 16px; background: currentColor; -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat;
+        --ic: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%222.5%22%20y%3D%229.5%22%20width%3D%226%22%20height%3D%225%22%20rx%3D%221.2%22/%3E%3Crect%20x%3D%2215.5%22%20y%3D%223.5%22%20width%3D%226%22%20height%3D%225%22%20rx%3D%221.2%22/%3E%3Crect%20x%3D%2215.5%22%20y%3D%2215.5%22%20width%3D%226%22%20height%3D%225%22%20rx%3D%221.2%22/%3E%3Cpath%20d%3D%22M8.5%2012h3m0%200V6h4m-4%206v6h4%22/%3E%3C/svg%3E"); }
     </style>
   </head>
   <body>
@@ -562,6 +577,7 @@
             <button class="x-tb x-refbtn" id="refBtn" type="button" aria-pressed="false">显示全部关联线<span class="x-check" aria-hidden="true">✓</span></button>
             <button class="x-tb x-refbtn x-allbtn" id="allBtn" type="button" aria-pressed="false" title="一开始就摆出全部卡片（自测用），切换后重新开始">全部摆出<span class="x-check" aria-hidden="true">✓</span></button>
             <button class="x-tb" id="clearProgressBtn" type="button" title="清除本包已保存的进度，下次打开从头开始">清除已保存进度</button>
+            <button class="x-tb" id="exportMapBtn" type="button" title="导出为 PNG / PDF / XMind / Markdown 等">导出思维导图…</button>
             <button class="x-tb" id="exportPackBtn" type="button" title="把当前知识包下载为可导入的 JSON">导出知识包</button>
             <button class="x-tb" id="exportBtn" type="button" title="把当前组装进度下载为 JSON，可再导入恢复">导出进度备份</button>
             <button class="x-tb" id="deletePackBtn" type="button" title="删除当前导入的知识包（内置包不可删）">删除当前导入包</button>
@@ -652,6 +668,26 @@
     </div>
 
 
+    <div class="x-overlay" id="expOverlay" hidden>
+      <div class="x-dialog" role="dialog" aria-modal="true" aria-labelledby="expT">
+        <h2 id="expT">导出思维导图</h2>
+        <p class="x-muted">选内容，再点一种格式就会下载。</p>
+        <div class="x-exp-seg" role="group" aria-label="导出内容">
+          <button type="button" data-mode="mine" aria-pressed="false">我的导图<small>只含已连好、已放对的</small></button>
+          <button type="button" data-mode="full" aria-pressed="true">完整导图<small>整本书的全部结构</small></button>
+        </div>
+        <div class="x-exp-grid">
+          <button type="button" data-fmt="png"><b>PNG</b><span>高清图片，发朋友圈、插笔记</span></button>
+          <button type="button" data-fmt="pdf"><b>PDF</b><span>打印、存档、平板批注</span></button>
+          <button type="button" data-fmt="svg"><b>SVG</b><span>矢量图，放大不糊</span></button>
+          <button type="button" data-fmt="xmind"><b>XMind</b><span>用 XMind 继续编辑</span></button>
+          <button type="button" data-fmt="md"><b>Markdown</b><span>Obsidian、Notion、语雀</span></button>
+          <button type="button" data-fmt="opml"><b>OPML</b><span>幕布、MindNode、MarginNote</span></button>
+          <button type="button" data-fmt="mm"><b>FreeMind</b><span>.mm，FreeMind / Freeplane</span></button>
+        </div>
+        <div class="x-actions"><button class="x-sec-btn" id="expCancel" type="button">关闭</button></div>
+      </div>
+    </div>
     <div class="x-overlay" id="importOverlay" hidden>
       <div class="x-dialog" role="dialog" aria-modal="true" aria-labelledby="impT">
         <h2 id="impT">导入知识包</h2>
@@ -4542,6 +4578,221 @@
   showGuide(false);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (P) { measure(); updateEdges(); } });
   window.addEventListener("resize", function () { if (P && !drag) applyView(); });
+  /* ---------- export mind map: PNG / PDF / SVG / XMind / Markdown / OPML / FreeMind ---------- */
+  (function () {
+    var ov = $("expOverlay"); if (!ov) return;
+    var mode = "full";
+    function xesc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" }[c]; }); }
+    function okOf(n) { var o = S && (n === 2 ? S.s2 : S.s3); return (o && o.ok) || {}; }
+    function kidsFull(id) { return sortByOrder(P.parts.filter(function (q) { return q.parent === id; }).map(function (q) { return q.id; })); }
+    function kidsMine(id) { return sortByOrder(P.parts.filter(function (q) { return S.lock[q.id] && S.par[q.id] === id; }).map(function (q) { return q.id; })); }
+    function tree() {
+      var full = mode === "full" || !S, r2 = okOf(2), r3 = okOf(3), seen = {};
+      function node(id, isRoot) {
+        if (seen[id]) return null; seen[id] = 1;
+        var q = byId[id];
+        var n = { id: id, label: q.label, rel: isRoot ? "" : (full || r2[id] ? (LAB[id] || "") : ""), note: (full || r3[id]) ? (q.note || "") : "", kids: [] };
+        (full ? kidsFull(id) : kidsMine(id)).forEach(function (k) { var c = node(k, false); if (c) n.kids.push(c); });
+        return n;
+      }
+      return node(P.root, true);
+    }
+    function fname(ext) { return String(P.title || P.id).replace(/[《》\\/:*?"<>|]/g, "").trim() + (mode === "full" ? "-思维导图" : "-我的导图") + "." + ext; }
+    function saveBlob(name, blob) {
+      if (window.KabNative && window.KabNative.saveBase64) {
+        var fr = new FileReader();
+        fr.onload = function () { try { window.KabNative.saveBase64(name, String(fr.result).split(",")[1] || "", blob.type || "application/octet-stream"); } catch (e) { toast("保存失败"); } };
+        fr.readAsDataURL(blob); return;
+      }
+      var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name;
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+    }
+
+    /* ---- layout + SVG (left-to-right tree) ---- */
+    var FONT = '-apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", "Segoe UI", sans-serif';
+    var BR = ["#4F46E5", "#0EA5E9", "#10B981", "#F59E0B", "#EC4899", "#8B5CF6"];
+    var mctx = document.createElement("canvas").getContext("2d");
+    function tw(t, px, w) { if (!mctx) return String(t).length * px; mctx.font = (w || 400) + " " + px + "px " + FONT; return mctx.measureText(t).width; }
+    function svgOf(root) {
+      var GAPX = 96, GAPY = 18, PADX = 16;
+      (function size(n, d) {
+        n.d = d; n.lw = tw(n.label, d ? 15 : 20, 600); n.nw = n.note ? tw(n.note, 12, 400) : 0;
+        n.w = Math.ceil(Math.max(n.lw, n.nw) + PADX * 2); n.h = (d ? 38 : 50) + (n.note ? 18 : 0);
+        n.kids.forEach(function (k) { size(k, d + 1); });
+      })(root, 0);
+      var colX = [];
+      (function cx(n) { colX[n.d] = Math.max(colX[n.d] || 0, n.w); n.kids.forEach(cx); })(root);
+      var relW = []; (function rw(n) { n.kids.forEach(function (k) { if (k.rel) relW[k.d] = Math.max(relW[k.d] || 0, tw(k.rel, 12, 500) + 20); rw(k); }); })(root);
+      var xs = [0]; for (var i = 1; i < colX.length; i++) xs[i] = xs[i - 1] + colX[i - 1] + Math.max(GAPX, (relW[i] || 0) + 80);
+      var y = 0;
+      (function place(n) {
+        n.x = xs[n.d];
+        if (!n.kids.length) { n.y = y; y += n.h + GAPY; return; }
+        n.kids.forEach(place);
+        var a = n.kids[0], b = n.kids[n.kids.length - 1];
+        n.y = (a.y + a.h / 2 + b.y + b.h / 2) / 2 - n.h / 2;
+        if (n.y + n.h + GAPY > y) y = n.y + n.h + GAPY;
+      })(root);
+      var minY = Infinity, maxY = -Infinity, maxX = 0;
+      (function bb(n) { minY = Math.min(minY, n.y); maxY = Math.max(maxY, n.y + n.h); maxX = Math.max(maxX, n.x + n.w); n.kids.forEach(bb); })(root);
+      var M = 48, TH = 56, W = Math.ceil(maxX + M * 2), H = Math.ceil(maxY - minY + M * 2 + TH), oy = M + TH - minY;
+      var edges = "", nodes = "", rels = "";
+      (function draw(n, col) {
+        var X = n.x + M, Y = n.y + oy, c = n.d ? col : "#18181B";
+        n.kids.forEach(function (k, i) {
+          var kc = n.d ? col : BR[i % BR.length];
+          var x1 = X + n.w, y1 = Y + n.h / 2, x2 = k.x + M, y2 = k.y + oy + k.h / 2;
+          var rw2 = k.rel ? tw(k.rel, 12, 500) + 16 : 0, xe = k.rel ? x2 - rw2 - 36 : x2, mx = (x1 + xe) / 2;
+          edges += '<path d="M' + x1 + " " + y1 + " C" + mx + " " + y1 + " " + mx + " " + y2 + " " + xe + " " + y2 + " L" + x2 + " " + y2 + '" fill="none" stroke="' + kc + '" stroke-opacity=".55" stroke-width="2"/>';
+          if (k.rel) {
+            var rx = xe + 12, ry = y2 - 11;
+            rels += '<rect x="' + rx.toFixed(1) + '" y="' + ry + '" width="' + rw2.toFixed(1) + '" height="22" rx="11" fill="#F0F9FF" stroke="#BAE6FD"/><text x="' + (rx + rw2 / 2).toFixed(1) + '" y="' + (ry + 15) + '" text-anchor="middle" font-size="12" font-weight="500" fill="#075985">' + xesc(k.rel) + "</text>";
+          }
+          draw(k, kc);
+        });
+        nodes += '<rect x="' + X + '" y="' + Y + '" width="' + n.w + '" height="' + n.h + '" rx="' + (n.d ? 10 : 14) + '" fill="' + (n.d ? "#FFFFFF" : "#18181B") + '" stroke="' + (n.d ? c : "#18181B") + '" stroke-opacity="' + (n.d ? ".45" : "1") + '" stroke-width="1.5"/>';
+        if (n.d) nodes += '<rect x="' + X + '" y="' + (Y + 8) + '" width="3" height="' + (n.h - 16) + '" rx="1.5" fill="' + c + '"/>';
+        var ty = Y + (n.note ? (n.d ? 24 : 30) : n.h / 2 + (n.d ? 5.5 : 7));
+        nodes += '<text x="' + (X + n.w / 2) + '" y="' + ty + '" text-anchor="middle" font-size="' + (n.d ? 15 : 20) + '" font-weight="600" fill="' + (n.d ? "#18181B" : "#FFFFFF") + '">' + xesc(n.label) + "</text>";
+        if (n.note) nodes += '<text x="' + (X + n.w / 2) + '" y="' + (ty + 19) + '" text-anchor="middle" font-size="12" fill="' + (n.d ? "#6D28D9" : "#DDD6FE") + '">' + xesc(n.note) + "</text>";
+      })(root, "#4F46E5");
+      var title = '<text x="' + M + '" y="' + (M + 8) + '" font-size="22" font-weight="700" fill="#18181B">' + xesc(P.title || "") + '</text><text x="' + M + '" y="' + (M + 30) + '" font-size="12" fill="#71717A">' + xesc((P.subtitle ? P.subtitle + " · " : "") + (mode === "full" ? "完整思维导图" : "我的导图")) + '</text>';
+      var leg = '<g font-size="11" fill="#71717A"><rect x="' + (W - M - 150) + '" y="' + (M - 4) + '" width="10" height="10" rx="5" fill="#0284C7"/><text x="' + (W - M - 135) + '" y="' + (M + 5) + '">关系</text><rect x="' + (W - M - 90) + '" y="' + (M - 4) + '" width="10" height="10" rx="5" fill="#7C3AED"/><text x="' + (W - M - 75) + '" y="' + (M + 5) + '">含义</text></g>';
+      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + " " + H + '" font-family=\'' + FONT + '\'><rect width="100%" height="100%" fill="#FAFAFA"/>' + title + leg + edges + rels + nodes + "</svg>";
+      return { svg: svg, w: W, h: H };
+    }
+    function toCanvas(r, scale, cb) {
+      var img = new Image();
+      img.onload = function () {
+        var s = scale; var maxPx = 16000; if (r.w * s > maxPx || r.h * s > maxPx) s = Math.min(maxPx / r.w, maxPx / r.h);
+        var c = document.createElement("canvas"); c.width = Math.round(r.w * s); c.height = Math.round(r.h * s);
+        var g = c.getContext("2d"); g.fillStyle = "#FAFAFA"; g.fillRect(0, 0, c.width, c.height); g.scale(s, s); g.drawImage(img, 0, 0);
+        cb(c);
+      };
+      img.onerror = function () { toast("生成图片失败"); };
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(r.svg);
+    }
+    function b64ToBytes(b) { var s = atob(b), u = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u; }
+    function pdfOf(jpeg, iw, ih, wPt, hPt) {
+      var enc = new TextEncoder(), parts = [], offs = [], len = 0;
+      function add(x) { var b = typeof x === "string" ? enc.encode(x) : x; parts.push(b); len += b.length; }
+      function obj(n, body, stream) { offs[n] = len; add(n + " 0 obj\n" + body); if (stream) { add("stream\n"); add(stream); add("\nendstream"); } add("\nendobj\n"); }
+      add("%PDF-1.4\n%\xE2\xE3\xCF\xD3\n");
+      var content = "q " + wPt.toFixed(2) + " 0 0 " + hPt.toFixed(2) + " 0 0 cm /Im0 Do Q";
+      obj(1, "<< /Type /Catalog /Pages 2 0 R >>");
+      obj(2, "<< /Type /Pages /Kids [3 0 R] /Count 1 >>");
+      obj(3, "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 " + wPt.toFixed(2) + " " + hPt.toFixed(2) + "] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>");
+      obj(4, "<< /Type /XObject /Subtype /Image /Width " + iw + " /Height " + ih + " /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length " + jpeg.length + " >>\n", jpeg);
+      obj(5, "<< /Length " + content.length + " >>\n", enc.encode(content));
+      var xref = len, x = "xref\n0 6\n0000000000 65535 f \n";
+      for (var i = 1; i <= 5; i++) x += String(offs[i]).padStart(10, "0") + " 00000 n \n";
+      add(x + "trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n" + xref + "\n%%EOF");
+      return new Blob(parts, { type: "application/pdf" });
+    }
+    /* minimal store-only zip (for .xmind) */
+    var CRC = (function () { var t = [], c; for (var n = 0; n < 256; n++) { c = n; for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+    function crc32(u) { var c = 0xFFFFFFFF; for (var i = 0; i < u.length; i++) c = CRC[(c ^ u[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+    function zip(files) {
+      var enc = new TextEncoder(), out = [], cd = [], off = 0;
+      function u16(v) { return [v & 255, (v >>> 8) & 255]; } function u32(v) { return [v & 255, (v >>> 8) & 255, (v >>> 16) & 255, (v >>> 24) & 255]; }
+      files.forEach(function (f) {
+        var name = enc.encode(f.name), data = typeof f.data === "string" ? enc.encode(f.data) : f.data, crc = crc32(data);
+        var common = [].concat(u16(20), u16(0x0800), u16(0), u16(0), u16(0x21), u32(crc), u32(data.length), u32(data.length), u16(name.length), u16(0));
+        var lh = new Uint8Array([].concat(u32(0x04034b50), common)); out.push(lh, name, data);
+        cd.push(new Uint8Array([].concat(u32(0x02014b50), u16(20), common, u16(0), u16(0), u16(0), u32(0), u32(off))), name);
+        off += lh.length + name.length + data.length;
+      });
+      var cdLen = cd.reduce(function (s, b) { return s + b.length; }, 0);
+      out = out.concat(cd, [new Uint8Array([].concat(u32(0x06054b50), u16(0), u16(0), u16(files.length), u16(files.length), u32(cdLen), u32(off), u16(0)))]);
+      return out;
+    }
+    var uid = 0; function nid() { return "kab" + Date.now().toString(36) + (uid++); }
+    function xmindOf(root) {
+      function topic(n) {
+        var t = { id: nid(), class: "topic", title: n.label };
+        if (n.note) t.notes = { plain: { content: n.note } };
+        if (n.rel) t.labels = [n.rel];
+        if (n.kids.length) t.children = { attached: n.kids.map(topic) };
+        return t;
+      }
+      var rt = topic(root); rt.structureClass = "org.xmind.ui.logic.right";
+      var content = [{ id: nid(), class: "sheet", title: P.title || "思维导图", rootTopic: rt }];
+      function xt(n) {
+        return '<topic id="' + nid() + '"><title>' + xesc(n.label) + "</title>" + (n.rel ? "<labels><label>" + xesc(n.rel) + "</label></labels>" : "") + (n.note ? "<notes><plain>" + xesc(n.note) + "</plain></notes>" : "") +
+          (n.kids.length ? '<children><topics type="attached">' + n.kids.map(xt).join("") + "</topics></children>" : "") + "</topic>";
+      }
+      var xml = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><xmap-content xmlns="urn:xmind:xmap:xmlns:content:2.0" version="2.0"><sheet id="' + nid() + '"><title>' + xesc(P.title || "") + "</title>" + xt(root).replace("<topic ", '<topic structure-class="org.xmind.ui.logic.right" ') + "</sheet></xmap-content>";
+      var files = [
+        { name: "content.json", data: JSON.stringify(content) },
+        { name: "metadata.json", data: JSON.stringify({ creator: { name: "知识组装台", version: "1.0" } }) },
+        { name: "manifest.json", data: JSON.stringify({ "file-entries": { "content.json": {}, "metadata.json": {}, "content.xml": {}, "META-INF/manifest.xml": {} } }) },
+        { name: "content.xml", data: xml },
+        { name: "META-INF/manifest.xml", data: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><manifest xmlns="urn:xmind:xmap:xmlns:manifest:1.0"><file-entry full-path="content.xml" media-type="text/xml"/><file-entry full-path="META-INF/" media-type=""/><file-entry full-path="META-INF/manifest.xml" media-type="text/xml"/></manifest>' }
+      ];
+      return new Blob(zip(files), { type: "application/vnd.xmind.workbook" });
+    }
+    function mdOf(root) {
+      var L = ["# " + (P.title || root.label), ""]; if (P.subtitle) L.push("> " + P.subtitle, "");
+      if (root.note) L.push(root.note, "");
+      (function w(n, d) { n.kids.forEach(function (k) { L.push("  ".repeat(d) + "- " + (k.rel ? "〔" + k.rel + "〕" : "") + "**" + k.label + "**" + (k.note ? "：" + k.note : "")); w(k, d + 1); }); })(root, 0);
+      return new Blob([L.join("\n") + "\n"], { type: "text/markdown;charset=utf-8" });
+    }
+    function opmlOf(root) {
+      function o(n) {
+        var note = [n.rel ? "关系：" + n.rel : "", n.note ? "含义：" + n.note : ""].filter(Boolean).join("；");
+        return '<outline text="' + xesc(n.label) + '"' + (note ? ' _note="' + xesc(note) + '"' : "") + (n.kids.length ? ">" + n.kids.map(o).join("") + "</outline>" : "/>");
+      }
+      return new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n<opml version="2.0"><head><title>' + xesc(P.title || "") + "</title></head><body>" + o(root) + "</body></opml>\n"], { type: "text/x-opml;charset=utf-8" });
+    }
+    function mmOf(root) {
+      function m(n, side) {
+        var note = [n.rel ? "关系：" + n.rel : "", n.note ? "含义：" + n.note : ""].filter(Boolean).join("<br/>");
+        return '<node TEXT="' + xesc(n.label) + '"' + (side ? ' POSITION="right"' : "") + ">" + (note ? '<richcontent TYPE="NOTE"><html><head/><body><p>' + note.split("<br/>").map(xesc).join("<br/>") + "</p></body></html></richcontent>" : "") + n.kids.map(function (k) { return m(k, n === root); }).join("") + "</node>";
+      }
+      return new Blob(['<map version="1.0.1">' + m(root, false) + "</map>\n"], { type: "application/x-freemind;charset=utf-8" });
+    }
+    function run(fmt) {
+      if (!P) return;
+      var root = tree();
+      if (!root) return;
+      if (mode === "mine" && !root.kids.length) { toast("还没有连好的卡片，先连几条再导出，或选「完整导图」"); return; }
+      if (fmt === "md") saveBlob(fname("md"), mdOf(root));
+      else if (fmt === "opml") saveBlob(fname("opml"), opmlOf(root));
+      else if (fmt === "mm") saveBlob(fname("mm"), mmOf(root));
+      else if (fmt === "xmind") saveBlob(fname("xmind"), xmindOf(root));
+      else {
+        var r = svgOf(root);
+        if (fmt === "svg") saveBlob(fname("svg"), new Blob([r.svg], { type: "image/svg+xml;charset=utf-8" }));
+        else if (fmt === "png") toCanvas(r, 2, function (c) { c.toBlob(function (b) { if (b) saveBlob(fname("png"), b); else toast("生成图片失败"); }, "image/png"); });
+        else if (fmt === "pdf") toCanvas(r, 2, function (c) {
+          var jpeg = b64ToBytes(c.toDataURL("image/jpeg", 0.92).split(",")[1]);
+          var k = Math.min(1, 14400 / (r.w * 0.75), 14400 / (r.h * 0.75));
+          saveBlob(fname("pdf"), pdfOf(jpeg, c.width, c.height, r.w * 0.75 * k, r.h * 0.75 * k));
+        });
+      }
+      expOpen(false);
+      toast("已导出 " + fmt.toUpperCase().replace("MM", "FreeMind"));
+    }
+    function expOpen(on) {
+      if (on) {
+        var done = S && correctCount(1) >= total(1);
+        mode = done ? "mine" : "full";
+        ov.querySelectorAll("[data-mode]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.mode === mode ? "true" : "false"); });
+        ov.classList.remove("is-closing"); ov.hidden = false; return;
+      }
+      if (ov.hidden) return;
+      ov.classList.add("is-closing");
+      setTimeout(function () { ov.hidden = true; ov.classList.remove("is-closing"); }, 150);
+    }
+    ov.addEventListener("click", function (e) {
+      if (e.target === ov) { expOpen(false); return; }
+      var m = e.target.closest("[data-mode]"); if (m) { mode = m.dataset.mode; ov.querySelectorAll("[data-mode]").forEach(function (b) { b.setAttribute("aria-pressed", b === m ? "true" : "false"); }); return; }
+      var f = e.target.closest("[data-fmt]"); if (f) { run(f.dataset.fmt); return; }
+      if (e.target.closest("#expCancel")) expOpen(false);
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !ov.hidden) expOpen(false); });
+    $("exportMapBtn").addEventListener("click", function () { moreOpen(false); expOpen(true); });
+  })();
   (function () {
     var rz = $("sideRz"), side = $("side"); if (!rz || !side) return;
     function clampW(w) { return Math.round(Math.max(220, Math.min(w, 640, window.innerWidth * 0.5))); }
