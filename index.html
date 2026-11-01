@@ -4838,7 +4838,7 @@
   })();
   (function () {
     var rz = $("sideRz"), side = $("side"); if (!rz || !side) return;
-    function clampW(w) { return Math.round(Math.max(220, Math.min(w, 640, window.innerWidth * 0.5))); }
+    function clampW(w) { var bw = $("body").getBoundingClientRect().width || window.innerWidth; return Math.round(Math.max(220, Math.min(w, bw * 0.7))); }
     function setW(w, save) { if (window.innerWidth <= 900) { side.style.width = ""; return; } w = clampW(w); side.style.width = w + "px"; if (save) try { localStorage.setItem("kabSideW", String(w)); } catch (e) {} }
     var saved = 0; try { saved = +localStorage.getItem("kabSideW") || 0; } catch (e) {}
     if (saved) setW(saved, false);
