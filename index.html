@@ -3009,6 +3009,31 @@
     var to = { s: s, x: pad + (aw - (bx2 - bx) * s) / 2 - bx * s, y: pad + (ah - (by2 - by) * s) / 2 - by * s };
     if (animate === false) { view = to; applyView(); } else animView(to, ms);
   }
+  /* keep the focused card and the cards it is linked to inside the visible board (pan only, no zoom) */
+  function keepFocusInView(anim) {
+    if (!P || !S || !S.focus || !pos[S.focus] || !size[S.focus]) return;
+    var f = S.focus, ids = [f];
+    if (S.par[f]) ids.push(S.par[f]);
+    P.parts.forEach(function (q) { if (S.par[q.id] === f) ids.push(q.id); });
+    ids = ids.filter(function (id) { return pos[id] && size[id] && vis(id); });
+    function box(list) {
+      var b = { x: Infinity, y: Infinity, x2: -Infinity, y2: -Infinity };
+      list.forEach(function (id) { var q = pos[id], z = size[id], ex = noteEx(id);
+        b.x = Math.min(b.x, q.x); b.y = Math.min(b.y, q.y); b.x2 = Math.max(b.x2, q.x + z.w); b.y2 = Math.max(b.y2, q.y + z.h + ex); });
+      return { x: view.x + b.x * view.s, y: view.y + b.y * view.s, x2: view.x + b.x2 * view.s, y2: view.y + b.y2 * view.s };
+    }
+    var r = board.getBoundingClientRect(), pad = 32;
+    var trayH = tray.hidden || tray.classList.contains("is-out") ? 0 : tray.offsetHeight + 14;
+    var L = pad, R = r.width - pad, T = pad, B = r.height - pad - trayH;
+    if (R - L < 60 || B - T < 60) return;
+    var b = box(ids);
+    if (b.x2 - b.x > R - L || b.y2 - b.y > B - T) b = box([f]);
+    function shift(lo, hi, a, z) { if (z - a > hi - lo) return (lo + hi) / 2 - (a + z) / 2; if (a < lo) return lo - a; if (z > hi) return hi - z; return 0; }
+    var dx = shift(L, R, b.x, b.x2), dy = shift(T, B, b.y, b.y2);
+    if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+    var to = { x: view.x + dx, y: view.y + dy, s: view.s };
+    if (anim) animView(to, 320); else { vAnim = null; zt = null; view = to; applyView(); }
+  }
   function toWorld(cx, cy) { var r = board.getBoundingClientRect(); return { x: (cx - r.left - view.x) / view.s, y: (cy - r.top - view.y) / view.s }; }
 
   /* ---------- layout + spring ---------- */
@@ -4112,7 +4137,7 @@
   $("sideBtn").addEventListener("click", function () {
     var closed = $("body").classList.toggle("is-closed");
     this.setAttribute("aria-expanded", closed ? "false" : "true");
-    applyView();
+    applyView(); if (!closed) keepFocusInView(true);
   });
   $("hintBtn").addEventListener("click", hint);
   $("wholeBtn").addEventListener("click", function () {
@@ -4846,12 +4871,12 @@
       if (e.button !== 0) return; e.preventDefault();
       var x0 = e.clientX, w0 = side.getBoundingClientRect().width;
       rz.setPointerCapture(e.pointerId); rz.classList.add("is-on"); document.body.classList.add("is-rz");
-      function mv(ev) { setW(w0 + (x0 - ev.clientX), false); if (P) applyView(); }
+      function mv(ev) { setW(w0 + (x0 - ev.clientX), false); if (P) { applyView(); keepFocusInView(false); } }
       function up() { rz.removeEventListener("pointermove", mv); rz.removeEventListener("pointerup", up); rz.removeEventListener("pointercancel", up);
-        rz.classList.remove("is-on"); document.body.classList.remove("is-rz"); setW(side.getBoundingClientRect().width, true); if (P) applyView(); }
+        rz.classList.remove("is-on"); document.body.classList.remove("is-rz"); setW(side.getBoundingClientRect().width, true); if (P) { applyView(); keepFocusInView(true); } }
       rz.addEventListener("pointermove", mv); rz.addEventListener("pointerup", up); rz.addEventListener("pointercancel", up);
     });
-    rz.addEventListener("dblclick", function () { side.style.width = ""; try { localStorage.removeItem("kabSideW"); } catch (e) {} if (P) applyView(); });
+    rz.addEventListener("dblclick", function () { side.style.width = ""; try { localStorage.removeItem("kabSideW"); } catch (e) {} if (P) { applyView(); keepFocusInView(true); } });
     window.addEventListener("resize", function () { if (window.innerWidth <= 900) side.style.width = ""; else { var w = 0; try { w = +localStorage.getItem("kabSideW") || 0; } catch (e) {} if (w) setW(w, false); } });
   })();
 })();
