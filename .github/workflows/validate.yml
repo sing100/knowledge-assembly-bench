@@ -1,0 +1,21 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Embedded packs match packs/*.json
+        run: node scripts/sync-packs.js --check
+      - name: Validate every pack
+        run: for f in packs/*.json; do node skills/book-to-pack/scripts/validate.js "$f"; done
+      - name: Headless state tests
+        run: node tests/state.test.js
