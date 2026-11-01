@@ -523,6 +523,14 @@
       .x-chip.is-float.is-k3 { background: var(--x-m-l); border-color: var(--x-m); color: var(--x-m-d); }
       .x-chip.is-float.is-k2 { background: var(--x-r-l); border-color: var(--x-r); color: var(--x-r-d); }
       .x-chip.is-float.is-bad { border-color: var(--x-bad); background: var(--x-bad-l); color: var(--x-bad); }
+
+      /* resizable detail panel: drag the left edge */
+      .x-side-rz { flex: none; width: 7px; margin: 0 -4px 0 -3px; position: relative; z-index: 5; cursor: col-resize; touch-action: none; }
+      .x-side-rz::after { content: ""; position: absolute; top: 0; bottom: 0; left: 3px; width: 1px; background: transparent; transition: background-color var(--m-base, .15s) ease; }
+      .x-side-rz:hover::after, .x-side-rz.is-on::after { background: var(--x-acc); width: 2px; left: 2.5px; }
+      .x-body.is-closed .x-side-rz { display: none; }
+      body.is-rz, body.is-rz * { cursor: col-resize !important; user-select: none !important; }
+      @media (max-width: 900px) { .x-side-rz { display: none; } }
     </style>
   </head>
   <body>
@@ -605,7 +613,7 @@
           </div>
           <div class="x-toasts" id="toasts" aria-live="polite"></div>
         </main>
-        <aside class="x-side" id="side" aria-label="卡片详情"><div id="partInfo" aria-live="polite"></div></aside>
+        <div class="x-side-rz" id="sideRz" role="separator" aria-orientation="vertical" aria-label="拖动调整详情栏宽度" title="拖动调整宽度，双击恢复"></div><aside class="x-side" id="side" aria-label="卡片详情"><div id="partInfo" aria-live="polite"></div></aside>
       </div>
     </div>
 
@@ -4526,6 +4534,24 @@
   showGuide(false);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (P) { measure(); updateEdges(); } });
   window.addEventListener("resize", function () { if (P && !drag) applyView(); });
+  (function () {
+    var rz = $("sideRz"), side = $("side"); if (!rz || !side) return;
+    function clampW(w) { return Math.round(Math.max(220, Math.min(w, 640, window.innerWidth * 0.5))); }
+    function setW(w, save) { if (window.innerWidth <= 900) { side.style.width = ""; return; } w = clampW(w); side.style.width = w + "px"; if (save) try { localStorage.setItem("kabSideW", String(w)); } catch (e) {} }
+    var saved = 0; try { saved = +localStorage.getItem("kabSideW") || 0; } catch (e) {}
+    if (saved) setW(saved, false);
+    rz.addEventListener("pointerdown", function (e) {
+      if (e.button !== 0) return; e.preventDefault();
+      var x0 = e.clientX, w0 = side.getBoundingClientRect().width;
+      rz.setPointerCapture(e.pointerId); rz.classList.add("is-on"); document.body.classList.add("is-rz");
+      function mv(ev) { setW(w0 + (x0 - ev.clientX), false); if (P) applyView(); }
+      function up() { rz.removeEventListener("pointermove", mv); rz.removeEventListener("pointerup", up); rz.removeEventListener("pointercancel", up);
+        rz.classList.remove("is-on"); document.body.classList.remove("is-rz"); setW(side.getBoundingClientRect().width, true); if (P) applyView(); }
+      rz.addEventListener("pointermove", mv); rz.addEventListener("pointerup", up); rz.addEventListener("pointercancel", up);
+    });
+    rz.addEventListener("dblclick", function () { side.style.width = ""; try { localStorage.removeItem("kabSideW"); } catch (e) {} if (P) applyView(); });
+    window.addEventListener("resize", function () { if (window.innerWidth <= 900) side.style.width = ""; else { var w = 0; try { w = +localStorage.getItem("kabSideW") || 0; } catch (e) {} if (w) setW(w, false); } });
+  })();
 })();
     </script>
     <script>
