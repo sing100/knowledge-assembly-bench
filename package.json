@@ -1,0 +1,15 @@
+{
+  "name": "knowledge-assembly-bench",
+  "version": "1.0.0",
+  "private": true,
+  "description": "知识组装台：把一本书拆成知识卡片，再亲手连回去",
+  "license": "MIT",
+  "homepage": "https://loom-kab.pages.dev/",
+  "repository": "github:sing100/knowledge-assembly-bench",
+  "scripts": {
+    "test": "node scripts/sync-packs.js --check && npm run validate && node tests/state.test.js",
+    "validate": "for f in packs/*.json; do node skills/book-to-pack/scripts/validate.js \"$f\" || exit 1; done",
+    "sync": "node scripts/sync-packs.js",
+    "start": "npx --yes serve ."
+  }
+}
