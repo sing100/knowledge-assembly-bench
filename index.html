@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>知识组装台</title>
-    <meta name="description" content="把一本书拆成知识卡片，自己动手把它们连回去。连对就亮灯，连完变成思维导图。内置斯多葛主义、《思考，快与慢》、《原子习惯》。" />
+    <meta name="description" content="把一本书拆成知识卡片，自己动手把它们连回去。连对就亮灯，连完变成思维导图。内置斯多葛主义、《孙子兵法》、瓦罗兰特三个知识包。" />
     <meta property="og:title" content="知识组装台 · Knowledge Assembly Bench" />
     <meta property="og:description" content="把一本书拆成知识卡片，自己动手把它们连回去。" />
     <meta property="og:url" content="https://loom-kab.pages.dev/" />
@@ -1349,828 +1349,922 @@
   ]
 }
 </script>
-    <script type="application/json" id="pack-thinking-fast-and-slow">
+    <script type="application/json" id="pack-sunzi">
 {
-  "id": "thinking-fast-and-slow",
-  "title": "思考，快与慢",
-  "subtitle": "丹尼尔·卡尼曼",
-  "intro": "组装卡尼曼的论证：直觉很强大，但会系统性地出错。",
-  "kind": "book",
-  "shape": "argument",
-  "parts": [
-    {
-      "id": "root",
-      "label": "《思考，快与慢》",
-      "parent": null,
-      "note": "直觉会系统性出错",
-      "explain": "诺贝尔奖得主卡尼曼 2011 年的书。核心观点：人脑有两种思考方式，快的那种很能干，但会以可预测的方式犯错。"
-    },
-    {
-      "id": "two",
-      "label": "两个系统",
-      "parent": "root",
-      "note": "快直觉与慢推理",
-      "explain": "卡尼曼用来描述大脑的比喻：一个快、一个慢的两种思考方式。全书都建立在这个框架上。"
-    },
-    {
-      "id": "s1",
-      "label": "系统1",
-      "parent": "two",
-      "note": "自动、快速、省力",
-      "explain": "自动运行的直觉思维。看到「2+2」就冒出 4、看到生气的脸就感到不安，都是它在工作，不费力也停不下来。"
-    },
-    {
-      "id": "s2",
-      "label": "系统2",
-      "parent": "two",
-      "note": "费力、缓慢、懒惰",
-      "explain": "需要专注的慢思考，比如算 17×24、填税表。它能纠正直觉，但很懒，常常直接接受系统1给的答案。"
-    },
-    {
-      "id": "ease",
-      "label": "认知放松",
-      "parent": "two",
-      "note": "熟悉就觉得真",
-      "explain": "当信息看起来熟悉、清晰、好读时，大脑会觉得轻松，也更容易相信它是真的。重复多次的谎言就利用了这一点。"
-    },
-    {
-      "id": "wysiati",
-      "label": "眼见即为全部",
-      "parent": "two",
-      "note": "只用手头信息",
-      "explain": "大脑只用眼前的信息编一个通顺的故事，不会去想「还缺了什么信息」。故事越连贯，人越自信，哪怕信息很少。"
-    },
-    {
-      "id": "heur",
-      "label": "启发式与偏差",
-      "parent": "root",
-      "note": "直觉走捷径",
-      "explain": "大脑碰到难题时，会偷偷换成一个简单的问题来回答。这些捷径大多有用，但会带来可预测的错误。"
-    },
-    {
-      "id": "anchor",
-      "label": "锚定效应",
-      "parent": "heur",
-      "note": "被初始数字拉住",
-      "explain": "先看到的一个数字会把后面的判断拉向它。比如先问「甘地去世时超过 114 岁吗」，人们估计的年龄会明显偏高。"
-    },
-    {
-      "id": "avail",
-      "label": "可得性启发",
-      "parent": "heur",
-      "note": "易想起当常见",
-      "explain": "用「多容易想起例子」来判断一件事有多常见。飞机失事上新闻多，人们就高估坐飞机的危险。"
-    },
-    {
-      "id": "repr",
-      "label": "代表性启发",
-      "parent": "heur",
-      "note": "像不等于可能",
-      "explain": "用「像不像」来判断可能性，忽略了基础比例。一个安静爱读书的人，人们会猜他是图书管理员，尽管农民多得多。"
-    },
-    {
-      "id": "linda",
-      "label": "琳达问题",
-      "parent": "repr",
-      "note": "合取谬误",
-      "explain": "琳达热心社会运动。问人她更可能是「银行职员」还是「热心女权的银行职员」，多数人选后者，可后者的概率不可能更大。"
-    },
-    {
-      "id": "smalln",
-      "label": "小数定律",
-      "parent": "heur",
-      "note": "轻信小样本",
-      "explain": "人们以为小样本也能反映整体。比如发现肾癌发病率最低的县多是小县，就去找原因，其实只是样本小、波动大。"
-    },
-    {
-      "id": "regress",
-      "label": "回归均值",
-      "parent": "heur",
-      "note": "极端之后趋常",
-      "explain": "极端的表现之后，下一次通常更接近平均。表现好被表扬后变差、被批评后变好，常被误以为是表扬和批评的作用。"
-    },
-    {
-      "id": "over",
-      "label": "过度自信",
-      "parent": "root",
-      "note": "高估自己所知",
-      "explain": "人们普遍高估自己知道多少、能预测多少。这一部分讲它的几种表现。"
-    },
-    {
-      "id": "hindsight",
-      "label": "后见之明",
-      "parent": "over",
-      "note": "事后都可预测",
-      "explain": "事情发生后，人会觉得「我早就知道」。这让我们低估了世界的不确定性，也会不公平地评价决策者。"
-    },
-    {
-      "id": "validity",
-      "label": "有效性错觉",
-      "parent": "over",
-      "note": "信心不等于准",
-      "explain": "即使有证据表明判断不准，人仍然对自己的判断很有信心。比如选股专家的业绩大多接近运气。"
-    },
-    {
-      "id": "planning",
-      "label": "规划谬误",
-      "parent": "over",
-      "note": "低估时间成本",
-      "explain": "做计划时总是按最理想的情况估算，严重低估时间和成本。装修、写论文、修地铁都是这样。"
-    },
-    {
-      "id": "choice",
-      "label": "选择",
-      "parent": "root",
-      "note": "人不是理性人",
-      "explain": "这一部分挑战经济学的假设：人在做选择时并不是冷静计算的「理性人」。"
-    },
-    {
-      "id": "prospect",
-      "label": "前景理论",
-      "parent": "choice",
-      "note": "相对参照点评估",
-      "explain": "卡尼曼和特沃斯基提出的理论：人不是按最终财富，而是按相对某个参照点的「得」和「失」来做决定。"
-    },
-    {
-      "id": "lossav",
-      "label": "损失厌恶",
-      "parent": "prospect",
-      "note": "失去比得到痛",
-      "explain": "失去 100 元的痛苦，大约比得到 100 元的快乐强一倍。所以人们会为了避免损失去冒险。"
-    },
-    {
-      "id": "endow",
-      "label": "禀赋效应",
-      "parent": "prospect",
-      "note": "拥有就更值钱",
-      "explain": "东西一旦归自己所有，就觉得它更值钱。实验里拿到马克杯的人，卖价通常是买价的两倍左右。"
-    },
-    {
-      "id": "framing",
-      "label": "框架效应",
-      "parent": "choice",
-      "note": "说法改变选择",
-      "explain": "同一件事换个说法，选择就变了。「手术存活率 90%」和「死亡率 10%」是一回事，但前者让更多人同意手术。"
-    },
-    {
-      "id": "selves",
-      "label": "两个自我",
-      "parent": "root",
-      "note": "体验与记忆",
-      "explain": "全书最后一部分：人身上有两个「我」，一个在经历，一个在记住，它们对幸福的判断并不一致。"
-    },
-    {
-      "id": "exper",
-      "label": "体验自我",
-      "parent": "selves",
-      "note": "活在当下",
-      "explain": "此时此刻正在感受的那个你，回答的是「现在感觉怎么样」。"
-    },
-    {
-      "id": "remem",
-      "label": "记忆自我",
-      "parent": "selves",
-      "note": "讲故事做决定",
-      "explain": "事后回顾、讲故事的那个你，回答的是「整体来说怎么样」。下一次做选择的，是它。"
-    },
-    {
-      "id": "peakend",
-      "label": "峰终定律",
-      "parent": "selves",
-      "note": "只记峰值和结尾",
-      "explain": "人回忆一段经历时，主要记住最强烈的时刻和结尾，几乎不管持续了多久。"
-    },
-    {
-      "id": "colon",
-      "label": "结肠镜实验",
-      "parent": "peakend",
-      "note": "长但结尾好更好受",
-      "explain": "同样做结肠镜检查，在结尾多加几分钟较轻的不适，病人反而记得整体没那么痛苦。"
-    },
-    {
-      "id": "people",
-      "label": "人物",
-      "parent": "root",
-      "note": "提出者",
-      "explain": "卡尼曼和特沃斯基，两位心理学家，几十年合作提出这些理论，是全书论证的提出者。"
-    },
-    {
-      "id": "kahneman",
-      "label": "丹尼尔·卡尼曼",
-      "parent": "people",
-      "note": "2002年诺奖",
-      "explain": "以色列裔美国心理学家，因把心理学引入经济学获 2002 年诺贝尔经济学奖。"
-    },
-    {
-      "id": "tversky",
-      "label": "阿莫斯·特沃斯基",
-      "parent": "people",
-      "note": "长期合作者",
-      "explain": "卡尼曼几十年的合作伙伴，许多核心实验是两人一起做的。1996 年去世，未能分享诺奖。"
-    }
-  ],
-  "links": [
-    {
-      "a": "root",
-      "b": "two",
-      "label": "思维模型"
-    },
-    {
-      "a": "two",
-      "b": "s1",
-      "label": "快思考"
-    },
-    {
-      "a": "two",
-      "b": "s2",
-      "label": "慢思考"
-    },
-    {
-      "a": "two",
-      "b": "ease",
-      "label": "系统1的状态"
-    },
-    {
-      "a": "two",
-      "b": "wysiati",
-      "label": "系统1的规则"
-    },
-    {
-      "a": "root",
-      "b": "heur",
-      "label": "直觉捷径"
-    },
-    {
-      "a": "heur",
-      "b": "anchor",
-      "label": "数字捷径"
-    },
-    {
-      "a": "heur",
-      "b": "avail",
-      "label": "记忆捷径"
-    },
-    {
-      "a": "heur",
-      "b": "repr",
-      "label": "相似捷径"
-    },
-    {
-      "a": "repr",
-      "b": "linda",
-      "label": "经典实验"
-    },
-    {
-      "a": "heur",
-      "b": "smalln",
-      "label": "样本误判"
-    },
-    {
-      "a": "heur",
-      "b": "regress",
-      "label": "因果误判"
-    },
-    {
-      "a": "root",
-      "b": "over",
-      "label": "认知局限"
-    },
-    {
-      "a": "over",
-      "b": "hindsight",
-      "label": "回看过去"
-    },
-    {
-      "a": "over",
-      "b": "validity",
-      "label": "评判现在"
-    },
-    {
-      "a": "over",
-      "b": "planning",
-      "label": "预测未来"
-    },
-    {
-      "a": "root",
-      "b": "choice",
-      "label": "决策应用"
-    },
-    {
-      "a": "choice",
-      "b": "prospect",
-      "label": "核心理论"
-    },
-    {
-      "a": "prospect",
-      "b": "lossav",
-      "label": "核心发现"
-    },
-    {
-      "a": "prospect",
-      "b": "endow",
-      "label": "延伸现象"
-    },
-    {
-      "a": "choice",
-      "b": "framing",
-      "label": "表述影响"
-    },
-    {
-      "a": "root",
-      "b": "selves",
-      "label": "幸福测量"
-    },
-    {
-      "a": "selves",
-      "b": "exper",
-      "label": "感受者"
-    },
-    {
-      "a": "selves",
-      "b": "remem",
-      "label": "决策者"
-    },
-    {
-      "a": "selves",
-      "b": "peakend",
-      "label": "记忆规则"
-    },
-    {
-      "a": "peakend",
-      "b": "colon",
-      "label": "经典实验"
-    },
-    {
-      "a": "root",
-      "b": "people",
-      "label": "作者与合作者"
-    },
-    {
-      "a": "people",
-      "b": "kahneman",
-      "label": "作者"
-    },
-    {
-      "a": "people",
-      "b": "tversky",
-      "label": "合作者"
-    }
-  ],
-  "refs": [
-    {
-      "a": "kahneman",
-      "b": "prospect",
-      "type": "source",
-      "label": "共同提出"
-    },
-    {
-      "a": "tversky",
-      "b": "prospect",
-      "type": "source",
-      "label": "共同提出"
-    },
-    {
-      "a": "avail",
-      "b": "ease",
-      "type": "depends",
-      "label": "建立在"
-    },
-    {
-      "a": "wysiati",
-      "b": "validity",
-      "type": "causes",
-      "label": "导致"
-    },
-    {
-      "a": "lossav",
-      "b": "endow",
-      "type": "causes",
-      "label": "解释了"
-    },
-    {
-      "a": "framing",
-      "b": "lossav",
-      "type": "depends",
-      "label": "利用了"
-    },
-    {
-      "a": "exper",
-      "b": "remem",
-      "type": "contrasts",
-      "label": "常常冲突"
-    }
-  ]
+ "id": "sunzi",
+ "title": "孙子兵法",
+ "subtitle": "孙武 · 两千五百年前的竞争之书",
+ "intro": "高明的胜利靠事先算清和不战而胜，而不是硬拼。",
+ "kind": "book",
+ "shape": "tree",
+ "parts": [
+  {
+   "id": "core",
+   "label": "《孙子兵法》",
+   "parent": null,
+   "note": "先秦兵学经典",
+   "explain": "春秋末年写成的兵书，共十三篇。它最核心的想法是：仗还没打，胜负往往已经算定；最好的胜利是不打就让对方屈服。今天常被用在商业竞争、谈判和个人决策上。"
+  },
+  {
+   "id": "bg",
+   "label": "背景",
+   "parent": "core",
+   "note": "成书来历",
+   "explain": "这部分讲这本书从哪里来、谁写的、为什么能流传两千多年。了解来历，能明白它为什么讲得这么克制、这么重视算计而不是勇猛。"
+  },
+  {
+   "id": "sunwu",
+   "label": "孙武",
+   "parent": "bg",
+   "note": "齐国兵家",
+   "explain": "春秋末年齐国人，后来到吴国，受吴王阖闾重用。传说他曾用宫女演示练兵，斩了不听令的两位队长，队伍立刻整齐，展示了军令必须严明。"
+  },
+  {
+   "id": "era",
+   "label": "春秋末年",
+   "parent": "bg",
+   "note": "诸侯争霸时代",
+   "explain": "周王室衰弱，各国连年打仗，谁能少花代价打赢谁就能活下去。这种环境逼出了一套讲究算成本、算风险的军事思想。"
+  },
+  {
+   "id": "yinque",
+   "label": "银雀山汉简",
+   "parent": "bg",
+   "note": "出土竹简实证",
+   "explain": "1972年山东临沂银雀山汉墓出土了一批竹简，里面有《孙子兵法》的内容，也有《孙膑兵法》，证明这两本书是不同的人所写，解决了一桩千年疑案。"
+  },
+  {
+   "id": "ideas",
+   "label": "核心主张",
+   "parent": "core",
+   "note": "全书的总原则",
+   "explain": "这一支是全书最常被引用的几条大原则。它们不讲具体怎么排兵，而是讲打不打、怎么才算赢、赢的根本靠什么。"
+  },
+  {
+   "id": "buzhan",
+   "label": "不战而屈人之兵",
+   "parent": "ideas",
+   "note": "最高明的胜利",
+   "explain": "在《谋攻篇》里，孙子说百战百胜还不算最好，让对手不打就认输才是最好。比如公司靠专利和口碑让竞争对手主动退出某个市场，比打价格战高明。"
+  },
+  {
+   "id": "zhibi",
+   "label": "知彼知己",
+   "parent": "ideas",
+   "note": "信息决定胜败",
+   "explain": "原话是「知彼知己，百战不殆」。既清楚对方的实力和意图，也清楚自己的长短，才不会陷入危险。只知道自己、不了解对方，胜负就一半一半。"
+  },
+  {
+   "id": "shengbing",
+   "label": "先胜后战",
+   "parent": "ideas",
+   "note": "先赢再开打",
+   "explain": "《军形篇》说「胜兵先胜而后求战」：会打仗的人先创造必胜的条件，再去交战；不会打的人先打起来，再指望侥幸赢。就像考试前把题吃透，而不是进考场再碰运气。"
+  },
+  {
+   "id": "shenzhan",
+   "label": "慎战",
+   "parent": "ideas",
+   "note": "打仗是大事",
+   "explain": "开篇就说战争关系生死存亡，必须仔细考察。书里还提醒，君主不能因一时愤怒出兵，因为国亡了不能复存，人死了不能复生。"
+  },
+  {
+   "id": "plan",
+   "label": "庙算",
+   "parent": "core",
+   "note": "战前的评估",
+   "explain": "古代出兵前在宗庙里开会估算胜负，叫庙算。孙子认为算得多的胜，算得少的败，何况根本不算的。这一支讲他具体用什么尺子来算。"
+  },
+  {
+   "id": "wushi",
+   "label": "五事",
+   "parent": "plan",
+   "note": "衡量实力的五项",
+   "explain": "把双方放在五个方面比一比，看谁占优。这五个方面合起来，就像今天企业做竞争分析时的一张评分表。"
+  },
+  {
+   "id": "dao",
+   "label": "道",
+   "parent": "wushi",
+   "note": "上下同心",
+   "explain": "让百姓和君主想法一致，愿意同生共死、不怕危险。放到团队里，就是成员是否真心认同目标。"
+  },
+  {
+   "id": "tian",
+   "label": "天",
+   "parent": "wushi",
+   "note": "时机与气候",
+   "explain": "指昼夜、寒暑、季节变化这类自然条件。比如冬天远征补给困难，选错时间，再强的军队也会吃亏。"
+  },
+  {
+   "id": "di",
+   "label": "地",
+   "parent": "wushi",
+   "note": "地形与距离",
+   "explain": "指路途远近、地势险易、地方宽窄、是否容易进退。就像开店要看位置，同样的产品，选址不同结果完全不同。"
+  },
+  {
+   "id": "jiang",
+   "label": "将",
+   "parent": "wushi",
+   "note": "统帅的素质",
+   "explain": "孙子要求将领具备智、信、仁、勇、严五种品质。只勇不智会冒进，只仁不严会带不动队伍。"
+  },
+  {
+   "id": "fa",
+   "label": "法",
+   "parent": "wushi",
+   "note": "组织与制度",
+   "explain": "指军队编制、职责分工、后勤供应这些规矩。制度清楚，几万人也能像一个人一样行动。"
+  },
+  {
+   "id": "guidao",
+   "label": "诡道",
+   "parent": "plan",
+   "note": "兵不厌诈",
+   "explain": "「兵者，诡道也」：能打装作不能打，要用装作不用，近处装作远处。核心是不让对手看清你的真实意图。"
+  },
+  {
+   "id": "tactics",
+   "label": "作战方法",
+   "parent": "core",
+   "note": "怎样打",
+   "explain": "这一支是真打起来时的原则：怎么借力、怎么集中、怎么变化。它们不是固定招式，而是一种思考方式。"
+  },
+  {
+   "id": "shi",
+   "label": "势",
+   "parent": "tactics",
+   "note": "借形势的力量",
+   "explain": "孙子说好比把圆石从千仞高山上滚下来，不用多用力就有巨大冲击。高明的人不苛求每个士兵都勇敢，而是把大家放进有利的局面里。"
+  },
+  {
+   "id": "qizheng",
+   "label": "奇正",
+   "parent": "tactics",
+   "note": "常规与出奇",
+   "explain": "正面交锋是「正」，侧翼奇袭是「奇」。「以正合，以奇胜」：用常规部署稳住局面，用出人意料的一招取胜，两者能无穷变化。"
+  },
+  {
+   "id": "xushi",
+   "label": "避实击虚",
+   "parent": "tactics",
+   "note": "打对方弱点",
+   "explain": "出自《虚实篇》，像水避开高处流向低处一样，避开对方强的地方，攻击它空虚薄弱的地方。小品牌不跟大品牌拼全国广告，专做被忽视的细分人群，就是这个道理。"
+  },
+  {
+   "id": "shuixing",
+   "label": "兵无常势",
+   "parent": "tactics",
+   "note": "随敌变化",
+   "explain": "孙子说用兵像水，水没有固定形状，用兵也没有固定套路，要根据对方变化来调整。能随敌变化而取胜的，才叫用兵如神。"
+  },
+  {
+   "id": "cost",
+   "label": "速胜",
+   "parent": "tactics",
+   "note": "拖久必伤",
+   "explain": "《作战篇》算了一笔账：大军出动每天要花千金，拖得越久国力越空。所以只听说过笨拙但求快的胜利，没见过巧妙却拖很久的好事。"
+  },
+  {
+   "id": "zhuowei",
+   "label": "致人而不致于人",
+   "parent": "tactics",
+   "note": "掌握主动权",
+   "explain": "意思是调动敌人，而不被敌人调动。先到战场的从容，后到的被动疲惫，所以要让对手跟着你的节奏走。"
+  },
+  {
+   "id": "spy",
+   "label": "用间",
+   "parent": "core",
+   "note": "情报工作",
+   "explain": "最后一篇专讲情报。孙子认为不肯花小钱获取敌情、却让大军苦战多年，是最不仁的做法。情报不能求鬼神，必须从了解敌情的人那里得到。"
+  },
+  {
+   "id": "wujian",
+   "label": "五间",
+   "parent": "spy",
+   "note": "五类情报人员",
+   "explain": "孙子把间谍分成因间、内间、反间、死间、生间五种，同时使用、让敌人摸不着门道。其中他最看重的是能把敌方间谍为我所用的那一种。"
+  },
+  {
+   "id": "fanjian",
+   "label": "反间",
+   "parent": "wujian",
+   "note": "策反敌方间谍",
+   "explain": "让敌人派来的间谍反过来为我做事。通过他，又能找到其他可用的人，所以孙子说对反间要格外厚待。"
+  },
+  {
+   "id": "shengjian",
+   "label": "生间",
+   "parent": "wujian",
+   "note": "能活着回报",
+   "explain": "潜入对方、了解情况后还能安全回来报告的人。他带回的是第一手情报，是判断局势的关键。"
+  },
+  {
+   "id": "legacy",
+   "label": "后世影响",
+   "parent": "core",
+   "note": "流传到今天",
+   "explain": "这本书后来被历代将领研读，也传到日本和欧洲，今天还被商学院和管理者反复引用。它说明一套好的思考方法可以跨越时代。"
+  },
+  {
+   "id": "business",
+   "label": "商战运用",
+   "parent": "legacy",
+   "note": "用于商业竞争",
+   "explain": "很多企业家把市场比作战场，用书中的思想分析竞争对手、选择市场切入点。比如先做市场调查再定价，就是知彼知己的一种用法。"
+  },
+  {
+   "id": "translation",
+   "label": "西传",
+   "parent": "legacy",
+   "note": "翻译传入欧洲",
+   "explain": "18世纪法国传教士钱德明把它译成法文带回欧洲，20世纪又有了多种英文译本，书名常译作 The Art of War。"
+  }
+ ],
+ "links": [
+  {
+   "a": "core",
+   "b": "bg",
+   "label": "成书来历"
+  },
+  {
+   "a": "bg",
+   "b": "sunwu",
+   "label": "作者"
+  },
+  {
+   "a": "bg",
+   "b": "era",
+   "label": "时代背景"
+  },
+  {
+   "a": "bg",
+   "b": "yinque",
+   "label": "考古证据"
+  },
+  {
+   "a": "core",
+   "b": "ideas",
+   "label": "总原则"
+  },
+  {
+   "a": "ideas",
+   "b": "buzhan",
+   "label": "最高境界"
+  },
+  {
+   "a": "ideas",
+   "b": "zhibi",
+   "label": "信息前提"
+  },
+  {
+   "a": "ideas",
+   "b": "shengbing",
+   "label": "取胜顺序"
+  },
+  {
+   "a": "ideas",
+   "b": "shenzhan",
+   "label": "出兵态度"
+  },
+  {
+   "a": "core",
+   "b": "plan",
+   "label": "战前评估"
+  },
+  {
+   "a": "plan",
+   "b": "wushi",
+   "label": "比较尺度"
+  },
+  {
+   "a": "wushi",
+   "b": "dao",
+   "label": "人心向背"
+  },
+  {
+   "a": "wushi",
+   "b": "tian",
+   "label": "自然时令"
+  },
+  {
+   "a": "wushi",
+   "b": "di",
+   "label": "空间条件"
+  },
+  {
+   "a": "wushi",
+   "b": "jiang",
+   "label": "指挥者"
+  },
+  {
+   "a": "wushi",
+   "b": "fa",
+   "label": "规章制度"
+  },
+  {
+   "a": "plan",
+   "b": "guidao",
+   "label": "隐藏意图"
+  },
+  {
+   "a": "core",
+   "b": "tactics",
+   "label": "临阵原则"
+  },
+  {
+   "a": "tactics",
+   "b": "shi",
+   "label": "借力"
+  },
+  {
+   "a": "tactics",
+   "b": "qizheng",
+   "label": "兵力配合"
+  },
+  {
+   "a": "tactics",
+   "b": "xushi",
+   "label": "选择目标"
+  },
+  {
+   "a": "tactics",
+   "b": "shuixing",
+   "label": "灵活应变"
+  },
+  {
+   "a": "tactics",
+   "b": "cost",
+   "label": "时间成本"
+  },
+  {
+   "a": "tactics",
+   "b": "zhuowei",
+   "label": "争夺主动"
+  },
+  {
+   "a": "core",
+   "b": "spy",
+   "label": "获取敌情"
+  },
+  {
+   "a": "spy",
+   "b": "wujian",
+   "label": "人员分类"
+  },
+  {
+   "a": "wujian",
+   "b": "fanjian",
+   "label": "为我所用"
+  },
+  {
+   "a": "wujian",
+   "b": "shengjian",
+   "label": "回来报告"
+  },
+  {
+   "a": "core",
+   "b": "legacy",
+   "label": "流传"
+  },
+  {
+   "a": "legacy",
+   "b": "business",
+   "label": "现代借用"
+  },
+  {
+   "a": "legacy",
+   "b": "translation",
+   "label": "走向世界"
+  }
+ ],
+ "refs": [
+  {
+   "a": "core",
+   "b": "sunwu",
+   "type": "author",
+   "label": "作者"
+  },
+  {
+   "a": "zhibi",
+   "b": "spy",
+   "type": "depends",
+   "label": "靠情报"
+  },
+  {
+   "a": "shengbing",
+   "b": "plan",
+   "type": "depends",
+   "label": "靠庙算"
+  },
+  {
+   "a": "guidao",
+   "b": "qizheng",
+   "type": "example",
+   "label": "体现"
+  },
+  {
+   "a": "shenzhan",
+   "b": "cost",
+   "type": "causes",
+   "label": "耗费惊人"
+  },
+  {
+   "a": "buzhan",
+   "b": "cost",
+   "type": "contrasts",
+   "label": "对照"
+  },
+  {
+   "a": "zhibi",
+   "b": "business",
+   "type": "example",
+   "label": "市场调查"
+  },
+  {
+   "a": "shi",
+   "b": "jiang",
+   "type": "contrasts",
+   "label": "不苛求人"
+  }
+ ]
 }
-</script>
-    <script type="application/json" id="pack-atomic-habits">
+    </script>
+    <script type="application/json" id="pack-valorant">
 {
-  "id": "atomic-habits",
-  "title": "原子习惯",
-  "subtitle": "詹姆斯·克利尔",
-  "intro": "组装《原子习惯》：习惯怎么形成，又怎么一步步建立。",
-  "kind": "book",
-  "shape": "sequence",
-  "parts": [
-    {
-      "id": "root",
-      "label": "《原子习惯》",
-      "parent": null,
-      "note": "微小改变，巨大成就",
-      "explain": "詹姆斯·克利尔 2018 年的书。核心观点：大改变来自很多微小习惯的累积，而习惯是可以被设计的。"
-    },
-    {
-      "id": "basics",
-      "label": "基础",
-      "parent": "root",
-      "note": "小习惯为何重要",
-      "explain": "全书开头先讲为什么值得从很小的习惯做起。"
-    },
-    {
-      "id": "onepct",
-      "label": "每天进步1%",
-      "parent": "basics",
-      "note": "复利效应",
-      "explain": "每天好 1%，一年后约是原来的 37 倍；每天差 1%，会接近零。习惯像复利，短期看不出，长期差别巨大。"
-    },
-    {
-      "id": "systems",
-      "label": "系统胜于目标",
-      "parent": "basics",
-      "note": "关注过程",
-      "explain": "目标是想要的结果，系统是每天做的流程。赢家和输家目标都一样，差别在系统。专注于改进过程，而不是盯着结果。"
-    },
-    {
-      "id": "identity",
-      "label": "基于身份的习惯",
-      "parent": "basics",
-      "note": "成为那种人",
-      "explain": "不只说「我要跑完马拉松」，而是先认定「我是一个跑步的人」。每做一次，都是在给这个身份投一票。"
-    },
-    {
-      "id": "plateau",
-      "label": "潜能潜伏期",
-      "parent": "basics",
-      "note": "突破前看不到",
-      "explain": "习惯带来的成果常常要积累很久才突然显现，就像冰块在 0 度前看不出变化。很多人在这段时间放弃。"
-    },
-    {
-      "id": "loop",
-      "label": "习惯回路",
-      "parent": "root",
-      "note": "习惯的四个阶段",
-      "explain": "书中把每个习惯拆成固定的几个阶段，它们一圈圈循环，让行为变得自动。"
-    },
-    {
-      "id": "cue",
-      "label": "提示",
-      "parent": "loop",
-      "note": "触发行为",
-      "order": 1,
-      "explain": "让大脑想到要做某件事的信号，比如手机震动、闻到咖啡香、到了晚上九点。"
-    },
-    {
-      "id": "craving",
-      "label": "渴求",
-      "parent": "loop",
-      "note": "行为的动机",
-      "order": 2,
-      "explain": "看到信号后，心里对某种状态变化的「想要」。你想要的不是刷手机本身，而是刷手机带来的放松。"
-    },
-    {
-      "id": "response",
-      "label": "反应",
-      "parent": "loop",
-      "note": "实际做的事",
-      "order": 3,
-      "explain": "你真正做出的那个动作或想法，比如拿起手机、去跑步。"
-    },
-    {
-      "id": "reward",
-      "label": "奖励",
-      "parent": "loop",
-      "note": "满足渴求",
-      "order": 4,
-      "explain": "行为带来的满足感。它告诉大脑「下次还要这样做」，让循环继续。"
-    },
-    {
-      "id": "laws",
-      "label": "四大定律",
-      "parent": "root",
-      "note": "对应回路四步",
-      "explain": "克利尔给出的建立好习惯的四条方法，反过来用就是戒掉坏习惯的方法。"
-    },
-    {
-      "id": "law1",
-      "label": "让它显而易见",
-      "parent": "laws",
-      "note": "提示要看得见",
-      "order": 1,
-      "explain": "想养成的习惯，要让它的信号容易被看到；想戒掉的，就把信号藏起来。"
-    },
-    {
-      "id": "stack",
-      "label": "习惯叠加",
-      "parent": "law1",
-      "note": "接在旧习惯后",
-      "explain": "把新习惯接在已有的习惯后面：「倒完咖啡后，我就冥想一分钟。」"
-    },
-    {
-      "id": "intent",
-      "label": "执行意图",
-      "parent": "law1",
-      "note": "定好时间地点",
-      "explain": "写清楚「我会在【时间】【地点】做【行为】」。比起「我要多运动」，明确的计划成功率高得多。"
-    },
-    {
-      "id": "env",
-      "label": "环境设计",
-      "parent": "law1",
-      "note": "让提示可见",
-      "explain": "改变周围环境，让好习惯一眼可见。想多喝水，就把水瓶放在桌上。"
-    },
-    {
-      "id": "law2",
-      "label": "让它有吸引力",
-      "parent": "laws",
-      "note": "让人想去做",
-      "order": 2,
-      "explain": "越让人期待，越容易去做。想办法让习惯和你喜欢的东西联系起来。"
-    },
-    {
-      "id": "bundle",
-      "label": "诱惑捆绑",
-      "parent": "law2",
-      "note": "想做配该做",
-      "explain": "把想做的事和该做的事绑在一起：「只有在跑步机上，我才能看最喜欢的剧。」"
-    },
-    {
-      "id": "law3",
-      "label": "让它简便易行",
-      "parent": "laws",
-      "note": "降低做的阻力",
-      "order": 3,
-      "explain": "阻力越小，越容易做。减少开始需要的步骤，比靠意志力更有效。"
-    },
-    {
-      "id": "twomin",
-      "label": "两分钟法则",
-      "parent": "law3",
-      "note": "从极小开始",
-      "explain": "新习惯开始时，把它缩到两分钟内就能做完：「每晚读书」变成「读一页」。先养成「出现」，再加量。"
-    },
-    {
-      "id": "law4",
-      "label": "让它令人愉悦",
-      "parent": "laws",
-      "note": "做完立刻满足",
-      "order": 4,
-      "explain": "人会重复让自己立刻感觉好的事。好习惯的好处往往来得慢，所以要给它加点即时满足。"
-    },
-    {
-      "id": "tracker",
-      "label": "习惯追踪",
-      "parent": "law4",
-      "note": "看见进展",
-      "explain": "每做一次就在日历上打个勾。看着一串连续的勾，本身就是一种奖励。"
-    },
-    {
-      "id": "nevertwice",
-      "label": "绝不错过两次",
-      "parent": "law4",
-      "note": "断一次就接上",
-      "explain": "错过一次是意外，连续错过两次就开始变成新习惯。断了没关系，下一次一定接上。"
-    },
-    {
-      "id": "advanced",
-      "label": "进阶",
-      "parent": "root",
-      "note": "从好到卓越",
-      "explain": "习惯稳定后，如何继续进步、避免陷入无聊或停滞。"
-    },
-    {
-      "id": "goldilocks",
-      "label": "金发姑娘原则",
-      "parent": "advanced",
-      "note": "难度刚刚好",
-      "explain": "任务难度刚好在你能力边缘时，人最有动力：太容易会无聊，太难会放弃。"
-    },
-    {
-      "id": "reflect",
-      "label": "回顾与反思",
-      "parent": "advanced",
-      "note": "定期复盘",
-      "explain": "习惯变成自动后，人容易停止思考。定期回顾自己做得怎样、还想成为什么样的人。"
-    },
-    {
-      "id": "clear",
-      "label": "詹姆斯·克利尔",
-      "parent": "root",
-      "note": "习惯研究作家",
-      "explain": "美国作家，长期写关于习惯和决策的文章。他高中打棒球时被球棒砸中脸部重伤，后来靠一个个小习惯慢慢恢复。"
-    },
-    {
-      "id": "culture",
-      "label": "加入同类群体",
-      "parent": "law2",
-      "note": "环境即文化",
-      "explain": "和已经有这个习惯的人待在一起，习惯会变得自然，因为人会模仿身边人的行为。"
-    },
-    {
-      "id": "automation",
-      "label": "自动化",
-      "parent": "law3",
-      "note": "不用意志力",
-      "explain": "把习惯交给自动流程，比如自动扣款、定时提醒，不用每次都靠意志力决定。"
-    }
-  ],
-  "links": [
-    {
-      "a": "root",
-      "b": "basics",
-      "label": "为什么"
-    },
-    {
-      "a": "basics",
-      "b": "onepct",
-      "label": "复利"
-    },
-    {
-      "a": "basics",
-      "b": "systems",
-      "label": "方法"
-    },
-    {
-      "a": "basics",
-      "b": "identity",
-      "label": "动力"
-    },
-    {
-      "a": "basics",
-      "b": "plateau",
-      "label": "耐心"
-    },
-    {
-      "a": "root",
-      "b": "loop",
-      "label": "怎么形成"
-    },
-    {
-      "a": "loop",
-      "b": "cue",
-      "label": "触发"
-    },
-    {
-      "a": "loop",
-      "b": "craving",
-      "label": "动机"
-    },
-    {
-      "a": "loop",
-      "b": "response",
-      "label": "行动"
-    },
-    {
-      "a": "loop",
-      "b": "reward",
-      "label": "回报"
-    },
-    {
-      "a": "root",
-      "b": "laws",
-      "label": "怎么建立"
-    },
-    {
-      "a": "laws",
-      "b": "law1",
-      "label": "设计提示"
-    },
-    {
-      "a": "law1",
-      "b": "stack",
-      "label": "借旧习惯"
-    },
-    {
-      "a": "law1",
-      "b": "intent",
-      "label": "定时定点"
-    },
-    {
-      "a": "law1",
-      "b": "env",
-      "label": "改环境"
-    },
-    {
-      "a": "laws",
-      "b": "law2",
-      "label": "放大渴求"
-    },
-    {
-      "a": "law2",
-      "b": "bundle",
-      "label": "配对"
-    },
-    {
-      "a": "laws",
-      "b": "law3",
-      "label": "简化反应"
-    },
-    {
-      "a": "law3",
-      "b": "twomin",
-      "label": "降门槛"
-    },
-    {
-      "a": "laws",
-      "b": "law4",
-      "label": "强化奖励"
-    },
-    {
-      "a": "law4",
-      "b": "tracker",
-      "label": "可视化"
-    },
-    {
-      "a": "law4",
-      "b": "nevertwice",
-      "label": "补救"
-    },
-    {
-      "a": "root",
-      "b": "advanced",
-      "label": "怎么精进"
-    },
-    {
-      "a": "advanced",
-      "b": "goldilocks",
-      "label": "保持动力"
-    },
-    {
-      "a": "advanced",
-      "b": "reflect",
-      "label": "防止停滞"
-    },
-    {
-      "a": "root",
-      "b": "clear",
-      "label": "作者"
-    },
-    {
-      "a": "law2",
-      "b": "culture",
-      "label": "借群体力量"
-    },
-    {
-      "a": "law3",
-      "b": "automation",
-      "label": "交给自动"
-    }
-  ],
-  "refs": [
-    {
-      "a": "clear",
-      "b": "laws",
-      "type": "source",
-      "label": "提出"
-    },
-    {
-      "a": "law1",
-      "b": "cue",
-      "type": "depends",
-      "label": "作用于"
-    },
-    {
-      "a": "law2",
-      "b": "craving",
-      "type": "depends",
-      "label": "作用于"
-    },
-    {
-      "a": "law3",
-      "b": "response",
-      "type": "depends",
-      "label": "作用于"
-    },
-    {
-      "a": "law4",
-      "b": "reward",
-      "type": "depends",
-      "label": "作用于"
-    },
-    {
-      "a": "onepct",
-      "b": "plateau",
-      "type": "causes",
-      "label": "解释了"
-    },
-    {
-      "a": "twomin",
-      "b": "identity",
-      "type": "causes",
-      "label": "强化"
-    }
-  ]
+ "id": "valorant",
+ "title": "瓦罗兰特",
+ "subtitle": "无畏契约 · 怎么玩和打法思路",
+ "intro": "5对5战术射击：枪法之外，钱、技能和团队决策决定谁先赢13回合。",
+ "kind": "concept",
+ "shape": "tree",
+ "parts": [
+  {
+   "id": "core",
+   "label": "瓦罗兰特",
+   "parent": null,
+   "note": "5v5战术射击",
+   "explain": "Riot Games 在2020年推出的5对5战术射击游戏，国服叫《无畏契约》。比的不只是枪法：每回合要算好钱、配合技能、按计划进攻或守点，谁的团队决策更好，谁就更容易先拿下13个回合。"
+  },
+  {
+   "id": "rules",
+   "label": "规则",
+   "parent": "core",
+   "note": "怎么算赢",
+   "explain": "这部分讲一局比赛怎么进行：一方进攻、一方防守，围绕一个目标物争夺，打满一定回合数后决出胜负。先弄懂规则，后面的经济和战术才有意义。"
+  },
+  {
+   "id": "spike",
+   "label": "爆能器",
+   "parent": "rules",
+   "note": "进攻方的炸弹",
+   "explain": "英文叫 Spike，相当于这款游戏里的炸弹。每回合进攻方带着它，想办法放到地图上的包点；防守方要阻止，或者在它爆炸前把它解除。"
+  },
+  {
+   "id": "plant",
+   "label": "安装",
+   "parent": "spike",
+   "note": "按住4秒放下",
+   "explain": "进攻方站在包点里按住按键约4秒，才能把爆能器装好，中途被打断就得重来。装好后大约45秒会爆炸，所以装包的位置要方便队友看守。"
+  },
+  {
+   "id": "defuse",
+   "label": "拆除",
+   "parent": "spike",
+   "note": "按住7秒解除",
+   "explain": "防守方需要按住约7秒才能拆掉装好的爆能器，拆到一半有个进度节点，松手后从一半继续。拆包时人完全不动，最怕被对面埋伏偷袭。"
+  },
+  {
+   "id": "win13",
+   "label": "先赢13回合",
+   "parent": "rules",
+   "note": "决胜条件",
+   "explain": "一局最多打二十多个回合，哪队先赢下13个回合就获胜。打到12比12会进入加时，要连赢两个回合才算结束，所以每一回合都要认真算。"
+  },
+  {
+   "id": "sides",
+   "label": "攻防换边",
+   "parent": "rules",
+   "note": "半场互换",
+   "explain": "上半场打满12个回合后，进攻和防守两方互换。同一张地图两边都要打，所以一支队伍既要有进攻计划，也要有防守布置。"
+  },
+  {
+   "id": "agents",
+   "label": "特工",
+   "parent": "core",
+   "note": "可选的角色",
+   "explain": "每位玩家开局选一名特工，每个特工有自己的一套技能。特工分成几种定位，一支好的队伍会把不同定位搭配起来，而不是五个人都选最爱的。"
+  },
+  {
+   "id": "duelist",
+   "label": "决斗者",
+   "parent": "agents",
+   "note": "第一个冲进去",
+   "explain": "负责打头阵、抢第一个击杀的定位，比如捷风（Jett）、芮娜（Reyna）。他们的技能多用来快速移动或回血，适合枪法自信、敢先露头的玩家。"
+  },
+  {
+   "id": "initiator",
+   "label": "先锋",
+   "parent": "agents",
+   "note": "替队友探路",
+   "explain": "用技能侦察敌人位置、闪光致盲或把人逼出掩体的定位，比如猎枭（Sova）。他们让队友进点前就知道敌人在哪。"
+  },
+  {
+   "id": "controller",
+   "label": "控场者",
+   "parent": "agents",
+   "note": "放烟挡视野",
+   "explain": "专门放烟雾、墙这类东西挡住敌人视线的定位，比如幽影（Omen）、炼狱（Brimstone）。没有他们，进攻方进点时会被好几个方向同时看到。"
+  },
+  {
+   "id": "sentinel",
+   "label": "哨卫",
+   "parent": "agents",
+   "note": "守住一侧",
+   "explain": "擅长用陷阱、摄像头、治疗守住地图某一块的定位，比如贤者（Sage）、奇乐（Killjoy）。他们让队伍少一个人也能看住侧翼。"
+  },
+  {
+   "id": "skills",
+   "label": "技能",
+   "parent": "agents",
+   "note": "每个特工的招",
+   "explain": "每个特工都有几项技能，可以放烟、闪光、侦察、治疗或封路。技能和枪一样重要，很多回合的胜负取决于技能用在了哪里、什么时候用。"
+  },
+  {
+   "id": "signature",
+   "label": "招牌技能",
+   "parent": "skills",
+   "note": "每回合免费",
+   "explain": "每个特工都有一项会自动恢复的技能，每回合都能免费用。因为不用花钱，新手最该先把它练熟。"
+  },
+  {
+   "id": "ult",
+   "label": "终极技能",
+   "parent": "skills",
+   "note": "攒满点数才放",
+   "explain": "特工最强的一招，需要攒点数才能用：击杀、阵亡、捡地图上的点数球、装包或拆包都能攒。一个好时机的大招常常能直接翻转一个回合。"
+  },
+  {
+   "id": "economy",
+   "label": "经济",
+   "parent": "core",
+   "note": "每回合买什么",
+   "explain": "每回合开始有约30秒购买时间，用信用点买枪、护甲和技能。钱不是每回合都够用，所以队伍要一起决定这回合是全力买，还是先省钱留到下一回合。"
+  },
+  {
+   "id": "creds",
+   "label": "信用点",
+   "parent": "economy",
+   "note": "游戏里的钱",
+   "explain": "击杀、装包、赢回合都会给信用点，输了也有补偿，而且连输越多补偿越高，上限9000。常见的步枪一把就要2900，所以钱要算着花。"
+  },
+  {
+   "id": "fullbuy",
+   "label": "全起",
+   "parent": "economy",
+   "note": "步枪加满甲",
+   "explain": "队伍钱都够时，每人买步枪、全套护甲和技能，以最强状态打这回合。通常要全队一起全起，有人缺钱时队友可以帮忙买枪。"
+  },
+  {
+   "id": "eco",
+   "label": "经济局",
+   "parent": "economy",
+   "note": "这回合省钱",
+   "explain": "钱不够时故意只买手枪或什么都不买，把钱留到下一回合全起。看起来像放弃，其实是在为下一回合攒实力。"
+  },
+  {
+   "id": "forcebuy",
+   "label": "强起",
+   "parent": "economy",
+   "note": "不够也硬买",
+   "explain": "钱不够全起但仍然拿出所有钱买能买的，比如冲锋枪加轻甲。适合比分关键或对面也穷的时候，失败了下一回合会更困难。"
+  },
+  {
+   "id": "aim",
+   "label": "枪法",
+   "parent": "core",
+   "note": "个人基本功",
+   "explain": "射击游戏离不开打得准，但这款游戏里打准有几个特别的习惯：人在移动时子弹会飘，连续扫射也会越打越偏。这部分讲最基础的几个习惯。"
+  },
+  {
+   "id": "crosshair",
+   "label": "准星预瞄",
+   "parent": "aim",
+   "note": "准星放在头高",
+   "explain": "移动时就把准星停在敌人可能出现的头部高度、靠近掩体边缘的地方。这样敌人一露头，几乎不用再移动鼠标就能开枪。"
+  },
+  {
+   "id": "counterstrafe",
+   "label": "急停",
+   "parent": "aim",
+   "note": "开枪前先停下",
+   "explain": "人在跑动时开枪子弹会乱飞。开枪前按一下反方向键让自己瞬间停下，再开枪，子弹就会打在准星上。"
+  },
+  {
+   "id": "tap",
+   "label": "点射",
+   "parent": "aim",
+   "note": "短打不长扫",
+   "explain": "远距离只开一两枪，中距离连续打几发就停，而不是按住不放。步枪连续扫射时弹道会往上跳，打得越久越不准。"
+  },
+  {
+   "id": "tactics",
+   "label": "战术思路",
+   "parent": "core",
+   "note": "团队怎么打",
+   "explain": "光有枪法赢不了比赛，这部分讲五个人怎么一起行动：进攻方怎么拿下包点，防守方怎么守住或抢回来，以及队友之间怎么互相照应。"
+  },
+  {
+   "id": "attack",
+   "label": "进攻",
+   "parent": "tactics",
+   "note": "进攻方的打法",
+   "explain": "进攻方要决定这回合去哪个包点、什么时候去、谁先进。地图上往往有两三个包点，防守方没法每个点都放足人，进攻方就要找到人少的那一边。"
+  },
+  {
+   "id": "default",
+   "label": "默认铺开",
+   "parent": "attack",
+   "note": "先拿信息",
+   "explain": "开局不急着打包点，而是分散到地图各处，慢慢拿下控制区域、收集敌人位置的信息，再决定往哪边打。"
+  },
+  {
+   "id": "execute",
+   "label": "集体爆点",
+   "parent": "attack",
+   "note": "五人同时进点",
+   "explain": "全队把技能按顺序扔进一个包点：先放烟挡视线，再闪光，然后几个人同时冲进去。人多加技能，可以在短时间内压倒守点的人。"
+  },
+  {
+   "id": "defense",
+   "label": "防守",
+   "parent": "tactics",
+   "note": "防守方的打法",
+   "explain": "防守方要把人分到各个包点，既不能让某一边太空，又要在进攻方集中打一边时及时支援。"
+  },
+  {
+   "id": "hold",
+   "label": "架点",
+   "parent": "defense",
+   "note": "守在角度后面",
+   "explain": "找好掩体，把准星对着进攻方必经的入口，等对方露头再开枪。守的一方先占好位置，通常比冲进来的一方更有优势。"
+  },
+  {
+   "id": "retake",
+   "label": "回防",
+   "parent": "defense",
+   "note": "包装下后抢回",
+   "explain": "进攻方已经装好爆能器后，防守方集合剩下的人一起把包点抢回来再拆包。一个人一个人地回去最容易被逐个击破。"
+  },
+  {
+   "id": "rotate",
+   "label": "转点",
+   "parent": "defense",
+   "note": "支援另一包点",
+   "explain": "发现进攻方集中打另一个包点时，从自己守的点赶过去帮忙。转得太早会把自己的点让出来，太晚又赶不上。"
+  },
+  {
+   "id": "trade",
+   "label": "补枪",
+   "parent": "tactics",
+   "note": "队友倒了马上换",
+   "explain": "队友和敌人对枪倒下时，旁边的你要立刻打掉那个敌人，让五对五变成四对四而不是四对五。所以队友之间要保持能互相支援的距离。"
+  },
+  {
+   "id": "comms",
+   "label": "报点",
+   "parent": "tactics",
+   "note": "说清敌人在哪",
+   "explain": "用简短的话告诉队友看到了几个敌人、在哪个位置、还剩多少血。每张地图的位置都有通用叫法，报得越快越准，队友越容易做决定。"
+  }
+ ],
+ "links": [
+  {
+   "a": "core",
+   "b": "rules",
+   "label": "基本规则"
+  },
+  {
+   "a": "rules",
+   "b": "spike",
+   "label": "争夺目标"
+  },
+  {
+   "a": "spike",
+   "b": "plant",
+   "label": "进攻方操作"
+  },
+  {
+   "a": "spike",
+   "b": "defuse",
+   "label": "防守方操作"
+  },
+  {
+   "a": "rules",
+   "b": "win13",
+   "label": "决胜条件"
+  },
+  {
+   "a": "rules",
+   "b": "sides",
+   "label": "轮换方式"
+  },
+  {
+   "a": "core",
+   "b": "agents",
+   "label": "选择角色"
+  },
+  {
+   "a": "agents",
+   "b": "duelist",
+   "label": "打头阵"
+  },
+  {
+   "a": "agents",
+   "b": "initiator",
+   "label": "探路开路"
+  },
+  {
+   "a": "agents",
+   "b": "controller",
+   "label": "遮挡视野"
+  },
+  {
+   "a": "agents",
+   "b": "sentinel",
+   "label": "守住侧翼"
+  },
+  {
+   "a": "agents",
+   "b": "skills",
+   "label": "各有招式"
+  },
+  {
+   "a": "skills",
+   "b": "signature",
+   "label": "免费常用"
+  },
+  {
+   "a": "skills",
+   "b": "ult",
+   "label": "决定性一招"
+  },
+  {
+   "a": "core",
+   "b": "economy",
+   "label": "资源管理"
+  },
+  {
+   "a": "economy",
+   "b": "creds",
+   "label": "货币"
+  },
+  {
+   "a": "economy",
+   "b": "fullbuy",
+   "label": "钱够时"
+  },
+  {
+   "a": "economy",
+   "b": "eco",
+   "label": "钱少时"
+  },
+  {
+   "a": "economy",
+   "b": "forcebuy",
+   "label": "钱不够仍买"
+  },
+  {
+   "a": "core",
+   "b": "aim",
+   "label": "个人基本功"
+  },
+  {
+   "a": "aim",
+   "b": "crosshair",
+   "label": "提前瞄好"
+  },
+  {
+   "a": "aim",
+   "b": "counterstrafe",
+   "label": "稳住身体"
+  },
+  {
+   "a": "aim",
+   "b": "tap",
+   "label": "控制射速"
+  },
+  {
+   "a": "core",
+   "b": "tactics",
+   "label": "团队配合"
+  },
+  {
+   "a": "tactics",
+   "b": "attack",
+   "label": "进攻方"
+  },
+  {
+   "a": "attack",
+   "b": "default",
+   "label": "慢打找信息"
+  },
+  {
+   "a": "attack",
+   "b": "execute",
+   "label": "快打压人数"
+  },
+  {
+   "a": "tactics",
+   "b": "defense",
+   "label": "防守方"
+  },
+  {
+   "a": "defense",
+   "b": "hold",
+   "label": "守住入口"
+  },
+  {
+   "a": "defense",
+   "b": "retake",
+   "label": "失点后"
+  },
+  {
+   "a": "defense",
+   "b": "rotate",
+   "label": "跨点支援"
+  },
+  {
+   "a": "tactics",
+   "b": "trade",
+   "label": "互相照应"
+  },
+  {
+   "a": "tactics",
+   "b": "comms",
+   "label": "共享信息"
+  }
+ ],
+ "refs": [
+  {
+   "a": "execute",
+   "b": "controller",
+   "type": "depends",
+   "label": "靠烟封视野"
+  },
+  {
+   "a": "execute",
+   "b": "initiator",
+   "type": "depends",
+   "label": "靠闪光开路"
+  },
+  {
+   "a": "retake",
+   "b": "trade",
+   "type": "depends",
+   "label": "靠补枪"
+  },
+  {
+   "a": "rotate",
+   "b": "comms",
+   "type": "depends",
+   "label": "靠报点"
+  },
+  {
+   "a": "hold",
+   "b": "crosshair",
+   "type": "depends",
+   "label": "靠预瞄"
+  },
+  {
+   "a": "tap",
+   "b": "counterstrafe",
+   "type": "depends",
+   "label": "先停再打"
+  },
+  {
+   "a": "fullbuy",
+   "b": "eco",
+   "type": "contrasts",
+   "label": "对照"
+  },
+  {
+   "a": "default",
+   "b": "execute",
+   "type": "contrasts",
+   "label": "慢与快"
+  },
+  {
+   "a": "plant",
+   "b": "ult",
+   "type": "causes",
+   "label": "攒大招点"
+  }
+ ]
 }
-</script>
+    </script>
     <script>
 (function () {
   "use strict";
@@ -4676,7 +4770,7 @@
   /* opening zoom never drops below legible card text; pan for the rest */
   function fitFloor() { return window.innerWidth <= 600 ? 1 : 0.85; }
   /* 详情默认打开：移动端和桌面端一致，不再在 ≤900px 时自动关闭 */
-  ["pack-stoicism", "pack-thinking-fast-and-slow", "pack-atomic-habits"].forEach(function (k) {
+  ["pack-stoicism", "pack-sunzi", "pack-valorant"].forEach(function (k) {
     try { register(validate(JSON.parse($(k).textContent)), false); }
     catch (err) { toast("内置包读取失败：" + err.message, "err"); }
   });

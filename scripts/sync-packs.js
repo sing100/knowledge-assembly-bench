@@ -11,8 +11,8 @@ const root = path.join(__dirname, "..");
 const htmlPath = path.join(root, "index.html");
 const mapping = {
   "pack-stoicism": "packs/stoicism.json",
-  "pack-thinking-fast-and-slow": "packs/thinking-fast-and-slow.json",
-  "pack-atomic-habits": "packs/atomic-habits.json",
+  "pack-sunzi": "packs/sunzi.json",
+  "pack-valorant": "packs/valorant.json",
 };
 const check = process.argv.includes("--check");
 let html = fs.readFileSync(htmlPath, "utf8");

@@ -14,6 +14,7 @@ All notable changes to Knowledge Assembly Bench are documented here.
 - 页面分享信息（description、Open Graph），分享链接时有标题、简介和图标。
 
 ### Changed
+- 内置包换成 斯多葛主义 + 《孙子兵法》 + 瓦罗兰特，移除《思考，快与慢》《原子习惯》两个现代版权书的拆解包。
 - 在线地址改为 https://loom-kab.pages.dev/ （Cloudflare Pages）。
 - README 加上图标、徽章、开发和目录结构说明；`logo.png` 压缩到 256px（约 248 KB → 65 KB）。
 

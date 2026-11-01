@@ -27,7 +27,7 @@
 
 **在线试玩：** https://loom-kab.pages.dev/
 
-内置三个知识包：斯多葛主义、《思考，快与慢》、《原子习惯》。
+内置三个知识包：斯多葛主义、《孙子兵法》、瓦罗兰特（怎么玩和打法思路）。
 
 ## 怎么用
 
@@ -62,11 +62,11 @@
 
 ```json
 {
-  "id": "atomic-habits", "title": "原子习惯", "subtitle": "詹姆斯·克利尔", "intro": "...",
-  "kind": "book", "shape": "sequence",
-  "parts": [{ "id": "root", "label": "《原子习惯》", "parent": null, "note": "微小改变，巨大成就", "explain": "……" }],
-  "links": [{ "a": "root", "b": "basics", "label": "为什么" }],
-  "refs":  [{ "a": "law1", "b": "cue", "type": "depends", "label": "作用于" }]
+  "id": "sunzi", "title": "孙子兵法", "subtitle": "孙武", "intro": "...",
+  "kind": "book", "shape": "tree",
+  "parts": [{ "id": "root", "label": "《孙子兵法》", "parent": null, "note": "先算清再动手", "explain": "……" }],
+  "links": [{ "a": "root", "b": "plan", "label": "第一步" }],
+  "refs":  [{ "a": "plan", "b": "win", "type": "causes", "label": "带来" }]
 }
 ```
 

@@ -1,0 +1,471 @@
+{
+ "id": "valorant",
+ "title": "瓦罗兰特",
+ "subtitle": "无畏契约 · 怎么玩和打法思路",
+ "intro": "5对5战术射击：枪法之外，钱、技能和团队决策决定谁先赢13回合。",
+ "kind": "concept",
+ "shape": "tree",
+ "parts": [
+  {
+   "id": "core",
+   "label": "瓦罗兰特",
+   "parent": null,
+   "note": "5v5战术射击",
+   "explain": "Riot Games 在2020年推出的5对5战术射击游戏，国服叫《无畏契约》。比的不只是枪法：每回合要算好钱、配合技能、按计划进攻或守点，谁的团队决策更好，谁就更容易先拿下13个回合。"
+  },
+  {
+   "id": "rules",
+   "label": "规则",
+   "parent": "core",
+   "note": "怎么算赢",
+   "explain": "这部分讲一局比赛怎么进行：一方进攻、一方防守，围绕一个目标物争夺，打满一定回合数后决出胜负。先弄懂规则，后面的经济和战术才有意义。"
+  },
+  {
+   "id": "spike",
+   "label": "爆能器",
+   "parent": "rules",
+   "note": "进攻方的炸弹",
+   "explain": "英文叫 Spike，相当于这款游戏里的炸弹。每回合进攻方带着它，想办法放到地图上的包点；防守方要阻止，或者在它爆炸前把它解除。"
+  },
+  {
+   "id": "plant",
+   "label": "安装",
+   "parent": "spike",
+   "note": "按住4秒放下",
+   "explain": "进攻方站在包点里按住按键约4秒，才能把爆能器装好，中途被打断就得重来。装好后大约45秒会爆炸，所以装包的位置要方便队友看守。"
+  },
+  {
+   "id": "defuse",
+   "label": "拆除",
+   "parent": "spike",
+   "note": "按住7秒解除",
+   "explain": "防守方需要按住约7秒才能拆掉装好的爆能器，拆到一半有个进度节点，松手后从一半继续。拆包时人完全不动，最怕被对面埋伏偷袭。"
+  },
+  {
+   "id": "win13",
+   "label": "先赢13回合",
+   "parent": "rules",
+   "note": "决胜条件",
+   "explain": "一局最多打二十多个回合，哪队先赢下13个回合就获胜。打到12比12会进入加时，要连赢两个回合才算结束，所以每一回合都要认真算。"
+  },
+  {
+   "id": "sides",
+   "label": "攻防换边",
+   "parent": "rules",
+   "note": "半场互换",
+   "explain": "上半场打满12个回合后，进攻和防守两方互换。同一张地图两边都要打，所以一支队伍既要有进攻计划，也要有防守布置。"
+  },
+  {
+   "id": "agents",
+   "label": "特工",
+   "parent": "core",
+   "note": "可选的角色",
+   "explain": "每位玩家开局选一名特工，每个特工有自己的一套技能。特工分成几种定位，一支好的队伍会把不同定位搭配起来，而不是五个人都选最爱的。"
+  },
+  {
+   "id": "duelist",
+   "label": "决斗者",
+   "parent": "agents",
+   "note": "第一个冲进去",
+   "explain": "负责打头阵、抢第一个击杀的定位，比如捷风（Jett）、芮娜（Reyna）。他们的技能多用来快速移动或回血，适合枪法自信、敢先露头的玩家。"
+  },
+  {
+   "id": "initiator",
+   "label": "先锋",
+   "parent": "agents",
+   "note": "替队友探路",
+   "explain": "用技能侦察敌人位置、闪光致盲或把人逼出掩体的定位，比如猎枭（Sova）。他们让队友进点前就知道敌人在哪。"
+  },
+  {
+   "id": "controller",
+   "label": "控场者",
+   "parent": "agents",
+   "note": "放烟挡视野",
+   "explain": "专门放烟雾、墙这类东西挡住敌人视线的定位，比如幽影（Omen）、炼狱（Brimstone）。没有他们，进攻方进点时会被好几个方向同时看到。"
+  },
+  {
+   "id": "sentinel",
+   "label": "哨卫",
+   "parent": "agents",
+   "note": "守住一侧",
+   "explain": "擅长用陷阱、摄像头、治疗守住地图某一块的定位，比如贤者（Sage）、奇乐（Killjoy）。他们让队伍少一个人也能看住侧翼。"
+  },
+  {
+   "id": "skills",
+   "label": "技能",
+   "parent": "agents",
+   "note": "每个特工的招",
+   "explain": "每个特工都有几项技能，可以放烟、闪光、侦察、治疗或封路。技能和枪一样重要，很多回合的胜负取决于技能用在了哪里、什么时候用。"
+  },
+  {
+   "id": "signature",
+   "label": "招牌技能",
+   "parent": "skills",
+   "note": "每回合免费",
+   "explain": "每个特工都有一项会自动恢复的技能，每回合都能免费用。因为不用花钱，新手最该先把它练熟。"
+  },
+  {
+   "id": "ult",
+   "label": "终极技能",
+   "parent": "skills",
+   "note": "攒满点数才放",
+   "explain": "特工最强的一招，需要攒点数才能用：击杀、阵亡、捡地图上的点数球、装包或拆包都能攒。一个好时机的大招常常能直接翻转一个回合。"
+  },
+  {
+   "id": "economy",
+   "label": "经济",
+   "parent": "core",
+   "note": "每回合买什么",
+   "explain": "每回合开始有约30秒购买时间，用信用点买枪、护甲和技能。钱不是每回合都够用，所以队伍要一起决定这回合是全力买，还是先省钱留到下一回合。"
+  },
+  {
+   "id": "creds",
+   "label": "信用点",
+   "parent": "economy",
+   "note": "游戏里的钱",
+   "explain": "击杀、装包、赢回合都会给信用点，输了也有补偿，而且连输越多补偿越高，上限9000。常见的步枪一把就要2900，所以钱要算着花。"
+  },
+  {
+   "id": "fullbuy",
+   "label": "全起",
+   "parent": "economy",
+   "note": "步枪加满甲",
+   "explain": "队伍钱都够时，每人买步枪、全套护甲和技能，以最强状态打这回合。通常要全队一起全起，有人缺钱时队友可以帮忙买枪。"
+  },
+  {
+   "id": "eco",
+   "label": "经济局",
+   "parent": "economy",
+   "note": "这回合省钱",
+   "explain": "钱不够时故意只买手枪或什么都不买，把钱留到下一回合全起。看起来像放弃，其实是在为下一回合攒实力。"
+  },
+  {
+   "id": "forcebuy",
+   "label": "强起",
+   "parent": "economy",
+   "note": "不够也硬买",
+   "explain": "钱不够全起但仍然拿出所有钱买能买的，比如冲锋枪加轻甲。适合比分关键或对面也穷的时候，失败了下一回合会更困难。"
+  },
+  {
+   "id": "aim",
+   "label": "枪法",
+   "parent": "core",
+   "note": "个人基本功",
+   "explain": "射击游戏离不开打得准，但这款游戏里打准有几个特别的习惯：人在移动时子弹会飘，连续扫射也会越打越偏。这部分讲最基础的几个习惯。"
+  },
+  {
+   "id": "crosshair",
+   "label": "准星预瞄",
+   "parent": "aim",
+   "note": "准星放在头高",
+   "explain": "移动时就把准星停在敌人可能出现的头部高度、靠近掩体边缘的地方。这样敌人一露头，几乎不用再移动鼠标就能开枪。"
+  },
+  {
+   "id": "counterstrafe",
+   "label": "急停",
+   "parent": "aim",
+   "note": "开枪前先停下",
+   "explain": "人在跑动时开枪子弹会乱飞。开枪前按一下反方向键让自己瞬间停下，再开枪，子弹就会打在准星上。"
+  },
+  {
+   "id": "tap",
+   "label": "点射",
+   "parent": "aim",
+   "note": "短打不长扫",
+   "explain": "远距离只开一两枪，中距离连续打几发就停，而不是按住不放。步枪连续扫射时弹道会往上跳，打得越久越不准。"
+  },
+  {
+   "id": "tactics",
+   "label": "战术思路",
+   "parent": "core",
+   "note": "团队怎么打",
+   "explain": "光有枪法赢不了比赛，这部分讲五个人怎么一起行动：进攻方怎么拿下包点，防守方怎么守住或抢回来，以及队友之间怎么互相照应。"
+  },
+  {
+   "id": "attack",
+   "label": "进攻",
+   "parent": "tactics",
+   "note": "进攻方的打法",
+   "explain": "进攻方要决定这回合去哪个包点、什么时候去、谁先进。地图上往往有两三个包点，防守方没法每个点都放足人，进攻方就要找到人少的那一边。"
+  },
+  {
+   "id": "default",
+   "label": "默认铺开",
+   "parent": "attack",
+   "note": "先拿信息",
+   "explain": "开局不急着打包点，而是分散到地图各处，慢慢拿下控制区域、收集敌人位置的信息，再决定往哪边打。"
+  },
+  {
+   "id": "execute",
+   "label": "集体爆点",
+   "parent": "attack",
+   "note": "五人同时进点",
+   "explain": "全队把技能按顺序扔进一个包点：先放烟挡视线，再闪光，然后几个人同时冲进去。人多加技能，可以在短时间内压倒守点的人。"
+  },
+  {
+   "id": "defense",
+   "label": "防守",
+   "parent": "tactics",
+   "note": "防守方的打法",
+   "explain": "防守方要把人分到各个包点，既不能让某一边太空，又要在进攻方集中打一边时及时支援。"
+  },
+  {
+   "id": "hold",
+   "label": "架点",
+   "parent": "defense",
+   "note": "守在角度后面",
+   "explain": "找好掩体，把准星对着进攻方必经的入口，等对方露头再开枪。守的一方先占好位置，通常比冲进来的一方更有优势。"
+  },
+  {
+   "id": "retake",
+   "label": "回防",
+   "parent": "defense",
+   "note": "包装下后抢回",
+   "explain": "进攻方已经装好爆能器后，防守方集合剩下的人一起把包点抢回来再拆包。一个人一个人地回去最容易被逐个击破。"
+  },
+  {
+   "id": "rotate",
+   "label": "转点",
+   "parent": "defense",
+   "note": "支援另一包点",
+   "explain": "发现进攻方集中打另一个包点时，从自己守的点赶过去帮忙。转得太早会把自己的点让出来，太晚又赶不上。"
+  },
+  {
+   "id": "trade",
+   "label": "补枪",
+   "parent": "tactics",
+   "note": "队友倒了马上换",
+   "explain": "队友和敌人对枪倒下时，旁边的你要立刻打掉那个敌人，让五对五变成四对四而不是四对五。所以队友之间要保持能互相支援的距离。"
+  },
+  {
+   "id": "comms",
+   "label": "报点",
+   "parent": "tactics",
+   "note": "说清敌人在哪",
+   "explain": "用简短的话告诉队友看到了几个敌人、在哪个位置、还剩多少血。每张地图的位置都有通用叫法，报得越快越准，队友越容易做决定。"
+  }
+ ],
+ "links": [
+  {
+   "a": "core",
+   "b": "rules",
+   "label": "基本规则"
+  },
+  {
+   "a": "rules",
+   "b": "spike",
+   "label": "争夺目标"
+  },
+  {
+   "a": "spike",
+   "b": "plant",
+   "label": "进攻方操作"
+  },
+  {
+   "a": "spike",
+   "b": "defuse",
+   "label": "防守方操作"
+  },
+  {
+   "a": "rules",
+   "b": "win13",
+   "label": "决胜条件"
+  },
+  {
+   "a": "rules",
+   "b": "sides",
+   "label": "轮换方式"
+  },
+  {
+   "a": "core",
+   "b": "agents",
+   "label": "选择角色"
+  },
+  {
+   "a": "agents",
+   "b": "duelist",
+   "label": "打头阵"
+  },
+  {
+   "a": "agents",
+   "b": "initiator",
+   "label": "探路开路"
+  },
+  {
+   "a": "agents",
+   "b": "controller",
+   "label": "遮挡视野"
+  },
+  {
+   "a": "agents",
+   "b": "sentinel",
+   "label": "守住侧翼"
+  },
+  {
+   "a": "agents",
+   "b": "skills",
+   "label": "各有招式"
+  },
+  {
+   "a": "skills",
+   "b": "signature",
+   "label": "免费常用"
+  },
+  {
+   "a": "skills",
+   "b": "ult",
+   "label": "决定性一招"
+  },
+  {
+   "a": "core",
+   "b": "economy",
+   "label": "资源管理"
+  },
+  {
+   "a": "economy",
+   "b": "creds",
+   "label": "货币"
+  },
+  {
+   "a": "economy",
+   "b": "fullbuy",
+   "label": "钱够时"
+  },
+  {
+   "a": "economy",
+   "b": "eco",
+   "label": "钱少时"
+  },
+  {
+   "a": "economy",
+   "b": "forcebuy",
+   "label": "钱不够仍买"
+  },
+  {
+   "a": "core",
+   "b": "aim",
+   "label": "个人基本功"
+  },
+  {
+   "a": "aim",
+   "b": "crosshair",
+   "label": "提前瞄好"
+  },
+  {
+   "a": "aim",
+   "b": "counterstrafe",
+   "label": "稳住身体"
+  },
+  {
+   "a": "aim",
+   "b": "tap",
+   "label": "控制射速"
+  },
+  {
+   "a": "core",
+   "b": "tactics",
+   "label": "团队配合"
+  },
+  {
+   "a": "tactics",
+   "b": "attack",
+   "label": "进攻方"
+  },
+  {
+   "a": "attack",
+   "b": "default",
+   "label": "慢打找信息"
+  },
+  {
+   "a": "attack",
+   "b": "execute",
+   "label": "快打压人数"
+  },
+  {
+   "a": "tactics",
+   "b": "defense",
+   "label": "防守方"
+  },
+  {
+   "a": "defense",
+   "b": "hold",
+   "label": "守住入口"
+  },
+  {
+   "a": "defense",
+   "b": "retake",
+   "label": "失点后"
+  },
+  {
+   "a": "defense",
+   "b": "rotate",
+   "label": "跨点支援"
+  },
+  {
+   "a": "tactics",
+   "b": "trade",
+   "label": "互相照应"
+  },
+  {
+   "a": "tactics",
+   "b": "comms",
+   "label": "共享信息"
+  }
+ ],
+ "refs": [
+  {
+   "a": "execute",
+   "b": "controller",
+   "type": "depends",
+   "label": "靠烟封视野"
+  },
+  {
+   "a": "execute",
+   "b": "initiator",
+   "type": "depends",
+   "label": "靠闪光开路"
+  },
+  {
+   "a": "retake",
+   "b": "trade",
+   "type": "depends",
+   "label": "靠补枪"
+  },
+  {
+   "a": "rotate",
+   "b": "comms",
+   "type": "depends",
+   "label": "靠报点"
+  },
+  {
+   "a": "hold",
+   "b": "crosshair",
+   "type": "depends",
+   "label": "靠预瞄"
+  },
+  {
+   "a": "tap",
+   "b": "counterstrafe",
+   "type": "depends",
+   "label": "先停再打"
+  },
+  {
+   "a": "fullbuy",
+   "b": "eco",
+   "type": "contrasts",
+   "label": "对照"
+  },
+  {
+   "a": "default",
+   "b": "execute",
+   "type": "contrasts",
+   "label": "慢与快"
+  },
+  {
+   "a": "plant",
+   "b": "ult",
+   "type": "causes",
+   "label": "攒大招点"
+  }
+ ]
+}

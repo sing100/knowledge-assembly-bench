@@ -135,5 +135,5 @@ description: 把一本学习类书籍或一个思想体系拆解成「知识组�
 
 示例：
 - `packs/stoicism.json`：tree，概念包
-- `packs/thinking-fast-and-slow.json`：argument，书本包
-- `packs/atomic-habits.json`：sequence，书本包
+- `packs/sunzi.json`：tree，书本包（《孙子兵法》，原文早已进入公有领域，解释为原创）
+- `packs/valorant.json`：tree，概念包（游戏玩法和打法思路）

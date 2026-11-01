@@ -61,7 +61,7 @@ for (const f of packFiles) {
   if (singles.length) console.log(`WARN ${f}: single-child parents (justify as sequence/argument, not category): ${singles.join(", ")}`);
   // embedded pack matches file
   const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
-  const idMap = { "stoicism": "pack-stoicism", "thinking-fast-and-slow": "pack-thinking-fast-and-slow", "atomic-habits": "pack-atomic-habits" };
+  const idMap = { "stoicism": "pack-stoicism", "sunzi": "pack-sunzi", "valorant": "pack-valorant" };
   const embId = idMap[d.id];
   if (embId) {
     const m = html.match(new RegExp(`<script type="application/json" id="${embId}">([\\s\\S]*?)</script>`));
