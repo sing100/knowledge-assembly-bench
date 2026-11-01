@@ -114,6 +114,7 @@
         transition: background-color var(--m-base) var(--e-swift), border-color var(--m-base) var(--e-swift), color var(--m-base) var(--e-swift), outline-color var(--m-base) var(--e-swift), box-shadow var(--m-snap) var(--e-snap), opacity var(--m-base) var(--e-swift), scale var(--m-snap) var(--e-snap); }
       .x-card.is-off, .x-edge.is-off, .x-lslot.is-off { opacity: .3; }
       .x-card.is-dim, .x-edge.is-dim, .x-lslot.is-dim { opacity: .25; }
+      .x-edge.is-path .ln { stroke-width: 2.5; transition: stroke-width var(--m-base) var(--e-out); }
       .x-edge { transition: opacity var(--m-base) var(--e-swift); }
       .x-side .x-rel1 { color: var(--x-ink); font-weight: 500; margin: 4px 0 8px; }
       .x-route { margin: 0 0 16px; padding: 12px; border: 1px solid var(--x-ln); border-left: 4px solid var(--bt, var(--x-acc)); border-radius: 12px; background: var(--x-hover); }
@@ -2670,10 +2671,11 @@
       while (c && k++ < 999) { keep[c] = true; c = C[c]; }
       P.parts.forEach(function (q) { if (C[q.id] === id) keep[q.id] = true; });
     }
-    var dim = function (cid, edge) { if (!keep || offId(cid)) return false; return edge ? !(keep[cid] && keep[C[cid]]) : !keep[cid]; };
-    P.parts.forEach(function (q) { if (els[q.id]) els[q.id].classList.toggle("is-dim", dim(q.id)); });
-    Object.keys(edgeEls).forEach(function (c) { edgeEls[c].classList.toggle("is-dim", dim(c, true)); });
-    Object.keys(slotEls).forEach(function (c) { slotEls[c].classList.toggle("is-dim", dim(c, true)); });
+    /* hover traces the path without fading any card (fading read as blur): path edges get emphasis */
+    var onPath = function (cid) { return !!(keep && !offId(cid) && keep[cid] && keep[C[cid]]); };
+    P.parts.forEach(function (q) { if (els[q.id]) els[q.id].classList.remove("is-dim"); });
+    Object.keys(edgeEls).forEach(function (c) { edgeEls[c].classList.remove("is-dim"); edgeEls[c].classList.toggle("is-path", onPath(c)); });
+    Object.keys(slotEls).forEach(function (c) { slotEls[c].classList.remove("is-dim"); });
   }
   function total(n) { return n === 1 ? P.parts.length - 1 : n === 2 ? P.links.length : targets(3).length; }
   function targets(n) { return n === 2 ? P.links.map(function (l) { return l.b; }) : P.parts.filter(function (q) { return q.note; }).map(function (q) { return q.id; }); }
@@ -3658,18 +3660,38 @@
   function hintCands() {
     var kids = P.parts.filter(function (q) { return q.id !== P.root && !S.lock[q.id] && vis(q.id) && vis(q.parent) && els[q.id] && els[q.parent]; });
     var bad = kids.filter(function (q) { return S.st[q.id] === "bad"; });
-    var card = function (q) { return { key: "C:" + q.id, mark: q.id, from: els[q.id], to: els[q.parent] }; };
+    var card = function (q) { return { key: "C:" + q.id, mark: q.id, from: els[q.id], to: els[q.parent], ids: [q.id, q.parent] }; };
     if (bad.length) return bad.map(card);
     /* unmade 关联线 join whatever the tree/slot hints offer: source → target */
     var refC = refList().filter(function (r) { return !S.refs[refKey(r)] && vis(r.a) && vis(r.b) && els[r.a] && els[r.b] && !(offId(r.a) && offId(r.b)); })
-      .map(function (r) { var k = "R:" + refKey(r); return { key: k, mark: k, from: els[r.a], to: els[r.b] }; });
+      .map(function (r) { var k = "R:" + refKey(r); return { key: k, mark: k, from: els[r.a], to: els[r.b], ids: [r.a, r.b] }; });
     if (kids.length) return kids.map(card).concat(refC);
     for (var n = 2; n <= 3; n++) {
       var o = stObj(n); if (!o) continue;
       var L = openSlots(n).filter(function (id) { var t = answer(n, id); return o.order.some(function (k) { return freeChip(o, k) && o.chips[k].text === t; }); });
-      if (L.length) return L.map(function (id) { var p = n === 2 ? "L:" : "N:"; return { key: p + id, mark: p + id, n: n, id: id }; }).concat(refC);
+      if (L.length) return L.map(function (id) { var p = n === 2 ? "L:" : "N:"; return { key: p + id, mark: p + id, n: n, id: id, ids: [id] }; }).concat(refC);
     }
     return refC;
+  }
+  /* which hint: the selected card first (its own missing link, then lines touching it);
+     nothing selected → keep the last target, else random, preferring the branch of the last hint */
+  function pickHint(L) {
+    var rnd = function (a) { return a[Math.floor(Math.random() * a.length)]; };
+    var last = function (a) { return a.filter(function (c) { return c.key === S.hintKey; })[0]; };
+    var sk = Object.keys(S.sel || {}), sel = S.focus && byId[S.focus] ? S.focus : (sk.length === 1 ? sk[0] : null);
+    if (sel) {
+      var own = L.filter(function (c) { return c.ids && c.ids[0] === sel; });
+      var touch = L.filter(function (c) { return c.ids && c.ids.indexOf(sel) >= 0; });
+      var pool = own.length ? own : touch;
+      if (pool.length) return last(pool) || rnd(pool);
+    }
+    var keep = last(L); if (keep) return keep;
+    var br = S.hintBr || (sel ? branchOf(sel) : null);
+    if (br) {
+      var same = L.filter(function (c) { return c.ids && c.ids.some(function (id) { return id !== P.root && branchOf(id) === br || id === br; }); });
+      if (same.length) return rnd(same);
+    }
+    return rnd(L);
   }
   function hint() {
     if (allDone()) { toast("已全部完成"); return; }
@@ -3677,9 +3699,8 @@
     if (!L.length) { toast(eff() ? "这一枝没有可提示的了，点「全图」看其它枝" : "暂时没有可提示的"); return; }
     /* same target as last press → full line; otherwise a 40px directional stub.
        high skill: the full line only when the same target is pressed again after 5s; recall: stub only */
-    var now = Date.now(), h = L.filter(function (c) { return c.key === S.hintKey; })[0], full = !!h;
-        if (!h) h = L[Math.floor(Math.random() * L.length)];
-    S.hintKey = h.key; S.hintAt = now;
+    var now = Date.now(), h = pickHint(L), full = h.key === S.hintKey;
+    S.hintKey = h.key; S.hintAt = now; S.hintBr = branchOf(h.ids[0]) || branchOf(h.ids[1]) || S.hintBr || null;
     if (S.rt) S.rt.hint[h.mark] = true; else S.hinted[h.mark] = true;
     if (h.n) { h.from = chipFor(h.n, h.id); h.to = slotEl(h.n, h.id); }
     if (!h.from || !h.to) { toast("暂时没有可提示的"); return; }
